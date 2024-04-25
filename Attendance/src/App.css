@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.sapce {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logout_btn{
+  border: none;
+  background-color: white;
+
+}
+
+.btncontain{
+  display: flex;
+  justify-content: space-between;
+}
