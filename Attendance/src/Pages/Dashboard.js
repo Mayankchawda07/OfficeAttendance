@@ -24,8 +24,8 @@ const Dashboard = () => {
                                 <div class="col-md-12 grid-margin">
                                     {
                                         x === 'admin' ?
-                                            (<h1>hwllo admin</h1>) :
-                                            (<h1>hwllo employee</h1>)
+                                            (<h1>Hello admin</h1>) :
+                                            (<h1>Hello employee</h1>)
                                     }
 
                                 </div>

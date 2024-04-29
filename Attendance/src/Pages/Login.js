@@ -42,7 +42,7 @@ const Login = () => {
             sessionStorage.setItem("id", res.admindata._id);
             sessionStorage.setItem("loginType", res.admindata.loginType);
 
-            localStorage.setItem('permission', res.admindata.permission);
+            localStorage.setItem('permission', res.admindata.role.permission);
 
             navigate("/dashboard");
             // Send POST request using Axios

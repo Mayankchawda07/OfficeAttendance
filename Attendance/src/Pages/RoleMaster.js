@@ -4,10 +4,22 @@ import Sidenav from '../Template/Sidenav'
 
 const RoleMaster = () => {
 
+
+
     const [data, setdata] = useState({ name: '' })
     const [role, setrole] = useState('')
     const [btnstate, Setbtnstate] = useState(false);
     const [updateid, Setupdateid] = useState("");
+    const [permission, setPermission] = useState([]);
+
+
+    const [isChecked1, setIsChecked1] = useState(false);
+    const [isChecked2, setIsChecked2] = useState(false);
+    const [isChecked3, setIsChecked3] = useState(false);
+    const [isChecked4, setIsChecked4] = useState(false);
+    const [isChecked5, setIsChecked5] = useState(false);
+
+
 
 
     const handleedit = (e, val) => {
@@ -23,6 +35,8 @@ const RoleMaster = () => {
         setdata({ ...data, [name]: value })
     }
 
+
+
     const AddRole = async (e) => {
         e.preventDefault();
         const { name } = data;
@@ -34,7 +48,7 @@ const RoleMaster = () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    name: name
+                    name: name, permission
                 }),
             });
         const response = await fetchdata;
@@ -74,6 +88,59 @@ const RoleMaster = () => {
         }
     }
 
+
+    const handleCheckboxChange = (e) => {
+        let data = permission;
+        const value = e.target.value;
+        const checkdata = data.includes(value);
+        // alert(value);
+        console.log(permission);
+        if (checkdata) {
+            // alert(value);
+            if (value === '1') {
+                setIsChecked1(false)
+            }
+            if (value === '2') {
+                setIsChecked2(false)
+            }
+            if (value === '3') {
+                setIsChecked3(false)
+            }
+            if (value === '4') {
+                setIsChecked4(false)
+            }
+            if (value === '5') {
+                setIsChecked5(false)
+            }
+
+            let index = data.indexOf(value);
+            data.splice(index, 1);
+
+            // data.pop(value);
+            setPermission(data);
+        } else {
+            if (value === '1') {
+                setIsChecked1(true)
+            }
+            if (value === '2') {
+                setIsChecked2(true)
+            }
+            if (value === '3') {
+                setIsChecked3(true)
+            }
+            if (value === '4') {
+                setIsChecked4(true)
+            }
+            if (value === '5') {
+                setIsChecked5(true)
+            }
+
+
+            data.push(value);
+            setPermission(data);
+        }
+    };
+
     const getRole = () => {
         fetch("http://localhost:3210/api/v1/role/getAllRoles")
             .then((response) => {
@@ -112,6 +179,66 @@ const RoleMaster = () => {
                                                         <input type="text" class="form-control" name='name' placeholder='Enter Role Name' value={data.name} onChange={handleChange} />
                                                     </div>
                                                     <button type="submit" class="btn btn-primary" onClick={!btnstate ? AddRole : UpdateRole} > {!btnstate ? ` Add Role` : `Update Role`}</button>
+                                                    <br />
+                                                    <label class="form-check-label">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="form-check-input checkbox"
+                                                            value="1"
+                                                            name="permission"
+                                                            checked={isChecked1}
+                                                            onChange={(e) => handleCheckboxChange(e)}
+                                                        />
+                                                        Dashboard
+                                                    </label>
+                                                    <br />
+                                                    <label class="form-check-label">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="form-check-input checkbox"
+                                                            value="2"
+                                                            name="permission"
+                                                            checked={isChecked2}
+                                                            onChange={(e) => handleCheckboxChange(e)}
+                                                        />
+                                                        Employee
+                                                    </label>
+                                                    <br />
+                                                    <label class="form-check-label">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="form-check-input checkbox"
+                                                            value="3"
+                                                            name="permission"
+                                                            checked={isChecked3}
+                                                            onChange={(e) => handleCheckboxChange(e)}
+                                                        />
+                                                        Attendance
+                                                    </label>
+                                                    <br />
+                                                    <label class="form-check-label">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="form-check-input checkbox"
+                                                            value="4"
+                                                            name="permission"
+                                                            checked={isChecked4}
+                                                            onChange={(e) => handleCheckboxChange(e)}
+                                                        />
+                                                        Payroll
+                                                    </label>
+                                                    <br />
+                                                    <label class="form-check-label">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="form-check-input checkbox"
+                                                            value="5"
+                                                            name="permission"
+                                                            checked={isChecked5}
+                                                            onChange={(e) => handleCheckboxChange(e)}
+                                                        />
+                                                        Master
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
