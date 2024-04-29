@@ -3,7 +3,7 @@ import Header from '../Template/Header'
 import Sidenav from '../Template/Sidenav'
 import Login from './Login'
 import dateFormat from "dateformat";
-
+import Calendar from "react-calendar";
 
 const Attendance = () => {
     const tokenstring = sessionStorage.getItem('token')
@@ -33,7 +33,8 @@ const Attendance = () => {
             if (fetchdata.status === 200) {
                 alert('Attendance marked');
                 getAttendance(); // Assuming this function fetches updated attendance
-            } else {
+            }
+             else {
                 console.error("Error:", responseData);
                 alert("Error: " + responseData.message); // Display error message from API
             }
@@ -61,9 +62,11 @@ const Attendance = () => {
             if (res.status === 200) {
                 alert("Attendance Time Out");
                 getAttendance(); // Assuming getAttendance() fetches updated attendance
-            } else if (res.status === 400) {
+            }
+             else if (res.status === 400) {
                 alert(response.message);
-            } else {
+            } 
+            else {
                 alert("Something went wrong");
             }
         } catch (error) {
@@ -71,6 +74,8 @@ const Attendance = () => {
             alert("Something went wrong");
         }
     };
+
+    
 
 
     const getAttendance = () => {
@@ -83,7 +88,49 @@ const Attendance = () => {
             });
     };
 
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [eventName, setEventName] = useState("");
+    const [events, setEvents] = useState([]);
 
+    const Date_Click_Fun = (date) => {
+        setSelectedDate(date);
+    };
+
+    const Event_Data_Update = (event) => {
+        setEventName(event.target.value);
+    };
+
+    const Create_Event_Fun = () => {
+        if (selectedDate && eventName) {
+            const newEvent = {
+                id: new Date().getTime(),
+                date: selectedDate,
+                title: eventName,
+            };
+            setEvents([...events, newEvent]);
+            setSelectedDate(null);
+            setEventName("");
+            setSelectedDate(newEvent.date);
+        }
+    };
+
+    const Update_Event_Fun = (eventId, newName) => {
+        const updated_Events = events.map((event) => {
+            if (event.id === eventId) {
+                return {
+                    ...event,
+                    title: newName,
+                };
+            }
+            return event;
+        });
+        setEvents(updated_Events);
+    };
+
+    const Delete_Event_Fun = (eventId) => {
+        const updated_Events = events.filter((event) => event.id !== eventId);
+        setEvents(updated_Events);
+    };
 
 
     useEffect(() => {
@@ -123,6 +170,31 @@ const Attendance = () => {
                                                         >
                                                             Time-Out
                                                         </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 grid-margin transparent">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div className="calendar-container">
+                                                        <Calendar
+                                                            value={selectedDate}
+                                                            onClickDay={Date_Click_Fun}
+                                                            tileClassName={({ date }) =>
+                                                                selectedDate &&
+                                                                    date.toDateString() === selectedDate.toDateString()
+                                                                    ? "selected"
+                                                                    : events.some(
+                                                                        (event) =>
+                                                                            event.date.toDateString() ===
+                                                                            date.toDateString(),
+                                                                    )
+                                                                        ? "event-marked"
+                                                                        : ""
+                                                            }
+                                                        />{" "}
                                                     </div>
                                                 </div>
                                             </div>
@@ -170,6 +242,7 @@ const Attendance = () => {
                                                                     <td>{loginTimeIST}</td>
                                                                     <td>{logoutTimeIST}</td>
                                                                     <td>{`${hours} Hr, ${minutes} min`}</td>
+
                                                                 </tr >
                                                             )
                                                         })}

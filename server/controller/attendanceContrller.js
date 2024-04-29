@@ -1,41 +1,41 @@
 const attendance = require('../modals/attendanceModal')
 
-exports.addAttendance = async (req, res) => {
+// exports.addAttendance = async (req, res) => {
 
-    const { employeeID, attend } = req.body;
-    const mDate = new Date()
-    const currentDate = new Date();
-    const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
+//     const { employeeID, attend } = req.body;
+//     const mDate = new Date()
+//     const currentDate = new Date();
+//     const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+//     const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
 
 
-    try {
-        const existingAttendance = await attendance.findOne({
-            employeeID: employeeID,
-            createdAt: { $gte: startOfDay, $lte: endOfDay }
-        });
+//     try {
+//         const existingAttendance = await attendance.findOne({
+//             employeeID: employeeID,
+//             createdAt: { $gte: startOfDay, $lte: endOfDay }
+//         });
 
-        if (existingAttendance) {
-            res.status(400).json({
-                status: 'True',
-                message: 'Attendance Already Marked'
-            })
-        } else {
-            const addAttendanc = await attendance.create({
-                employeeID, attend, login: mDate
-            });
-            res.status(200).json({
-                status: 'True',
-                message: 'Attendance Marked'
-            })
-        }
-    } catch (error) {
-        res.status(500).json({
-            status: 'True',
-            message: 'Attendance Marked fail'
-        })
-    }
-}
+//         if (existingAttendance) {
+//             res.status(400).json({
+//                 status: 'True',
+//                 message: 'Attendance Already Marked'
+//             })
+//         } else {
+//             const addAttendanc = await attendance.create({
+//                 employeeID, attend, login: mDate
+//             });
+//             res.status(200).json({
+//                 status: 'True',
+//                 message: 'Attendance Marked'
+//             })
+//         }
+//     } catch (error) {
+//         res.status(500).json({
+//             status: 'True',
+//             message: 'Attendance Marked fail'
+//         })
+//     }
+// }
 
 // exports.addAttendance = async (req, res) => {
 //     try {
@@ -93,6 +93,93 @@ exports.addAttendance = async (req, res) => {
 //     }
 // }
 
+// exports.updateAttendance = async (req, res) => {
+//     try {
+//         const employeeID = req.params.id;
+//         const currentDate = new Date();
+//         const logout = currentDate;
+
+//         // Calculate start and end of the current day
+//         const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+//         const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
+
+//         // Check if attendance for today already exists
+//         const existingAttendance = await attendance.findOne({
+//             $and: [
+//                 { employeeID: employeeID },
+//                 { createdAt: { $gte: startOfDay, $lt: endOfDay } }
+//             ]
+//         });
+
+//         if (existingAttendance) {
+//             res.status(400).json({
+//                 status: 'False',
+//                 message: 'Attendance already updated for today'
+//             });
+//         } else {
+//             // Update attendance
+//             const todayAttendance = await attendance.findOneAndUpdate(
+//                 {
+//                     $and: [
+//                         { employeeID: employeeID },
+//                         { createdAt: { $gte: startOfDay, $lt: endOfDay } }
+//                     ]
+//                 },
+//                 { logout },
+//                 { new: true, upsert: true }
+//             );
+
+//             res.status(200).json({
+//                 status: 'True',
+//                 message: 'Attendance Updated'
+//             });
+//         }
+//     } catch (error) {
+//         res.status(500).json({
+//             status: 'False',
+//             message: 'Failed to update attendance'
+//         });
+//     }
+// };
+
+
+exports.addAttendance = async (req, res) => {
+    const { employeeID, attend } = req.body;
+    const mDate = new Date();
+    const currentDate = new Date();
+    const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
+
+    try {
+        // Check if attendance already exists for today
+        const existingAttendance = await attendance.findOne({
+            employeeID: employeeID,
+            createdAt: { $gte: startOfDay, $lte: endOfDay }
+        });
+
+        if (existingAttendance) {
+            res.status(400).json({
+                status: 'False',
+                message: 'Attendance already marked for today'
+            });
+        } else {
+            // Add new attendance
+            const addAttendance = await attendance.create({
+                employeeID, attend, login: mDate
+            });
+            res.status(200).json({
+                status: 'True',
+                message: 'Attendance marked'
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 'False',
+            message: 'Failed to mark attendance'
+        });
+    }
+};
+
 exports.updateAttendance = async (req, res) => {
     try {
         const employeeID = req.params.id;
@@ -103,7 +190,7 @@ exports.updateAttendance = async (req, res) => {
         const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
         const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
 
-        // Check if attendance for today already exists
+        // Check if attendance exists for today
         const existingAttendance = await attendance.findOne({
             $and: [
                 { employeeID: employeeID },
@@ -111,10 +198,10 @@ exports.updateAttendance = async (req, res) => {
             ]
         });
 
-        if (existingAttendance) {
+        if (!existingAttendance) {
             res.status(400).json({
                 status: 'False',
-                message: 'Attendance already updated for today'
+                message: 'No attendance found to update for today'
             });
         } else {
             // Update attendance
@@ -131,7 +218,7 @@ exports.updateAttendance = async (req, res) => {
 
             res.status(200).json({
                 status: 'True',
-                message: 'Attendance Updated'
+                message: 'Attendance updated'
             });
         }
     } catch (error) {
@@ -147,7 +234,7 @@ exports.getAllAttendance = async (req, res) => {
     try {
         const getAllAttendance = await attendance.find({
 
-        }).populate('employeeID')
+        }).populate('employeeID').sort({createdAt:-1});
         res.status(200).json({
             status: 'True',
             message: 'Success',
