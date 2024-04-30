@@ -27,7 +27,7 @@ const AddAttendance = () => {
         const currentDate = new Date();
         const formattedDate = dateFormat(currentDate, "yyyy-mm-dd");
 
-        fetch(`${URL}/api/v1/attendance/getAllAttendance?date=${formattedDate}`)
+        fetch(`${URL}/attendance/getAllAttendance?date=${formattedDate}`)
             .then((response) => {
                 return response.json();
             }).then((data) => {

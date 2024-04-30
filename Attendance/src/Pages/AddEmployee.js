@@ -35,7 +35,7 @@ const AddEmployee = () => {
         if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role || !loginType) {
             return alert('Please fill all the field prperly')
         }
-        const fetchdata = fetch(`${URL}/api/v1/AddEmployee`,
+        const fetchdata = fetch(`${URL}/AddEmployee`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

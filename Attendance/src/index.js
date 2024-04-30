@@ -19,7 +19,7 @@ import RoleMaster from './Pages/RoleMaster';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename='/'>
+    <BrowserRouter basename='/officeAttendance/'>
       <Routes>
         <Route element={<App />} >
 

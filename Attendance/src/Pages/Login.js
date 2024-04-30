@@ -27,7 +27,7 @@ const Login = () => {
         }
 
         try {
-            const response = await fetch(`${URL}/api/v1/LoginEmployee`, {
+            const response = await fetch(`${URL}/LoginEmployee`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),

@@ -29,7 +29,7 @@ const EditEmoloyee = () => {
         if (!name || !phone || !email) {
             return alert('Please fill all the field prperly')
         }
-        const fetchdata = fetch(`${URL}/api/v1/updateEmployeeByid/${data._id}`, {
+        const fetchdata = fetch(`${URL}/updateEmployeeByid/${data._id}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -47,7 +47,7 @@ const EditEmoloyee = () => {
     }
 
     const getRole = () => {
-        fetch(`${URL}/api/v1/role/getAllRoles`)
+        fetch(`${URL}/role/getAllRoles`)
             .then((response) => {
                 return response.json();
             })

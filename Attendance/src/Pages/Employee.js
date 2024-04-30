@@ -12,7 +12,7 @@ const Employee = () => {
 
 
     const getEmployee = () => {
-        fetch(`${URL}/api/v1/getEmployee`)
+        fetch(`${URL}/getEmployee`)
             .then((res) => {
                 return res.json();
             }).then((data) => {

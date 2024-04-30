@@ -24,7 +24,7 @@ const Attendance = () => {
         }
 
         try {
-            const fetchdata = await fetch(`${URL}/api/v1/attendance/addAttendance`, {
+            const fetchdata = await fetch(`${URL}/attendance/addAttendance`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ employeeID: ID, attend: '1', login }),
@@ -80,7 +80,7 @@ const Attendance = () => {
 
 
     const getAttendance = () => {
-        fetch(`${URL}/api/v1/attendance/getAttendanceByEmpID/${ID}`)
+        fetch(`${URL}/attendance/getAttendanceByEmpID/${ID}`)
             .then((response) => {
                 return response.json();
             })

@@ -66,7 +66,7 @@ const RoleMaster = () => {
     const UpdateRole = async () => {
         const { name } = data;
         const res = fetch(
-            `${URL}/api/v1/role/updateRolesById/${updateid}`,
+            `${URL}/role/updateRolesById/${updateid}`,
             {
                 method: "PUT",
                 headers: {
@@ -142,7 +142,7 @@ const RoleMaster = () => {
     };
 
     const getRole = () => {
-        fetch(`${URL}/api/v1/role/getAllRoles`)
+        fetch(`${URL}/role/getAllRoles`)
             .then((response) => {
                 return response.json();
             })
