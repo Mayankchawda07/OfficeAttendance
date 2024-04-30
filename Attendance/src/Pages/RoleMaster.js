@@ -180,65 +180,71 @@ const RoleMaster = () => {
                                                     </div>
                                                     <button type="submit" class="btn btn-primary" onClick={!btnstate ? AddRole : UpdateRole} > {!btnstate ? ` Add Role` : `Update Role`}</button>
                                                     <br />
-                                                    <label class="form-check-label">
-                                                        <input
-                                                            type="checkbox"
-                                                            class="form-check-input checkbox"
-                                                            value="1"
-                                                            name="permission"
-                                                            checked={isChecked1}
-                                                            onChange={(e) => handleCheckboxChange(e)}
-                                                        />
-                                                        Dashboard
-                                                    </label>
-                                                    <br />
-                                                    <label class="form-check-label">
-                                                        <input
-                                                            type="checkbox"
-                                                            class="form-check-input checkbox"
-                                                            value="2"
-                                                            name="permission"
-                                                            checked={isChecked2}
-                                                            onChange={(e) => handleCheckboxChange(e)}
-                                                        />
-                                                        Employee
-                                                    </label>
-                                                    <br />
-                                                    <label class="form-check-label">
-                                                        <input
-                                                            type="checkbox"
-                                                            class="form-check-input checkbox"
-                                                            value="3"
-                                                            name="permission"
-                                                            checked={isChecked3}
-                                                            onChange={(e) => handleCheckboxChange(e)}
-                                                        />
-                                                        Attendance
-                                                    </label>
-                                                    <br />
-                                                    <label class="form-check-label">
-                                                        <input
-                                                            type="checkbox"
-                                                            class="form-check-input checkbox"
-                                                            value="4"
-                                                            name="permission"
-                                                            checked={isChecked4}
-                                                            onChange={(e) => handleCheckboxChange(e)}
-                                                        />
-                                                        Payroll
-                                                    </label>
-                                                    <br />
-                                                    <label class="form-check-label">
-                                                        <input
-                                                            type="checkbox"
-                                                            class="form-check-input checkbox"
-                                                            value="5"
-                                                            name="permission"
-                                                            checked={isChecked5}
-                                                            onChange={(e) => handleCheckboxChange(e)}
-                                                        />
-                                                        Master
-                                                    </label>
+                                                    <div className="tbl-heading">
+                                                        <h4 class="card-title mb-0 mt-4">Permissions</h4>
+                                                    </div>
+                                                    <div className="permission">
+
+                                                        <label class="form-check-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                class="form-check-input checkbox"
+                                                                value="1"
+                                                                name="permission"
+                                                                checked={isChecked1}
+                                                                onChange={(e) => handleCheckboxChange(e)}
+                                                            />
+                                                            Dashboard
+                                                        </label>
+                                                        <br />
+                                                        <label class="form-check-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                class="form-check-input checkbox"
+                                                                value="2"
+                                                                name="permission"
+                                                                checked={isChecked2}
+                                                                onChange={(e) => handleCheckboxChange(e)}
+                                                            />
+                                                            Employee
+                                                        </label>
+                                                        <br />
+                                                        <label class="form-check-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                class="form-check-input checkbox"
+                                                                value="3"
+                                                                name="permission"
+                                                                checked={isChecked3}
+                                                                onChange={(e) => handleCheckboxChange(e)}
+                                                            />
+                                                            Attendance
+                                                        </label>
+                                                        <br />
+                                                        <label class="form-check-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                class="form-check-input checkbox"
+                                                                value="4"
+                                                                name="permission"
+                                                                checked={isChecked4}
+                                                                onChange={(e) => handleCheckboxChange(e)}
+                                                            />
+                                                            Payroll
+                                                        </label>
+                                                        <br />
+                                                        <label class="form-check-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                class="form-check-input checkbox"
+                                                                value="5"
+                                                                name="permission"
+                                                                checked={isChecked5}
+                                                                onChange={(e) => handleCheckboxChange(e)}
+                                                            />
+                                                            Master
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

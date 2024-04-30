@@ -1,23 +1,32 @@
 * {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .sapce {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-.logout_btn{
-  border: none;
-  background-color: white;
+.logout_btn {
+	border: none;
+	background-color: white;
 
 }
 
-.btncontain{
-  display: flex;
-  justify-content: space-between;
+.btncontain {
+	display: flex;
+	justify-content: space-between;
+}
+
+.permission {
+	padding-left: 22px;
+	padding-top: 10px;
+}
+
+.permission label {
+	margin-bottom: 10px;
 }
 
 /* App.css */
@@ -45,12 +54,6 @@ h1 {
 	justify-content: center;
 	align-items: flex-start;
 	margin-top: 2rem;
-}
-
-.calendar-container {
-	flex: 1;
-	max-width: 500px;
-	margin-right: 2rem;
 }
 
 .event-container {

@@ -34,7 +34,7 @@ const Attendance = () => {
                 alert('Attendance marked');
                 getAttendance(); // Assuming this function fetches updated attendance
             }
-             else {
+            else {
                 console.error("Error:", responseData);
                 alert("Error: " + responseData.message); // Display error message from API
             }
@@ -63,9 +63,9 @@ const Attendance = () => {
                 alert("Attendance Time Out");
                 getAttendance(); // Assuming getAttendance() fetches updated attendance
             }
-             else if (res.status === 400) {
+            else if (res.status === 400) {
                 alert(response.message);
-            } 
+            }
             else {
                 alert("Something went wrong");
             }
@@ -75,7 +75,7 @@ const Attendance = () => {
         }
     };
 
-    
+
 
 
     const getAttendance = () => {
@@ -94,6 +94,8 @@ const Attendance = () => {
 
     const Date_Click_Fun = (date) => {
         setSelectedDate(date);
+        alert(date)
+
     };
 
     const Event_Data_Update = (event) => {
@@ -178,7 +180,7 @@ const Attendance = () => {
                                         <div class="col-md-6 grid-margin transparent">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div className="calendar-container">
+                                                    <div className="calendar-container ">
                                                         <Calendar
                                                             value={selectedDate}
                                                             onClickDay={Date_Click_Fun}
