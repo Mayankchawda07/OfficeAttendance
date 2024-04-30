@@ -7,6 +7,7 @@ import Login from './Login'
 
 const AddAttendance = () => {
     const tokenstring = sessionStorage.getItem('token')
+    const URL = process.env.REACT_APP_URL;
 
     const [allAttendance, setallAttendance] = useState('')
 
@@ -26,7 +27,7 @@ const AddAttendance = () => {
         const currentDate = new Date();
         const formattedDate = dateFormat(currentDate, "yyyy-mm-dd");
 
-        fetch(`http://localhost:3210/api/v1/attendance/getAllAttendance?date=${formattedDate}`)
+        fetch(`${URL}/api/v1/attendance/getAllAttendance?date=${formattedDate}`)
             .then((response) => {
                 return response.json();
             }).then((data) => {

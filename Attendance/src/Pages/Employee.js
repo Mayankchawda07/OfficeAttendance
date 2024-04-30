@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom'
 import Login from './Login'
 
 const Employee = () => {
-
+    const URL = process.env.REACT_APP_URL;
     const tokenstring = sessionStorage.getItem('token')
 
     const [employee, setemployee] = useState('')
 
 
     const getEmployee = () => {
-        fetch('http://localhost:3210/api/v1/getEmployee')
+        fetch(`${URL}/api/v1/getEmployee`)
             .then((res) => {
                 return res.json();
             }).then((data) => {

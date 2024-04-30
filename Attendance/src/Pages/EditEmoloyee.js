@@ -6,6 +6,7 @@ import Login from './Login'
 
 const EditEmoloyee = () => {
     const tokenstring = sessionStorage.getItem('token')
+    const URL = process.env.REACT_APP_URL;
 
 
     const location = useLocation();
@@ -28,7 +29,7 @@ const EditEmoloyee = () => {
         if (!name || !phone || !email) {
             return alert('Please fill all the field prperly')
         }
-        const fetchdata = fetch(`http://localhost:3210/api/v1/updateEmployeeByid/${data._id}`, {
+        const fetchdata = fetch(`${URL}/api/v1/updateEmployeeByid/${data._id}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -46,7 +47,7 @@ const EditEmoloyee = () => {
     }
 
     const getRole = () => {
-        fetch("http://localhost:3210/api/v1/role/getAllRoles")
+        fetch(`${URL}/api/v1/role/getAllRoles`)
             .then((response) => {
                 return response.json();
             })

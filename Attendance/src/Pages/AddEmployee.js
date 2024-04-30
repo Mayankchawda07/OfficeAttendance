@@ -6,6 +6,8 @@ import Login from './Login'
 
 const AddEmployee = () => {
     const tokenstring = sessionStorage.getItem('token')
+    const URL = process.env.REACT_APP_URL;
+
     const navigate = useNavigate();
 
     const [data, setData] = useState({ name: '', phone: '', email: '', password: '', salary: '', designation: '', gender: '', DOB: '', role: '', loginType: '' });
@@ -18,7 +20,7 @@ const AddEmployee = () => {
     };
 
     const getRole = () => {
-        fetch("http://localhost:3210/api/v1/role/getAllRoles")
+        fetch(`${URL}/api/v1/role/getAllRoles`)
             .then((response) => {
                 return response.json();
             })
@@ -33,7 +35,7 @@ const AddEmployee = () => {
         if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role || !loginType) {
             return alert('Please fill all the field prperly')
         }
-        const fetchdata = fetch(`http://localhost:3210/api/v1/AddEmployee`,
+        const fetchdata = fetch(`${URL}/api/v1/AddEmployee`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

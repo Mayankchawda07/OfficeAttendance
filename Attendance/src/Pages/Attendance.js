@@ -8,6 +8,7 @@ import Calendar from "react-calendar";
 const Attendance = () => {
     const tokenstring = sessionStorage.getItem('token')
     const ID = sessionStorage.getItem('id')
+    const URL = process.env.REACT_APP_URL;
 
     const [data, setdata] = useState({ employeeID: ID, attend: '1' })
     const [attendance, setattendance] = useState('')
@@ -23,7 +24,7 @@ const Attendance = () => {
         }
 
         try {
-            const fetchdata = await fetch(`http://localhost:3210/api/v1/attendance/addAttendance`, {
+            const fetchdata = await fetch(`${URL}/api/v1/attendance/addAttendance`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ employeeID: ID, attend: '1', login }),
@@ -47,7 +48,7 @@ const Attendance = () => {
     const AttendanceOut = async () => {
         try {
             const res = await fetch(
-                `http://localhost:3210/api/v1/attendance/updateAttendance/${ID}`,
+                `${URL}/attendance/updateAttendance/${ID}`,
                 {
                     method: "PUT",
                     headers: {
@@ -79,7 +80,7 @@ const Attendance = () => {
 
 
     const getAttendance = () => {
-        fetch(`http://localhost:3210/api/v1/attendance/getAttendanceByEmpID/${ID}`)
+        fetch(`${URL}/api/v1/attendance/getAttendanceByEmpID/${ID}`)
             .then((response) => {
                 return response.json();
             })

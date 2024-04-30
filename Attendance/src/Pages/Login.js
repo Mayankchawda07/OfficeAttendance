@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 const axios = require('axios');
 
 const Login = () => {
-
+    const URL = process.env.REACT_APP_URL;
     const [data, setData] = useState({ email: "", password: "" });
 
     const navigate = useNavigate()
@@ -27,7 +27,7 @@ const Login = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:3210/api/v1/LoginEmployee", {
+            const response = await fetch(`${URL}/api/v1/LoginEmployee`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),

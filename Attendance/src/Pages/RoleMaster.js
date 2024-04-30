@@ -3,7 +3,7 @@ import Header from '../Template/Header'
 import Sidenav from '../Template/Sidenav'
 
 const RoleMaster = () => {
-
+    const URL = process.env.REACT_APP_URL;
 
 
     const [data, setdata] = useState({ name: '' })
@@ -43,7 +43,7 @@ const RoleMaster = () => {
         if (!name) {
             return alert("Please Enter Role Name")
         }
-        const fetchdata = fetch(`http://localhost:3210/api/v1/role/AddRoles`,
+        const fetchdata = fetch(`${URL}/api/v1/role/AddRoles`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -66,7 +66,7 @@ const RoleMaster = () => {
     const UpdateRole = async () => {
         const { name } = data;
         const res = fetch(
-            `http://localhost:3210/api/v1/role/updateRolesById/${updateid}`,
+            `${URL}/api/v1/role/updateRolesById/${updateid}`,
             {
                 method: "PUT",
                 headers: {
@@ -142,7 +142,7 @@ const RoleMaster = () => {
     };
 
     const getRole = () => {
-        fetch("http://localhost:3210/api/v1/role/getAllRoles")
+        fetch(`${URL}/api/v1/role/getAllRoles`)
             .then((response) => {
                 return response.json();
             })
