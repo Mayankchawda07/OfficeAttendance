@@ -17,6 +17,8 @@ const updateEmployee = require('./route/employeeRoute')
 const Attendance = require('./route/attendanceRoute');
 const adminRoute = require('./route/adminRoute')
 const roleRoute = require('./route/roleRoute')
+const leavesRoute = require('./route/leaveRoute')
+
 
 
 app.use(cors());
@@ -40,6 +42,9 @@ app.use('/api/v1', updateEmployee)
 app.use('/api/v1/attendance', Attendance)
 app.use('/api/v1/admin', adminRoute)
 app.use('/api/v1/role', roleRoute)
+app.use('/api/v1/leaves', leavesRoute)
+
+
 
 
 
