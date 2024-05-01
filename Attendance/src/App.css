@@ -15,6 +15,16 @@
 
 }
 
+
+.reqbtn{
+	display: flex;
+	justify-content: center;
+}
+
+.reqbtn button{
+	width: 100%;
+}
+
 .btncontain {
 	display: flex;
 	justify-content: space-between;

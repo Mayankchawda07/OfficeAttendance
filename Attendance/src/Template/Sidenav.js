@@ -40,9 +40,9 @@ const Sidenav = () => {
                     ) : ('')}
                     {x.includes('4') ? (
                         <li className="nav-item">
-                            <Link className="nav-link" to="/payroll">
+                            <Link className="nav-link" to="/leave">
                                 <i className="icon-paper menu-icon"></i>
-                                <span className="menu-title">Payroll</span>
+                                <span className="menu-title">Leaves</span>
                             </Link>
                         </li>
                     ) : ('')}

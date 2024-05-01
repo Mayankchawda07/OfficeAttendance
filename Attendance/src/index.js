@@ -7,13 +7,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Employee from './Pages/Employee';
 import Dashboard from './Pages/Dashboard';
 import Attendance from './Pages/Attendance';
-import Payroll from './Pages/Payroll';
 import Login from './Pages/Login';
 import AddEmployee from './Pages/AddEmployee';
 import EditEmoloyee from './Pages/EditEmoloyee';
 import AddAttendance from './Pages/AddAttendance';
 import Master from './Pages/Master';
 import RoleMaster from './Pages/RoleMaster';
+import Leave from './Pages/Leave';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -27,12 +27,13 @@ root.render(
           <Route path='/employee' element={<Employee />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/attendance' element={<Attendance />} />
-          <Route path='/payroll' element={<Payroll />} />
           <Route path='/add_employee' element={<AddEmployee />} />
           <Route path='/edit_employee/:id' element={<EditEmoloyee />} />
           <Route path='/add_attendance/:id' element={<AddAttendance />} />
           <Route path='/master' element={<Master />} />
           <Route path='/role_master' element={<RoleMaster />} />
+          <Route path='/leave' element={<Leave />} />
+
 
 
 
