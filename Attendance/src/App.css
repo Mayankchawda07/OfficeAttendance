@@ -39,6 +39,10 @@
 	margin-bottom: 10px;
 }
 
+.logom{
+	margin-left: 20px !important;
+}
+
 /* App.css */
 body {
 	font-family: Arial, sans-serif;

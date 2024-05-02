@@ -6,7 +6,9 @@ const Header = () => {
         <>
             <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
                 <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                    <Link className="navbar-brand brand-logo mr-5" to="/dashboard">LOGO</Link>
+                    <Link className="navbar-brand brand-logo mr-5" to="/dashboard">
+                        <img src={require('../images/logo.png')} className='logom' alt="" />
+                    </Link>
                     <Link className="navbar-brand brand-logo-mini" to="/dashboard">logo</Link>
                 </div>
                 <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
