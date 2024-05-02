@@ -8,6 +8,7 @@ const Leave = () => {
 
 
     const [leaves, setleaves] = useState([])
+    const [update, setupdate] = useState({ status: 'Pending' })
 
     const getAllleaves = () => {
         fetch(`http://localhost:3210/api/v1/leaves/getAllLeaves`)
@@ -17,6 +18,10 @@ const Leave = () => {
                 setleaves(data?.data)
             })
     }
+
+
+
+
 
     useEffect(() => {
         getAllleaves();
@@ -58,6 +63,7 @@ const Leave = () => {
                                                             <th>Employee Name</th>
                                                             <th>Title</th>
                                                             <th>From to TOO date</th>
+                                                            <th>Status</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -68,9 +74,17 @@ const Leave = () => {
                                                                     <td class="py-1">{index + 1}</td>
                                                                     <td>{val?.employeeID?.name}</td>
                                                                     <td>{val?.title}</td>
-                                                                    <td></td>
+                                                                    <td>{dateFormat(`${val?.fromDate}`, "dd/mm/yyyy ")} - {dateFormat(`${val?.tooDate}`, "dd/mm/yyyy ")}</td>
+                                                                    <td>{val?.status}</td>
                                                                     <td>
-                                                                        
+                                                                        <Link
+                                                                            to={`/leaveview/${val?._id}`}
+                                                                            state={{ data: val }}
+                                                                            type="button"
+                                                                            class="btn btn-outline-info mr-2"
+                                                                        >
+                                                                            View
+                                                                        </Link>
                                                                     </td>
                                                                 </tr>
                                                             );

@@ -61,18 +61,18 @@ exports.getLeaveByEmpID = async (req, res) => {
 }
 
 exports.updateLeave = async (req, res) => {
-    const { status } = req.body;
-    const getusername = await leaves.findById(req.params.id);
-    const na = getusername.name;
-    const data = await leaves.findByIdAndUpdate(
-        req.params.id,
-        { status },
+    const { status, remark } = req.body;
+
+    const data = await leaves.findOneAndUpdate({ _id: req.params.id }
+        ,
+        { status, remark },
         { new: true }
     );
     res.status(200).json({
         status: "success",
         message: " Data Updated",
-        id: req.params.id
+        id: req.params.id,
+
         // data: data,
     });
 };

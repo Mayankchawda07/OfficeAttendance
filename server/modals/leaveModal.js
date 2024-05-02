@@ -20,6 +20,9 @@ const leaveSchema = new mongoose.Schema({
     status: {
         type: String,
         default: 'pending'
+    },
+    remark:{
+        type:String
     }
 }, { timestamps: true })
 

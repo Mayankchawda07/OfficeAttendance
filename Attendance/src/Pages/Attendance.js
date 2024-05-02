@@ -100,7 +100,6 @@ const Attendance = () => {
     };
 
     const handelChange = (e) => {
-        alert('s')
         const name = e.target.name;
         let value = e.target.value;
         setleave({ ...leave, [name]: value });
