@@ -14,14 +14,13 @@ const LeaveView = () => {
     const handelChange = (e) => {
         const name = e.target.name;
         let value = e.target.value;
-        alert(value)
         setupdate({ ...data, [name]: value });
     };
 
     const Submit = async (e) => {
         e.preventDefault();
         const { status, remark } = data;
-     
+
         const fetchdata = fetch(`http://localhost:3210/api/v1/leaves/updateLeave/${data._id}`,
             {
                 method: "POST",
@@ -67,7 +66,7 @@ const LeaveView = () => {
                                         </div>
                                         <div class="col-md-6 grid-margin transparent">
                                             <div class="card">
-                                                <div class="card-body">
+                                                {/* <div class="card-body">
                                                     <label for="exampleInputUsername1">Grant Leave </label>
                                                     <select name="status" id="" className='form-control' value={update.status} onChange={handelChange} >
                                                         <option >{data?.status}</option>
@@ -79,6 +78,24 @@ const LeaveView = () => {
                                                     <br />
                                                     <button type="submit" class="btn btn-primary me-2" onClick={Submit} >Submit</button>
 
+                                                </div> */}
+                                                <div className="card-body">
+                                                    <label htmlFor="exampleInputUsername1">Grant Leave</label>
+                                                    <select name="status" id="" className='form-control' value={update.status} onChange={handelChange}>
+                                                        <option>{data?.status}</option>
+                                                        <option value="Approved">Approved</option>
+                                                        <option value="Rejected">Rejected</option>
+                                                    </select>
+
+                                                    {update.status === 'Rejected' && (
+                                                        <div>
+                                                            <label htmlFor="exampleInputUsername1" className='mt-3'>Remark</label>
+                                                            <textarea name="remark" id="" cols="30" rows="8" className='form-control' value={update.remark} onChange={handelChange}></textarea>
+                                                        </div>
+                                                    )}
+
+                                                    <br />
+                                                    <button type="submit" className="btn btn-primary me-2" onClick={Submit}>Submit</button>
                                                 </div>
 
                                             </div>

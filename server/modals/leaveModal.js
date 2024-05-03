@@ -21,8 +21,9 @@ const leaveSchema = new mongoose.Schema({
         type: String,
         default: 'pending'
     },
-    remark:{
-        type:String
+    remark: {
+        type: String,
+        default: 'Aproved'
     }
 }, { timestamps: true })
 
