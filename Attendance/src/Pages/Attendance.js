@@ -230,11 +230,14 @@ const Attendance = () => {
                                                             </thead>
                                                             <tbody>
                                                                 {getleves?.map((val, index) => {
-                                                                  return   (
+                                                                    return (
                                                                         <tr>
                                                                             <td>{index + 1}</td>
                                                                             <td>{val?.title}</td>
-                                                                            <td>{val?.status}</td>
+                                                                            <td>
+                                                                                {val?.status} <br />
+                                                                                {val?.remark}
+                                                                            </td>
                                                                         </tr >
                                                                     )
                                                                     console.log(getleves)

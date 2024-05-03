@@ -9,28 +9,43 @@ const LeaveView = () => {
     const { data } = location.state
     const navigate = useNavigate();
 
-    const [update, setupdate] = useState({ status: '', remark: '' })
+    const [remark, setremark] = useState('')
+    const [status, setstatus] = useState('')
+
+    const [showloader, setShowLoader] = useState("none");
+
 
     const handelChange = (e) => {
         const name = e.target.name;
         let value = e.target.value;
-        setupdate({ ...data, [name]: value });
+
+        setremark(value);
+    };
+
+    const handelChanges = (e) => {
+        const name = e.target.name;
+        let value = e.target.value;
+        if (value === "Rejected") {
+            setShowLoader('block')
+        }
+        setstatus(value);
     };
 
     const Submit = async (e) => {
         e.preventDefault();
-        const { status, remark } = data;
 
-        const fetchdata = fetch(`http://localhost:3210/api/v1/leaves/updateLeave/${data._id}`,
+
+        const fetchdata = fetch(`http://206.189.130.102:3210/api/v1/leaves/updateLeave/${data._id}`,
             {
-                method: "POST",
+                method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status: status, remark: remark }),
+                body: JSON.stringify({ status, remark }),
             });
         const response = await fetchdata;
         const responseData = await response.json();
         if (response.status === 200) {
-            alert('Registered successfully')
+            alert('Leave Updated')
+            setShowLoader("none");
             navigate("/leave");
         } else {
             console.error("Error:", responseData);
@@ -81,18 +96,18 @@ const LeaveView = () => {
                                                 </div> */}
                                                 <div className="card-body">
                                                     <label htmlFor="exampleInputUsername1">Grant Leave</label>
-                                                    <select name="status" id="" className='form-control' value={update.status} onChange={handelChange}>
+                                                    <select name="status" id="" className='form-control' value={status} onChange={handelChanges}>
                                                         <option>{data?.status}</option>
                                                         <option value="Approved">Approved</option>
                                                         <option value="Rejected">Rejected</option>
                                                     </select>
 
-                                                    {update.status === 'Rejected' && (
+                                                    <div className="loader-container " style={{ display: showloader }}>
                                                         <div>
                                                             <label htmlFor="exampleInputUsername1" className='mt-3'>Remark</label>
-                                                            <textarea name="remark" id="" cols="30" rows="8" className='form-control' value={update.remark} onChange={handelChange}></textarea>
+                                                            <textarea name="remark" id="" cols="30" rows="8" className='form-control' value={remark} onChange={handelChange}></textarea>
                                                         </div>
-                                                    )}
+                                                    </div>
 
                                                     <br />
                                                     <button type="submit" className="btn btn-primary me-2" onClick={Submit}>Submit</button>
