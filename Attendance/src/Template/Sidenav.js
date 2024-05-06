@@ -54,7 +54,14 @@ const Sidenav = () => {
                             </Link>
                         </li>
                     ) : ('')}
-                    
+
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/employee_leave">
+                            <i className="icon-paper menu-icon"></i>
+                            <span className="menu-title">Leave</span>
+                        </Link>
+                    </li>
+
                     <li className="nav-item">
                         <button onClick={logout} className="nav-link logout_btn">
                             <i className="icon-paper menu-icon "></i>

@@ -15,6 +15,7 @@ import Master from './Pages/Master';
 import RoleMaster from './Pages/RoleMaster';
 import Leave from './Pages/Leave';
 import LeaveView from './Pages/LeaveView';
+import EmployeeLeave from './Pages/EmployeeLeave';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -35,10 +36,7 @@ root.render(
           <Route path='/role_master' element={<RoleMaster />} />
           <Route path='/leave' element={<Leave />} />
           <Route path='/leaveview/:id' element={<LeaveView />} />
-
-
-
-
+          <Route path='/employee_leave' element={<EmployeeLeave />} />
 
         </Route>
       </Routes>
