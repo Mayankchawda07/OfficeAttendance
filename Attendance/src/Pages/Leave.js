@@ -11,7 +11,7 @@ const Leave = () => {
     const [update, setupdate] = useState({ status: 'Pending' })
 
     const getAllleaves = () => {
-        fetch(`http://localhost:3210/api/v1/leaves/getAllLeaves`)
+        fetch(`http://206.189.130.102:3210/api/v1/leaves/getAllLeaves`)
             .then((res) => {
                 return res.json();
             }).then((data) => {
