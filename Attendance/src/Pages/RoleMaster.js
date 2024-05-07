@@ -23,10 +23,18 @@ const RoleMaster = () => {
 
 
     const handleedit = (e, val) => {
-        console.log(val)
         Setupdateid(val._id);
         Setbtnstate(true);
         setdata({ name: val.name });
+
+        setPermission(val.permission); // Assuming val.permission is an array of permission values
+
+        // Set checkboxes based on permissions
+        setIsChecked1(val.permission.includes('1'));
+        setIsChecked2(val.permission.includes('2'));
+        setIsChecked3(val.permission.includes('3'));
+        setIsChecked4(val.permission.includes('4'));
+        setIsChecked5(val.permission.includes('5'));
     };
 
     const handleChange = (e) => {
@@ -43,7 +51,7 @@ const RoleMaster = () => {
         if (!name) {
             return alert("Please Enter Role Name")
         }
-        const fetchdata = fetch(`${URL}/api/v1/role/AddRoles`,
+        const fetchdata = fetch(`http://206.189.130.102:3210/api/v1/role/AddRoles`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -57,6 +65,7 @@ const RoleMaster = () => {
             alert('Role Added Successfully')
             getRole();
             setdata({ name: '' })
+            setPermission('')
         } else {
             console.error("Error:", responseData);
             alert("Error:", responseData);
@@ -73,7 +82,7 @@ const RoleMaster = () => {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ name: name }),
+                body: JSON.stringify({ name: name, permission }),
             }
         );
         const response = await res;
@@ -134,8 +143,6 @@ const RoleMaster = () => {
             if (value === '5') {
                 setIsChecked5(true)
             }
-
-
             data.push(value);
             setPermission(data);
         }
@@ -230,7 +237,7 @@ const RoleMaster = () => {
                                                                 checked={isChecked4}
                                                                 onChange={(e) => handleCheckboxChange(e)}
                                                             />
-                                                            Payroll
+                                                            Master Leaves
                                                         </label>
                                                         <br />
                                                         <label class="form-check-label">

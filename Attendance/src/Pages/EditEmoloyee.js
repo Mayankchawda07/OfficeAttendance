@@ -60,6 +60,9 @@ const EditEmoloyee = () => {
         getRole();
     }, [])
 
+    const isoDate = new Date(user.DOB);
+    const formattedDate = isoDate.toISOString().split('T')[0];
+
 
     if (!tokenstring) {
         return <Login />
@@ -142,15 +145,15 @@ const EditEmoloyee = () => {
 
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputPassword1">Date of birth</label>
-                                                    <input type="date" class="form-control" min="0" name='DOB' value={user.DOB} onChange={handelChange} />
+                                                    <input type="date" class="form-control" min="0" name='DOB' value={formattedDate} onChange={handelChange} />
                                                 </div>
 
                                                 <div class="form-group col-md-4">
-                                                    <label for="exampleInputPassword1">Role</label>
-                                                    <select name="role" id="" className='form-control' value={user.role} onChange={handelChange}>
-                                                        <option value="" disabled selected hidden>Select Role</option>
+                                                    <label for="exampleInputPassword1">Role </label>
+                                                    <select name="role" id="" className='form-control' onChange={handelChange}>
+                                                        <option value="" >Select Role</option>
                                                         {role?.data?.map((val, index) => (
-                                                            <option value={val._id} key={index}>
+                                                            <option value={val._id} key={index} selected={val._id === user.role._id ? 'selected' : null}>
                                                                 {val.name}
                                                             </option>
                                                         ))}

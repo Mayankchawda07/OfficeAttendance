@@ -12,7 +12,7 @@ const Attendance = () => {
 
     const [data, setdata] = useState({ employeeID: ID, attend: '1' })
     const [attendance, setattendance] = useState('')
-   
+
 
 
 
@@ -98,7 +98,7 @@ const Attendance = () => {
 
     };
 
-   
+
 
     // const leaveRequest = async (e) => {
     //     e.preventDefault();
@@ -129,7 +129,7 @@ const Attendance = () => {
     //     }
     // };
 
-    
+
 
 
 
@@ -172,8 +172,8 @@ const Attendance = () => {
                                                             Time-Out
                                                         </button>
                                                     </div>
-                                                    
-                                                   
+
+
 
 
                                                 </div>
@@ -224,7 +224,7 @@ const Attendance = () => {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {attendance?.data?.map((val, index) => {
+                                                        {/* {attendance?.data?.map((val, index) => {
                                                             // Convert login and logout timestamps to Date objects
                                                             const loginTimeUTC = new Date(val?.login);
                                                             const logoutTimeUTC = new Date(val?.logout);
@@ -250,7 +250,47 @@ const Attendance = () => {
 
                                                                 </tr >
                                                             )
+                                                        })} */}
+                                                        {attendance?.data?.map((val, index) => {
+                                                            // Convert login and logout timestamps to Date objects
+                                                            const loginTimeUTC = new Date(val?.login);
+                                                            let logoutTimeUTC = new Date(val?.logout);
+
+                                                            // Check if logoutTimeUTC is a valid date
+                                                            if (isNaN(logoutTimeUTC.getTime())) {
+                                                                // If logoutTimeUTC is not a valid date, set it to null or undefined
+                                                                logoutTimeUTC = null; // or undefined
+                                                            }
+
+                                                            // Convert login and logout timestamps to IST time string (hh:mm:ss format)
+                                                            const loginTimeIST = loginTimeUTC.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' });
+                                                            const logoutTimeIST = logoutTimeUTC ? logoutTimeUTC.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' }) : 'It will show after Time out';
+
+                                                            // Calculate the time difference in milliseconds if logoutTimeUTC is valid
+                                                            let totalTimeDifference = 'It will show after Time out';
+                                                            if (logoutTimeUTC) {
+                                                                const timeDifferenceMillis = logoutTimeUTC - loginTimeUTC;
+
+                                                                // Convert the time difference to hours and minutes
+                                                                const hours = Math.floor(timeDifferenceMillis / (1000 * 60 * 60));
+                                                                const minutes = Math.floor((timeDifferenceMillis % (1000 * 60 * 60)) / (1000 * 60));
+
+                                                                // Construct the total time difference string
+                                                                totalTimeDifference = `${hours} Hr, ${minutes} min`;
+                                                            }
+
+                                                            return (
+                                                                <tr key={index}>
+                                                                    <td>{index + 1}</td>
+                                                                    <td>{dateFormat(`${val?.createdAt}`, "dd/mm/yyyy ")}</td>
+                                                                    <td>{loginTimeIST}</td>
+                                                                    <td>{logoutTimeIST}</td>
+                                                                    <td>{totalTimeDifference}</td>
+                                                                </tr>
+                                                            );
                                                         })}
+
+
 
                                                     </tbody>
                                                 </table>
@@ -270,7 +310,7 @@ const Attendance = () => {
 
 
 
-           
+
         </>
     )
 }
