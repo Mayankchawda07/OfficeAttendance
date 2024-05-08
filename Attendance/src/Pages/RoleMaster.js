@@ -49,7 +49,10 @@ const RoleMaster = () => {
         e.preventDefault();
         const { name } = data;
         if (!name) {
-            return alert("Please Enter Role Name")
+            return alert("Please Enter Role Name");
+        }
+        if (permission.length === 0) {
+            return alert("Please select at least one permission");
         }
         const fetchdata = fetch(`http://206.189.130.102:3210/api/v1/role/AddRoles`,
             {

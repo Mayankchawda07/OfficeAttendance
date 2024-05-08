@@ -105,7 +105,7 @@ const EmployeeLeave = () => {
                                                                     <td>{dateFormat(`${val?.createdAt}`, "dd/mm/yyyy ")}</td>
                                                                     <td>{dateFormat(`${val?.updatedAt}`, "dd/mm/yyyy ")}</td>
                                                                     <td>{val?.status}</td>
-                                                                    <td>{val?.remark}</td>
+                                                                    <td>{val?.status === "pending" ? "Pending" : val?.remark || "Approved"}</td>
                                                                     
                                                                 </tr>
                                                             );
