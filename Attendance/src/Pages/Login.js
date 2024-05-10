@@ -39,7 +39,9 @@ const Login = () => {
 
             console.log(res.data);
             sessionStorage.setItem("token", res.adminFound.token);
+            sessionStorage.setItem("name", res.admindata.name);
             sessionStorage.setItem("id", res.admindata._id);
+
             sessionStorage.setItem("loginType", res.admindata.loginType);
 
             localStorage.setItem('permission', res.admindata.role.permission);
@@ -72,9 +74,9 @@ const Login = () => {
                         <div className="row w-100 mx-0">
                             <div className="col-lg-4 mx-auto">
                                 <div className="auth-form-light text-left py-5 px-4 px-sm-5">
-                                    <div className="brand-logo">
-                                        {/* <img src={require('../Images/imgpsh_fullsize_anim__1_-removebg-preview.png')} alt="LOGO" className='logo loginlogo' /> */}
-                                        LOGO
+                                    <div className="brand-logo text-center">
+                                      
+                                        <img src={require('../images/logo.png')} className='logoLogin' alt="" />
                                     </div>
                                     {/* <h6 className="font-weight-light">Sign in to continue.</h6> */}
                                     <form className="pt-3" onSubmit={Submit} >

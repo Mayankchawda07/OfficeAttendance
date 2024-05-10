@@ -16,6 +16,7 @@ import RoleMaster from './Pages/RoleMaster';
 import Leave from './Pages/Leave';
 import LeaveView from './Pages/LeaveView';
 import EmployeeLeave from './Pages/EmployeeLeave';
+import EmployeeLeaveView from './Pages/EmployeeLeaveView';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -37,6 +38,8 @@ root.render(
           <Route path='/leave' element={<Leave />} />
           <Route path='/leaveview/:id' element={<LeaveView />} />
           <Route path='/employee_leave' element={<EmployeeLeave />} />
+          <Route path='/employee_leave_view/:id' element={<EmployeeLeaveView/>} />
+
 
         </Route>
       </Routes>

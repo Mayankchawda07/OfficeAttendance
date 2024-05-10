@@ -43,6 +43,10 @@
 	margin-left: 20px !important;
 }
 
+.brand-logo .logoLogin{ 
+	width: 210px !important;
+}
+
 /* App.css */
 body {
 	font-family: Arial, sans-serif;

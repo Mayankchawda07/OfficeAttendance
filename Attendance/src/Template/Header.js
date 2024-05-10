@@ -77,12 +77,12 @@ const Header = () => {
                             <Link className="nav-link dropdown-toggle" to="#" data-toggle="dropdown" id="profileDropdown">
                                 <img src="images/faces/face28.jpg" alt="profile" />
                             </Link>
-                            <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                            {/* <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                                 <Link className="dropdown-item">
                                     <i className="ti-power-off text-primary"></i>
                                     Logout
                                 </Link>
-                            </div>
+                            </div> */}
                         </li>
                     </ul>
                     <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">

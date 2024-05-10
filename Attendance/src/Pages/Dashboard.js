@@ -6,6 +6,8 @@ import Login from './Login'
 const Dashboard = () => {
     const tokenstring = sessionStorage.getItem('token')
     const loginstring = sessionStorage.getItem('loginType')
+    const name = sessionStorage.getItem('name')
+
     const x = loginstring
 
 
@@ -24,8 +26,8 @@ const Dashboard = () => {
                                 <div class="col-md-12 grid-margin">
                                     {
                                         x === 'admin' ?
-                                            (<h1>Hello admin</h1>) :
-                                            (<h1>Hello employee</h1>)
+                                            (<h1>Hello {name}</h1>) :
+                                            (<h1>Hello {name}</h1>)
                                     }
 
                                 </div>

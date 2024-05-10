@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../Template/Header'
 import Sidenav from '../Template/Sidenav'
 import dateFormat from "dateformat";
+import { Link } from 'react-router-dom';
 
 const EmployeeLeave = () => {
 
@@ -63,7 +64,6 @@ const EmployeeLeave = () => {
     }, [])
     
 
-
     return (
         <>
             <div class="container-scroller">
@@ -94,6 +94,7 @@ const EmployeeLeave = () => {
                                                             <th>Leave response date</th>
                                                             <th>Status</th>
                                                             <th>Remark</th>
+                                                            <th>Action</th>
                                                            
                                                         </tr>
                                                     </thead>
@@ -106,7 +107,16 @@ const EmployeeLeave = () => {
                                                                     <td>{dateFormat(`${val?.updatedAt}`, "dd/mm/yyyy ")}</td>
                                                                     <td>{val?.status}</td>
                                                                     <td>{val?.status === "pending" ? "Pending" : val?.remark || "Approved"}</td>
-                                                                    
+                                                                    <td>
+                                                                        <Link
+                                                                            to={`/employee_leave_view/${val?._id}`}
+                                                                            state={{ data: val }}
+                                                                            type="button"
+                                                                            class="btn btn-outline-info mr-2"
+                                                                        >
+                                                                            View
+                                                                        </Link>
+                                                                    </td>
                                                                 </tr>
                                                             );
                                                         })}

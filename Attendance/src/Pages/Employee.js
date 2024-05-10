@@ -79,7 +79,7 @@ const Employee = () => {
                                                                             type="button"
                                                                             class="btn btn-outline-info mr-2"
                                                                         >
-                                                                            Attendace
+                                                                            Attendance
                                                                         </Link>
                                                                         <Link
                                                                             to={`/edit_employee/${val?._id}`}

@@ -264,7 +264,7 @@ const Attendance = () => {
 
                                                             // Convert login and logout timestamps to IST time string (hh:mm:ss format)
                                                             const loginTimeIST = loginTimeUTC.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' });
-                                                            const logoutTimeIST = logoutTimeUTC ? logoutTimeUTC.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' }) : 'It will show after Time out';
+                                                            const logoutTimeIST = logoutTimeUTC ? logoutTimeUTC.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' }) : 'Not Punched Yet';
 
                                                             // Calculate the time difference in milliseconds if logoutTimeUTC is valid
                                                             let totalTimeDifference = 'It will show after Time out';

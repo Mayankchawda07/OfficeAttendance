@@ -20,7 +20,7 @@ const AddEmployee = () => {
     };
 
     const getRole = () => {
-        fetch(`${URL}/api/v1/role/getAllRoles`)
+        fetch(`http://206.189.130.102:3210/api/v1/role/getAllRoles`)
             .then((response) => {
                 return response.json();
             })

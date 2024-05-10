@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Header from '../Template/Header'
 import Sidenav from '../Template/Sidenav'
 import { useLocation, useNavigate } from 'react-router-dom'
+import dateFormat from "dateformat";
 
 const LeaveView = () => {
 
@@ -70,6 +71,12 @@ const LeaveView = () => {
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div className="tbl-heading">
+                                                        <h4 class="card-title mb-0">Employee Name</h4>
+                                                        <p class="card-description">{data?.employeeID?.name}</p>
+
+                                                        <h4 class="card-title mb-0">Leaves on date</h4>
+                                                        <p class="card-description">{dateFormat(`${data?.fromDate}`, "dd/mm/yyyy ")} - {dateFormat(`${data?.tooDate}`, "dd/mm/yyyy ")}</p>
+
                                                         <h4 class="card-title mb-0">Title</h4>
                                                         <p class="card-description">{data?.title}</p>
 
