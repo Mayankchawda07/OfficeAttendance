@@ -13,7 +13,7 @@ const EditEmoloyee = () => {
     const { data } = location.state
     const navigate = useNavigate();
 
-    const [user, setuser] = useState({ name: data.name, phone: data.phone, email: data.email, salary: data.salary, designation: data.designation, gender: data.gender, DOB: data.DOB, role: data.role, loginType: data.loginType })
+    const [user, setuser] = useState({ name: data.name, phone: data.phone, email: data.email, salary: data.salary, designation: data.designation, gender: data.gender, DOB: data.DOB, role: data.role, loginType: data.loginType, password: data.password })
     const [role, setrole] = useState('')
 
 
@@ -25,7 +25,7 @@ const EditEmoloyee = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, phone, email, salary, designation, gender, DOB, role, loginType } = user
+        const { name, phone, email, salary, designation, gender, DOB, role, loginType, password } = user
         if (!name || !phone || !email) {
             return alert('Please fill all the field prperly')
         }
@@ -35,7 +35,7 @@ const EditEmoloyee = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name: name, phone: phone, email: email, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role, loginType: loginType })
+            body: JSON.stringify({ name: name, phone: phone, email: email, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role, loginType: loginType, password: password })
         })
         const response = await fetchdata;
         if (response.status === 200) {
@@ -84,22 +84,6 @@ const EditEmoloyee = () => {
                                                 <h4 class="card-title mb-0">Edit Product</h4>
                                                 <p class="card-description"></p>
                                             </div>
-                                            {/* <div className='row'>
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputUsername1">Employee name</label>
-                                                    <input type="text" class="form-control" name='name' value={user.name} onChange={handelChange} />
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">Phone</label>
-                                                    <input type="text" class="form-control" name='phone' value={user.phone} onChange={handelChange} />
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">Email</label>
-                                                    <input type="text" class="form-control" name='email' value={user.email} onChange={handelChange} />
-                                                </div>
-                                            </div> */}
-
-
                                             <div className="row">
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputUsername1">Employee Name</label>
@@ -118,8 +102,8 @@ const EditEmoloyee = () => {
                                             </div>
                                             <div className="row">
                                                 <div class="form-group col-md-4">
-                                                    <label for="exampleInputUsername1">Log-in Type</label>
-                                                    <input type="email" class="form-control" min="0" name='loginType' placeholder='Enter Log-in Type' value={user.loginType} onChange={handelChange} />
+                                                    <label for="exampleInputUsername1">Password</label>
+                                                    <input type="email" class="form-control" min="0" name='password' placeholder='Enter Log-in Type' value={user.password} onChange={handelChange} />
                                                 </div>
 
                                                 <div class="form-group col-md-4">
@@ -162,9 +146,10 @@ const EditEmoloyee = () => {
                                                 </div>
                                             </div>
                                             <div className="row">
-
-
-
+                                                <div class="form-group col-md-4">
+                                                    <label for="exampleInputUsername1">Log-in Type</label>
+                                                    <input type="email" class="form-control" min="0" name='loginType' placeholder='Enter Log-in Type' value={user.loginType} onChange={handelChange} />
+                                                </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary mr-3" onClick={handleSubmit} >Submit</button>
                                         </div>
