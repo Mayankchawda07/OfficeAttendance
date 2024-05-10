@@ -26,7 +26,7 @@ const EditEmoloyee = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { name, phone, email, salary, designation, gender, DOB, role, loginType, password } = user
-        if (!name || !phone || !email) {
+        if (!name || !phone || !email || !salary || !designation || !gender || !DOB || !role || !loginType || !password) {
             return alert('Please fill all the field prperly')
         }
         const fetchdata = fetch(`${URL}/updateEmployeeByid/${data._id}`, {
