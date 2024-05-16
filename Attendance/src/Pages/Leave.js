@@ -61,6 +61,7 @@ const Leave = () => {
                                                         <tr>
                                                             <th>S.No.</th>
                                                             <th>Employee Name</th>
+                                                            <th>Apply date</th>
                                                             <th>Title</th>
                                                             <th>From to TOO date</th>
                                                             <th>Status</th>
@@ -73,6 +74,7 @@ const Leave = () => {
                                                                 <tr>
                                                                     <td class="py-1">{index + 1}</td>
                                                                     <td>{val?.employeeID?.name}</td>
+                                                                    <td>{dateFormat(`${val?.createdAt}`, "dd/mm/yyyy ")}</td>
                                                                     <td>{val?.title}</td>
                                                                     <td>{dateFormat(`${val?.fromDate}`, "dd/mm/yyyy ")} - {dateFormat(`${val?.tooDate}`, "dd/mm/yyyy ")}</td>
                                                                     <td>{val?.status}</td>
