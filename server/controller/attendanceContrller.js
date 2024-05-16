@@ -125,65 +125,29 @@ exports.getAttendanceByEmpID = async (req, res) => {
     }
 }
 
-// exports.CroneAttendance = async (req, res) => {
-//     try {
-//         const presentEmployeesIds = [];
-//         const absentEmployeeIds = [];
+exports.getTodayAttendance = async (req, res) => {
+    try {
+        const currentDate = new Date();
+        const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
 
-//         const allEmployee = await Employee.find({});
+        // Find attendance records for today
+        const todayAttendance = await attendance.find({
+            createdAt: { $gte: startOfDay, $lte: endOfDay }
+        }).populate('employeeID'); // Assuming you want to populate employee details
 
-//         const todayStart = new Date();
-//         todayStart.setHours(0, 0, 0, 0);
-
-//         const todayEnd = new Date();
-//         todayEnd.setHours(23, 59, 59, 999);
-
-//         const presentEmployees = await attendance.find({
-//             attend: 1,
-//             createdAt: { $gte: todayStart, $lt: todayEnd }
-//         });
-
-//         for (let i = 0; i < presentEmployees.length; i++) {
-//             presentEmployeesIds.push(presentEmployees[i].employeeID);
-//         }
-// // ===========================================================
-// var unique = [];
-// for(var i = 0; i < array1.length; i++){
-//     var found = false;
-
-//     for(var j = 0; j < array2.length; j++){ // j < is missed;
-//      if(array1[i] == array2[j]){
-//       found = true;
-//       break; 
-//     }
-//    }
-//    if(found == false){
-//    unique.push(array1[i]);
-//   }
-// }
-// // ===========================================================
-//         // for (let i = 0; i < allEmployee.length; i++) {
-//         //     const singleId = allEmployee[i]._id;
-//         //     if (!presentEmployeesIds.includes(singleId)) {
-//         //         absentEmployeeIds.push(singleId);
-//         //     }
-//         // }
-
-//         res.status(200).json({
-//             status: 'True',
-//             message: 'Success',
-//             allEmployee: allEmployee.length,
-//             presentEmployees: presentEmployees.length,
-//             presentEmployeesIds,
-//             absentEmployeeIds
-//         });
-//     } catch (error) {
-//         // Handle error
-//         console.error(error);
-//         res.status(500).json({ status: 'False', message: 'Internal Server Error' });
-//     }
-// };
-
+        res.status(200).json({
+            status: 'True',
+            message: 'Success',
+            data: todayAttendance
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'False',
+            message: 'Failed to fetch today\'s attendance'
+        });
+    }
+};
 
 
 
