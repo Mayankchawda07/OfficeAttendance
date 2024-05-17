@@ -7,10 +7,10 @@ import dateFormat from "dateformat";
 
 const Dashboard = () => {
     const tokenstring = sessionStorage.getItem('token')
-    const loginstring = sessionStorage.getItem('loginType')
+    const permission = localStorage.getItem('permission')
     const name = sessionStorage.getItem('name')
 
-    const x = loginstring
+    const x = permission
 
     const [todayAttendance, settodayAttendance] = useState('')
 
@@ -43,44 +43,96 @@ const Dashboard = () => {
                             <div class="row">
                                 <div class="col-md-12 grid-margin">
                                     <h1>Hello {name}</h1>
-                                    <div className="row">
-                                        <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                            <div class="card card-tale">
-                                                <div class="card-body">
-                                                    <h4 class="card-title mb-0 dashhead">Total No. of employee</h4>
-                                                    <br />
-                                                    <p class="card-description dashpara">11</p>
-                                                </div>
+
+
+                                    {x.includes('6') ?
+                                        (
+                                            //For Employee 
+                                            <div className="row">
+                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                    <div class="card card-tale">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title mb-0 dashhead">Prsent days</h4>
+                                                            <br />
+                                                            <p class="card-description dashpara">11</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                    <div class="card card-tale">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title mb-0 dashhead">Absent days</h4>
+                                                            <br />
+                                                            <p class="card-description dashpara">11</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                    <div class="card card-tale">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title mb-0 dashhead">Leaves</h4>
+                                                            <br />
+                                                            <p class="card-description dashpara">11</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                    <div class="card card-tale">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title mb-0 dashhead">lorem ipsum</h4>
+                                                            <br />
+                                                            <p class="card-description dashpara">11</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
                                             </div>
-                                        </Link>
-                                        <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                            <div class="card card-tale">
-                                                <div class="card-body">
-                                                    <h4 class="card-title mb-0 dashhead">Present Employee</h4>
-                                                    <br />
-                                                    <p class="card-description dashpara">11</p>
-                                                </div>
+                                        )
+                                        :
+                                        (
+                                            //For Admin 
+                                            <div className="row">
+                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                    <div class="card card-tale">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title mb-0 dashhead">Total No. of employee</h4>
+                                                            <br />
+                                                            <p class="card-description dashpara">11</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                    <div class="card card-tale">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title mb-0 dashhead">Present Employee</h4>
+                                                            <br />
+                                                            <p class="card-description dashpara">11</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                    <div class="card card-tale">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title mb-0 dashhead">Absent Employee</h4>
+                                                            <br />
+                                                            <p class="card-description dashpara">11</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                    <div class="card card-tale">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title mb-0 dashhead">Pending leaves</h4>
+                                                            <br />
+                                                            <p class="card-description dashpara">11</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
                                             </div>
-                                        </Link>
-                                        <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                            <div class="card card-tale">
-                                                <div class="card-body">
-                                                    <h4 class="card-title mb-0 dashhead">Absent Employee</h4>
-                                                    <br />
-                                                    <p class="card-description dashpara">11</p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                        <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                            <div class="card card-tale">
-                                                <div class="card-body">
-                                                    <h4 class="card-title mb-0 dashhead">Pending leaves</h4>
-                                                    <br />
-                                                    <p class="card-description dashpara">11</p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    </div>
+                                        )}
+
+
+
+
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="table-responsive rounded">

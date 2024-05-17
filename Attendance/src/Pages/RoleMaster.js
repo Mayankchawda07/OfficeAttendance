@@ -18,6 +18,7 @@ const RoleMaster = () => {
     const [isChecked3, setIsChecked3] = useState(false);
     const [isChecked4, setIsChecked4] = useState(false);
     const [isChecked5, setIsChecked5] = useState(false);
+    const [isChecked6, setIsChecked6] = useState(false);
 
 
 
@@ -35,6 +36,7 @@ const RoleMaster = () => {
         setIsChecked3(val.permission.includes('3'));
         setIsChecked4(val.permission.includes('4'));
         setIsChecked5(val.permission.includes('5'));
+        setIsChecked5(val.permission.includes('6'));
     };
 
     const handleChange = (e) => {
@@ -124,6 +126,9 @@ const RoleMaster = () => {
             if (value === '5') {
                 setIsChecked5(false)
             }
+            if (value === '6') {
+                setIsChecked6(false)
+            }
 
             let index = data.indexOf(value);
             data.splice(index, 1);
@@ -145,6 +150,9 @@ const RoleMaster = () => {
             }
             if (value === '5') {
                 setIsChecked5(true)
+            }
+            if (value === '6') {
+                setIsChecked6(true)
             }
             data.push(value);
             setPermission(data);
@@ -253,6 +261,18 @@ const RoleMaster = () => {
                                                                 onChange={(e) => handleCheckboxChange(e)}
                                                             />
                                                             Master
+                                                        </label>
+                                                        <br />
+                                                        <label class="form-check-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                class="form-check-input checkbox"
+                                                                value="6"
+                                                                name="permission"
+                                                                checked={isChecked6}
+                                                                onChange={(e) => handleCheckboxChange(e)}
+                                                            />
+                                                            Employee baar
                                                         </label>
                                                     </div>
                                                 </div>
