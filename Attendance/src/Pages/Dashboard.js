@@ -44,6 +44,47 @@ const Dashboard = () => {
                                 <div class="col-md-12 grid-margin">
                                     <h1>Hello {name}</h1>
 
+                                    {x.includes('7') ? (
+                                        <div className="row">
+                                            <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                <div class="card card-tale">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-0 dashhead">Total No. of employee</h4>
+                                                        <br />
+                                                        <p class="card-description dashpara">11</p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                            <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                <div class="card card-tale">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-0 dashhead">Present Employee</h4>
+                                                        <br />
+                                                        <p class="card-description dashpara">11</p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                            <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                <div class="card card-tale">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-0 dashhead">Absent Employee</h4>
+                                                        <br />
+                                                        <p class="card-description dashpara">11</p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                            <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                <div class="card card-tale">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-0 dashhead">Pending leaves</h4>
+                                                        <br />
+                                                        <p class="card-description dashpara">11</p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    ) : ('')}
+
 
                                     {x.includes('6') ?
                                         (
@@ -88,47 +129,7 @@ const Dashboard = () => {
                                             </div>
                                         )
                                         :
-                                        (
-                                            //For Admin 
-                                            <div className="row">
-                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                                    <div class="card card-tale">
-                                                        <div class="card-body">
-                                                            <h4 class="card-title mb-0 dashhead">Total No. of employee</h4>
-                                                            <br />
-                                                            <p class="card-description dashpara">11</p>
-                                                        </div>
-                                                    </div>
-                                                </Link>
-                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                                    <div class="card card-tale">
-                                                        <div class="card-body">
-                                                            <h4 class="card-title mb-0 dashhead">Present Employee</h4>
-                                                            <br />
-                                                            <p class="card-description dashpara">11</p>
-                                                        </div>
-                                                    </div>
-                                                </Link>
-                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                                    <div class="card card-tale">
-                                                        <div class="card-body">
-                                                            <h4 class="card-title mb-0 dashhead">Absent Employee</h4>
-                                                            <br />
-                                                            <p class="card-description dashpara">11</p>
-                                                        </div>
-                                                    </div>
-                                                </Link>
-                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                                    <div class="card card-tale">
-                                                        <div class="card-body">
-                                                            <h4 class="card-title mb-0 dashhead">Pending leaves</h4>
-                                                            <br />
-                                                            <p class="card-description dashpara">11</p>
-                                                        </div>
-                                                    </div>
-                                                </Link>
-                                            </div>
-                                        )}
+                                        ('')}
 
 
 

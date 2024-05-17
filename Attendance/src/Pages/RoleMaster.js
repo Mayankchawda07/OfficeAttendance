@@ -19,6 +19,7 @@ const RoleMaster = () => {
     const [isChecked4, setIsChecked4] = useState(false);
     const [isChecked5, setIsChecked5] = useState(false);
     const [isChecked6, setIsChecked6] = useState(false);
+    const [isChecked7, setIsChecked7] = useState(false);
 
 
 
@@ -37,6 +38,7 @@ const RoleMaster = () => {
         setIsChecked4(val.permission.includes('4'));
         setIsChecked5(val.permission.includes('5'));
         setIsChecked5(val.permission.includes('6'));
+        setIsChecked5(val.permission.includes('7'));
     };
 
     const handleChange = (e) => {
@@ -129,6 +131,9 @@ const RoleMaster = () => {
             if (value === '6') {
                 setIsChecked6(false)
             }
+            if (value === '7') {
+                setIsChecked7(false)
+            }
 
             let index = data.indexOf(value);
             data.splice(index, 1);
@@ -153,6 +158,9 @@ const RoleMaster = () => {
             }
             if (value === '6') {
                 setIsChecked6(true)
+            }
+            if (value === '7') {
+                setIsChecked7(true)
             }
             data.push(value);
             setPermission(data);
@@ -219,6 +227,18 @@ const RoleMaster = () => {
                                                             <input
                                                                 type="checkbox"
                                                                 class="form-check-input checkbox"
+                                                                value="7"
+                                                                name="permission"
+                                                                checked={isChecked7}
+                                                                onChange={(e) => handleCheckboxChange(e)}
+                                                            />
+                                                            Admin baar
+                                                        </label>
+                                                        <br />
+                                                        <label class="form-check-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                class="form-check-input checkbox"
                                                                 value="2"
                                                                 name="permission"
                                                                 checked={isChecked2}
@@ -274,6 +294,7 @@ const RoleMaster = () => {
                                                             />
                                                             Employee baar
                                                         </label>
+
                                                     </div>
                                                 </div>
                                             </div>
