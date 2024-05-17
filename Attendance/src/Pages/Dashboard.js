@@ -23,6 +23,7 @@ const Dashboard = () => {
                 settodayAttendance(data);
             });
     };
+    
 
     useEffect(() => {
         TodayAttendance();

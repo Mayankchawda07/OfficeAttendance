@@ -196,11 +196,11 @@ exports.CroneAttendance = async (req, res) => {
             status: 'True',
             message: 'Success',
             allEmployee: allEmployee.length,
+            allEmployeesIds,
             presentEmployees: presentEmployees.length,
             presentEmployeesIds,
-            allEmployeesIds,
-            absentemployeeIds,
-            absentEmployeesCount: absentemployeeIds.length
+            absentEmployeesCount: absentemployeeIds.length,
+            absentemployeeIds
         });
     } catch (error) {
         res.status(500).json({
