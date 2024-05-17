@@ -152,61 +152,65 @@ exports.getTodayAttendance = async (req, res) => {
 
 
 
-
-exports.CroneAttendance= async(req,res)=>{
+exports.CroneAttendance = async (req, res) => {
     try {
         const presentEmployeesIds = [];
         const allEmployeesIds = [];
         const absentemployeeIds = [];
 
+        // Retrieve all employees
+        const allEmployee = await Employee.find({});
 
-        const allEmployee  = await Employee.find({});
-       
- 
-        const todayStart = new Date(); // Get the current date
-        todayStart.setHours(0, 0, 0, 0); // Set time to the beginning of the day (midnight)
+        // Set the time range for today
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
 
-        const todayEnd = new Date(); // Get the current date
-        todayEnd.setHours(23, 59, 59, 999); // Set time to the end of the day (11:59:59 PM)
+        const todayEnd = new Date();
+        todayEnd.setHours(23, 59, 59, 999);
 
+        // Find employees who are present today
         const presentEmployees = await attendance.find({
             attend: 1,
-            createdAt: { $gte: todayStart, $lt: todayEnd }  // Find documents created between start and end of today
+            createdAt: { $gte: todayStart, $lt: todayEnd }
         });
-// ===================================
-for(let i = 0;i < presentEmployees.length;i++){
-   
-        presentEmployeesIds.push(presentEmployees[i].employeeID);
-   
-}
-// ===================================
-// ===============allEmployeesIds====================
-for(let i = 0;i < allEmployee.length;i++){
-   
-    allEmployeesIds.push(allEmployee[i]._id);
 
-}
-// ======================absent=============
-// const presentEmployeesIds = [];
-// const allEmployeesIds = [];
-// const absentemployeeIds = [];
+        // Collect IDs of present employees
+        for (let i = 0; i < presentEmployees.length; i++) {
+            presentEmployeesIds.push(presentEmployees[i].employeeID.toString());
+        }
 
-for (let i = 0; i < allEmployeesIds.length; i++) {
-    if (!presentEmployeesIds.includes(allEmployeesIds[i])) {
-        absentemployeeIds.push(allEmployeesIds[i]);
-    }
-}
-// ===================================
+        // Collect IDs of all employees
+        for (let i = 0; i < allEmployee.length; i++) {
+            allEmployeesIds.push(allEmployee[i]._id.toString());
+        }
+
+        // Determine absent employees
+        for (let i = 0; i < allEmployeesIds.length; i++) {
+            if (!presentEmployeesIds.includes(allEmployeesIds[i])) {
+                absentemployeeIds.push(allEmployeesIds[i]);
+            }
+        }
+
+        // Send the response
         res.status(200).json({
             status: 'True',
-            message: 'Success',arrayThree,
-             allEmployee:allEmployee.length,presentEmployees:presentEmployees.length,presentEmployeesIds,allEmployeesIds,absentemployeeIds
-        })
-        // Handle the retrieved present employees as needed
+            message: 'Success',
+            allEmployee: allEmployee.length,
+            presentEmployees: presentEmployees.length,
+            presentEmployeesIds,
+            allEmployeesIds,
+            absentemployeeIds,
+            absentEmployeesCount: absentemployeeIds.length
+        });
     } catch (error) {
-        
+        res.status(500).json({
+            status: 'False',
+            message: 'An error occurred',
+            error: error.message
+        });
     }
-}
+};
+
 
 // exports.markAbsentEmployees = async (req,res )=> {
 //     try {
