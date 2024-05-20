@@ -17,51 +17,99 @@ const Login = () => {
 
 
 
+    // const Submit = async (e) => {
+    //     e.preventDefault();
+    //     const { email, password } = data;
+
+    //     if (!email || !password) {
+    //         alert('Please enter all the fields');
+    //         return;
+    //     }
+
+    //     try {
+    //         const response = await fetch(`${URL}/LoginEmployee`, {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ email, password }),
+    //         });
+    //         const res = await response.json();
+
+    //         // Use the response data as needed
+    //         console.log(res.admindata._id);
+
+    //         console.log(res.data);
+    //         sessionStorage.setItem("token", res.adminFound.token);
+    //         sessionStorage.setItem("name", res.admindata.name);
+    //         sessionStorage.setItem("id", res.admindata._id);
+
+    //         sessionStorage.setItem("loginType", res.admindata.loginType);
+
+    //         localStorage.setItem('permission', res.admindata.role.permission);
+
+    //         navigate("/dashboard");
+    //         // Send POST request using Axios
+
+    //         // if (response.ok) {
+
+    //         //     if (res.token && res.admindata._id && res.admindata.loginType) {
+
+    //         //     } else {
+    //         //         throw new Error("Invalid response data format");
+    //         //     }
+    //         // } else {
+    //         //     throw new Error("Invalid response status: " + response.status);
+    //         // }
+    //     } catch (error) {
+    //         console.error("Login error:", error);
+    //         alert(error.message);
+    //     }
+    // };
+
     const Submit = async (e) => {
         e.preventDefault();
         const { email, password } = data;
 
+        // Basic validation for email and password fields
         if (!email || !password) {
             alert('Please enter all the fields');
             return;
         }
 
         try {
+            // Sending the login request to the server
             const response = await fetch(`${URL}/LoginEmployee`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
             });
+
+            // Parsing the response
             const res = await response.json();
 
-            // Use the response data as needed
-            console.log(res.admindata._id);
+            if (response.ok) {
+                // Check if the expected data is present in the response
+                if (res.adminFound && res.adminFound.token && res.admindata && res.admindata._id) {
+                    // Storing data in sessionStorage and localStorage
+                    sessionStorage.setItem("token", res.adminFound.token);
+                    sessionStorage.setItem("name", res.admindata.name);
+                    sessionStorage.setItem("id", res.admindata._id);
+                    sessionStorage.setItem("loginType", res.admindata.loginType);
+                    localStorage.setItem('permission', res.admindata.role.permission);
 
-            console.log(res.data);
-            sessionStorage.setItem("token", res.adminFound.token);
-            sessionStorage.setItem("name", res.admindata.name);
-            sessionStorage.setItem("id", res.admindata._id);
-
-            sessionStorage.setItem("loginType", res.admindata.loginType);
-
-            localStorage.setItem('permission', res.admindata.role.permission);
-
-            navigate("/dashboard");
-            // Send POST request using Axios
-
-            // if (response.ok) {
-
-            //     // if (res.token && res.admindata._id && res.admindata.loginType) {
-
-            //     // } else {
-            //     //     throw new Error("Invalid response data format");
-            //     // }
-            // } else {
-            //     throw new Error("Invalid response status: " + response.status);
-            // }
+                    // Navigating to the dashboard
+                    navigate("/dashboard");
+                } else {
+                    // Handle unexpected response format
+                    throw new Error("Invalid response data format");
+                }
+            } else {
+                // Handle response errors such as wrong credentials
+                alert(res.message || "Login failed");
+            }
         } catch (error) {
+            // Log the error and show an alert to the user
             console.error("Login error:", error);
-            alert(error.message);
+            alert("An error occurred during login: " + error.message);
         }
     };
 
@@ -75,7 +123,7 @@ const Login = () => {
                             <div className="col-lg-4 mx-auto">
                                 <div className="auth-form-light text-left py-5 px-4 px-sm-5">
                                     <div className="brand-logo text-center">
-                                      
+
                                         <img src={require('../images/logo.png')} className='logoLogin' alt="" />
                                     </div>
                                     {/* <h6 className="font-weight-light">Sign in to continue.</h6> */}

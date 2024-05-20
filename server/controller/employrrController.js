@@ -87,22 +87,40 @@ exports.login_employee = async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        // Find the employee by email and populate the role
         const adminFound = await employee.findOne({ email }).populate('role');
-        const isMatch = bcrypt.compare(password, adminFound.password)
-        if (adminFound && isMatch) {
-            const id = adminFound._id;
-            const token = jwt.sign({ id }, 'Verify_token@attendance', { expiresIn: "30d" })
-            res.status(200).json({
-                status: "success",
-                message: "Logged in successfully",
-                admindata: adminFound,
-                adminFound: {
-                    _id: adminFound?._id,
-                    token,
-                    email: adminFound?.email,
-                    phone: adminFound?.phone,
-                }
 
+        // If the employee is found, compare the passwords
+        if (adminFound) {
+            const isMatch = await bcrypt.compare(password, adminFound.password);
+
+            if (isMatch) {
+                const id = adminFound._id;
+                const token = jwt.sign({ id }, 'Verify_token@attendance', { expiresIn: "30d" });
+                
+                return res.status(200).json({
+                    status: "success",
+                    message: "Logged in successfully",
+                    admindata: adminFound,
+                    adminFound: {
+                        _id: adminFound._id,
+                        token,
+                        email: adminFound.email,
+                        phone: adminFound.phone,
+                    }
+                });
+            } else {
+                // If passwords do not match
+                return res.status(401).json({
+                    status: "False",
+                    message: "Invalid credentials"
+                });
+            }
+        } else {
+            // If no employee is found with the given email
+            return res.status(401).json({
+                status: "False",
+                message: "Invalid credentials"
             });
         }
     } catch (error) {
