@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Sidenav from '../Template/Sidenav'
 
 const Header = () => {
+
+    const [isOpen, setIsopen] = useState(false);
+
+    const ToggleSidebar = () => {
+        isOpen === true ? setIsopen(false) : setIsopen(true);
+    }
+
     return (
         <>
             <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -85,9 +93,14 @@ const Header = () => {
                             </div>
                         </li> */}
                     </ul>
-                    <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                        <span className="icon-menu"></span>
-                    </button>
+                    <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                        <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas" onClick={ToggleSidebar} >
+                            <span className="icon-menu"></span>
+                        </button>
+                    </div>
+                    <div className='sidebar_hide'>
+                        <Sidenav isOpen={isOpen} ToggleSidebar={ToggleSidebar} />
+                    </div>
                 </div>
             </nav>
         </>

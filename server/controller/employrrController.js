@@ -165,7 +165,7 @@ exports.forgetpassword = async (req, res, next) => {
                     <p><b>RESET PASSWORD</b></p>
                     <p>YOUR OTP CODE: ${resetToken}</p>
                     <p>Regards...</p>
-                    <p>HEART2HEART TEAM</p>
+                    <p>Workholic's Managment</p>
                 </div>
             </body>
             </html>

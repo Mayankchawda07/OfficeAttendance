@@ -23,7 +23,7 @@ const Dashboard = () => {
                 settodayAttendance(data);
             });
     };
-    
+
 
     useEffect(() => {
         TodayAttendance();
@@ -84,7 +84,12 @@ const Dashboard = () => {
                                                 </div>
                                             </Link>
                                         </div>
-                                    ) : ('')}
+
+
+                                    )
+                                        :
+                                        ('')
+                                    }
 
 
                                     {x.includes('6') ?
@@ -134,8 +139,7 @@ const Dashboard = () => {
 
 
 
-
-                                    <div class="card">
+                                    {x.includes('7') ? (<div class="card">
                                         <div class="card-body">
                                             <div class="table-responsive rounded">
                                                 <table class="table product-tbl border table-hover">
@@ -195,7 +199,8 @@ const Dashboard = () => {
                                                 </table>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>) : ('')}
+
                                 </div>
                             </div>
                         </div>

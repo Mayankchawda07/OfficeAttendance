@@ -149,24 +149,24 @@ const EmployeeLeave = () => {
                             <div className="row">
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputUsername1">From date</label>
-                                    <input type="date" class="form-control" name='fromDate' placeholder='Enter Employee Name' value={leave.fromDate} onChange={handelChange} />
+                                    <input type="date" class="form-control" name='fromDate' placeholder='Enter Employee Name' value={leave.fromDate} onChange={handelChange} onKeyDown={(e) => e.preventDefault()}/>
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputPassword1">Too date</label>
-                                    <input type="date" class="form-control" min="0" name='tooDate' placeholder='Enter phone No.' value={leave.tooDate} onChange={handelChange} />
+                                    <input type="date" class="form-control" min="0" name='tooDate' placeholder='Enter phone No.' value={leave.tooDate} onChange={handelChange} onKeyDown={(e) => e.preventDefault()}/>
                                 </div>
                             </div>
                             <div className="row">
                                 <div class="form-group col-md-12">
                                     <label for="exampleInputUsername1">Title</label>
-                                    <input type="text" class="form-control" name='title' placeholder='Enter Employee Name' value={leave.title} onChange={handelChange} />
+                                    <input type="text" class="form-control" name='title' placeholder='Enter title of leave' value={leave.title} onChange={handelChange} maxLength='100'/>
                                 </div>
                             </div>
                             <div className="row">
                                 <div class="form-group col-md-12">
                                     <label for="exampleInputUsername1">Description</label>
-                                    <textarea name="description" cols="30" rows="10" class="form-control" value={leave.description} onChange={handelChange}></textarea>
+                                    <textarea name="description" cols="30" rows="10" class="form-control" value={leave.description} onChange={handelChange} placeholder='Description...'></textarea>
                                 </div>
                             </div>
                         </div>

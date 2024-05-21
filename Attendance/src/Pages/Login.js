@@ -129,7 +129,7 @@ const Login = () => {
 
                                     <form className="pt-3" onSubmit={Submit} >
                                         <div className="form-group">
-                                            <input type="email" className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username" name='email' onChange={handleChange} />
+                                            <input type="email" className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter e-mail ID" name='email' onChange={handleChange} />
                                         </div>
                                         <div className="form-group">
                                             <input type="password" className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" name='password' onChange={handleChange} />

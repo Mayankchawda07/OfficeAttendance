@@ -13,9 +13,19 @@ const AddEmployee = () => {
     const [data, setData] = useState({ name: '', phone: '', email: '', password: '', salary: '', designation: '', gender: '', DOB: '', role: '', loginType: '' });
     const [role, setrole] = useState('')
 
+
+
+
     const handelChange = (e) => {
         const name = e.target.name;
         let value = e.target.value;
+        if (name === 'phone' && value.length > 10) {
+            return;
+        }
+        if (name === 'salary' && value.length > 10) {
+            return;
+        }
+      
         setData({ ...data, [name]: value });
     };
 
@@ -54,7 +64,7 @@ const AddEmployee = () => {
 
     useEffect(() => {
         getRole();
-    },[])
+    }, [])
 
 
     if (!tokenstring) {
@@ -88,13 +98,13 @@ const AddEmployee = () => {
 
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputPassword1">Email</label>
-                                                    <input type="email" class="form-control" min="0" name='email' placeholder='Enter email' value={data.email} onChange={handelChange} />
+                                                    <input type="email" class="form-control"  name='email' placeholder='Enter email' value={data.email} onChange={handelChange} maxLength="30" />
                                                 </div>
                                             </div>
                                             <div className="row">
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputUsername1">Password</label>
-                                                    <input type="text" class="form-control" name='password' placeholder='Enter password' value={data.password} onChange={handelChange} />
+                                                    <input type="text" class="form-control" name='password' placeholder='Enter password' value={data.password} onChange={handelChange} maxLength="30" />
                                                 </div>
 
                                                 <div class="form-group col-md-4">
@@ -104,7 +114,7 @@ const AddEmployee = () => {
 
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputPassword1">Designation</label>
-                                                    <input type="email" class="form-control" min="0" name='designation' placeholder='Enter designation' value={data.designation} onChange={handelChange} />
+                                                    <input type="email" class="form-control" min="0" name='designation' placeholder='Enter designation' value={data.designation} onChange={handelChange} maxLength="30" />
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -120,7 +130,7 @@ const AddEmployee = () => {
 
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputPassword1">Date of birth</label>
-                                                    <input type="date" class="form-control" min="0" name='DOB' value={data.DOB} onChange={handelChange} />
+                                                    <input type="date" class="form-control" min="0" name='DOB' value={data.DOB} onChange={handelChange} onKeyDown={(e) => e.preventDefault()}/>
                                                 </div>
 
                                                 <div class="form-group col-md-4">
