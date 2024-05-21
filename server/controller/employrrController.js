@@ -135,7 +135,7 @@ exports.login_employee = async (req, res) => {
 };
 
 
-exports.forgetpassword = async (req, res, next) => {
+exports.forgetpassword = async (req, res) => {
     try {
         const { email } = req.body;
        
@@ -195,6 +195,83 @@ exports.forgetpassword = async (req, res, next) => {
         });
     }
 };
+
+exports.verifyotp = async (req, res) => {
+    try {
+      const { employeeid, otp } = req.body;
+      const userFound = await employee.findOne({ _id: employeeid, otp });
+      if (userFound) {
+        userFound.otp = "";
+        // userFound.isOtpVerified = true;
+        userFound.save();
+        res.status(200).json({
+          status: "success",
+          message: "OTP Verified Successfully...",
+        });
+      } else {
+        res.status(404).json({
+          status: "fail",
+          message: "Details Not Match...",
+        });
+        // return next(new AppErr("Details not match.", 404));
+      }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: "False",
+            message: "Server error"
+        });
+    }
+  };
+
+
+  exports.updatepassword = async (req, res) => {
+    const { id, newpassword } = req.body;
+    const check_id = await employee.findOne({
+      _id: id,
+    });
+    if (!check_id) {
+      res.status(404).json({
+        status: "Fail",
+        message: "Details Not Match",
+      });
+      return;
+    }
+  
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newpassword, salt);
+    const findandupdate = await Admin.findOneAndUpdate(
+      { _id: id },
+      { password: hashedPassword, otp: "" },
+      { new: true }
+    );
+    // Finally Update details
+    const email = check_id?.email;
+    const message = `
+  <html>
+  <body><div>
+  <h2>Hello ${check_id?.name}</h2>
+      <p><b> Password Updated Successfully ... </b></p>  
+     
+      <p>Regards...</p>
+      <p>HEART2HEART Team</p>
+      </div></body>
+      </html>   
+    `;
+    const subject = "Workholic Password Update Successfully";
+    const send_to = email;
+  
+    sendEmail({
+      email: send_to,
+      subject: subject,
+      message: message,
+    });
+  
+    res.status(200).json({
+      status: "success",
+      message: "Password Update Successfully",
+    });
+  };
 
 
 

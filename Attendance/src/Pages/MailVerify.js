@@ -14,18 +14,54 @@ const MailVerify = () => {
     };
 
 
+    // const Submit = async (e) => {
+    //     e.preventDefault();
+    //     const { email } = mail;
+
+    //     // Basic validation for email and password fields
+    //     if (!email) {
+    //         alert('Please enter all the fields');
+    //         return;
+    //     }
+
+    //     try {
+    //         // Sending the login request to the server
+    //         const response = await fetch(`http://206.189.130.102:3210/api/v1/forgetpassword`, {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ email }),
+    //         });
+
+    //         // Parsing the response
+    //         const res = await response.json();
+
+    //         if (response.ok) {
+    //             alert('OTP sent successfully')
+    //             navigate("/Otp_verify");
+
+    //         } else {
+    //             // Handle response errors such as wrong credentials
+    //             alert(res.message || "Login failed");
+    //         }
+    //     } catch (error) {
+    //         // Log the error and show an alert to the user
+    //         console.error("Login error:", error);
+    //         alert("An error occurred during login: " + error.message);
+    //     }
+    // };
+
     const Submit = async (e) => {
         e.preventDefault();
         const { email } = mail;
 
-        // Basic validation for email and password fields
+        // Basic validation for email field
         if (!email) {
-            alert('Please enter all the fields');
+            alert('Please enter the email');
             return;
         }
 
         try {
-            // Sending the login request to the server
+            // Sending the request to the server
             const response = await fetch(`http://206.189.130.102:3210/api/v1/forgetpassword`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -36,21 +72,21 @@ const MailVerify = () => {
             const res = await response.json();
 
             if (response.ok) {
+                // Store adminid in session storage
+                sessionStorage.setItem('adminid', res.data.adminid);
 
+                alert('OTP sent successfully');
                 navigate("/Otp_verify");
-
             } else {
-                // Handle response errors such as wrong credentials
-                alert(res.message || "Login failed");
+                // Handle response errors
+                alert(res.message || "Request failed");
             }
         } catch (error) {
             // Log the error and show an alert to the user
-            console.error("Login error:", error);
-            alert("An error occurred during login: " + error.message);
+            console.error("Request error:", error);
+            alert("An error occurred: " + error.message);
         }
     };
-
-
 
 
     return (
