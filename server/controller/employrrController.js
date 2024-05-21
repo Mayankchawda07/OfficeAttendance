@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const employee = require('../modals/employeeModal')
 const bcrypt = require("bcrypt");
+const sendEmail = require("../Utils/sendMail");
+const nodemailer = require("nodemailer");
 
 
 
@@ -62,7 +64,7 @@ exports.updateEmployee = async (req, res) => {
 };
 
 exports.getEmployee = async (req, res) => {
-    const datas = await employee.find().populate('role').sort({createdAt:-1});
+    const datas = await employee.find().populate('role').sort({ createdAt: -1 });
     res.status(200).json({
         status: "success",
         message: "Employees found successfully",
@@ -97,7 +99,7 @@ exports.login_employee = async (req, res) => {
             if (isMatch) {
                 const id = adminFound._id;
                 const token = jwt.sign({ id }, 'Verify_token@attendance', { expiresIn: "30d" });
-                
+
                 return res.status(200).json({
                     status: "success",
                     message: "Logged in successfully",
@@ -131,3 +133,126 @@ exports.login_employee = async (req, res) => {
         });
     }
 };
+
+
+exports.forgetpassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+       
+        // Check if the employee with the given email exists
+        const checkIsAvailable = await employee.findOne({ email });
+        if (!checkIsAvailable) {
+            return res.status(404).json({
+                status: "False",
+                message: "E-mail not found"
+            });
+        }
+        
+        // Create Reset Token
+        const randomNumbers = Math.floor(1000 + Math.random() * 9000);
+        const resetToken = randomNumbers.toString();
+
+        // Save token to database
+        checkIsAvailable.otp = resetToken;
+         await checkIsAvailable.save();
+       
+        // Prepare the email content
+        const message = `
+            <html>
+            <body>
+                <div>
+                    <h2>Hello ${checkIsAvailable.name}</h2>
+                    <p><b>RESET PASSWORD</b></p>
+                    <p>YOUR OTP CODE: ${resetToken}</p>
+                    <p>Regards...</p>
+                    <p>HEART2HEART TEAM</p>
+                </div>
+            </body>
+            </html>
+        `;
+        const subject = "Workholics password reset details";
+        const send_to = checkIsAvailable.email;
+
+        // Send the email
+
+        await sendEmail({
+            email: send_to,
+            subject: subject,
+            message: message,
+        });
+
+        // Send success response
+        res.status(200).json({
+            status: "success",
+            message: "User found. Please check email and SMS for OTP code",
+            data: { adminid: checkIsAvailable._id },
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: "False",
+            message: "OTP not sent due to server error"
+        });
+    }
+};
+
+
+
+// exports.forgetpassword = async (req, res, next) => {
+//     try {
+//         const { email } = req.body;
+//         const checkIsAvailable = await employee.findOne({ email });
+//         if (!checkIsAvailable) {
+//             console.error(error);
+//             res.status(420).json({
+//                 status: "False",
+//                 message: "E-mail not found"
+//             });
+//         } else {
+//             // Create Reste Token
+//             const randomTxt = Math.random()
+//                 .toString(36)
+//                 .substring(7)
+//                 .toLocaleUpperCase();
+//             const randomNumbers = Math.floor(1000 + Math.random() * 9000);
+//             let resetToken = randomNumbers;
+//             // save token to db START ======
+//             checkIsAvailable.otp = resetToken;
+//             checkIsAvailable.save();
+
+//             const email = checkIsAvailable?.email;
+//             const message = `
+//     <html>
+//     <body><div>
+//     <h2>Hello ${checkIsAvailable?.name}</h2>
+//         <p><b>RESET PASSWORD </b></p>  
+//         <p>YOUR OTP CODE : ${resetToken}</p>
+        
+//         <p>Regards...</p>
+//         <p>HEART2HEART TEAM</p>
+//         </div></body>
+//         </html>   
+//       `;
+//             const subject = "HEART2HEART PASSWORD RESET DETAIL";
+//             const send_to = email;
+
+//             sendEmail({
+//                 email: send_to,
+//                 subject: subject,
+//                 message: message,
+//             });
+
+//             res.status(200).json({
+//                 status: "success",
+//                 message: " User Found/Please Check Email and SMS For OTP Code",
+//                 data: { adminid: checkIsAvailable._id },
+//             });
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({
+//             status: "False",
+//             message: "OTP not send"
+//         });
+//     }
+// };

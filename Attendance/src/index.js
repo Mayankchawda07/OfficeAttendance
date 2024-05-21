@@ -17,6 +17,10 @@ import Leave from './Pages/Leave';
 import LeaveView from './Pages/LeaveView';
 import EmployeeLeave from './Pages/EmployeeLeave';
 import EmployeeLeaveView from './Pages/EmployeeLeaveView';
+import MailVerify from './Pages/MailVerify';
+import OtpVerify from './Pages/OtpVerify';
+import ConfirmPassword from './Pages/ConfirmPassword';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -39,7 +43,12 @@ root.render(
           <Route path='/leaveview/:id' element={<LeaveView />} />
           <Route path='/employee_leave' element={<EmployeeLeave />} />
           <Route path='/employee_leave_view/:id' element={<EmployeeLeaveView/>} />
+          <Route path='/mail_verify' element={<MailVerify/>} />
+          <Route path='/Otp_verify' element={<OtpVerify/>} />
+          <Route path='/confirm_password' element={<ConfirmPassword/>} />
 
+
+          
 
         </Route>
       </Routes>

@@ -38,7 +38,11 @@ const EmployeeSchema = new mongoose.Schema({
     role: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "roleSchema"
-    }
+    },
+    otp: {
+        type: String,
+        default: "",
+    },
 }, { timestamps: true });
 
 const employee = mongoose.model('employee', EmployeeSchema)

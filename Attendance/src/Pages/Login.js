@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 const axios = require('axios');
 
 const Login = () => {
@@ -126,7 +126,7 @@ const Login = () => {
 
                                         <img src={require('../images/logo.png')} className='logoLogin' alt="" />
                                     </div>
-                                    {/* <h6 className="font-weight-light">Sign in to continue.</h6> */}
+
                                     <form className="pt-3" onSubmit={Submit} >
                                         <div className="form-group">
                                             <input type="email" className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username" name='email' onChange={handleChange} />
@@ -134,9 +134,11 @@ const Login = () => {
                                         <div className="form-group">
                                             <input type="password" className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" name='password' onChange={handleChange} />
                                         </div>
+                                        <Link to='/mail_verify'>Forget Password</Link>
                                         <div className="mt-3">
                                             <button className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
                                         </div>
+
                                         <div className="my-2 d-flex justify-content-between align-items-center">
                                             <div className="form-check">
                                             </div>

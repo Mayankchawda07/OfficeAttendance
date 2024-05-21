@@ -78,7 +78,7 @@ const AddEmployee = () => {
                                             <div className="row">
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputUsername1">Employee Name</label>
-                                                    <input type="text" class="form-control" name='name' placeholder='Enter Employee Name' value={data.name} onChange={handelChange} />
+                                                    <input type="text" class="form-control" name='name' placeholder='Enter Employee Name' value={data.name} onChange={handelChange} maxLength="30" />
                                                 </div>
 
                                                 <div class="form-group col-md-4">
