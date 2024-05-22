@@ -227,109 +227,111 @@ exports.verifyotp = async (req, res) => {
 
   exports.updatepassword = async (req, res) => {
     const { id, newpassword } = req.body;
-    const check_id = await employee.findOne({
-      _id: id,
-    });
-    if (!check_id) {
-      res.status(404).json({
-        status: "Fail",
-        message: "Details Not Match",
-      });
-      return;
-    }
-  
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newpassword, salt);
-    const findandupdate = await Admin.findOneAndUpdate(
-      { _id: id },
-      { password: hashedPassword, otp: "" },
-      { new: true }
-    );
-    // Finally Update details
-    const email = check_id?.email;
-    const message = `
-  <html>
-  <body><div>
-  <h2>Hello ${check_id?.name}</h2>
-      <p><b> Password Updated Successfully ... </b></p>  
-     
-      <p>Regards...</p>
-      <p>HEART2HEART Team</p>
-      </div></body>
-      </html>   
-    `;
-    const subject = "Workholic Password Update Successfully";
-    const send_to = email;
-  
-    sendEmail({
-      email: send_to,
-      subject: subject,
-      message: message,
-    });
-  
-    res.status(200).json({
-      status: "success",
-      message: "Password Update Successfully",
-    });
-  };
 
-
-
-// exports.forgetpassword = async (req, res, next) => {
-//     try {
-//         const { email } = req.body;
-//         const checkIsAvailable = await employee.findOne({ email });
-//         if (!checkIsAvailable) {
-//             console.error(error);
-//             res.status(420).json({
-//                 status: "False",
-//                 message: "E-mail not found"
-//             });
-//         } else {
-//             // Create Reste Token
-//             const randomTxt = Math.random()
-//                 .toString(36)
-//                 .substring(7)
-//                 .toLocaleUpperCase();
-//             const randomNumbers = Math.floor(1000 + Math.random() * 9000);
-//             let resetToken = randomNumbers;
-//             // save token to db START ======
-//             checkIsAvailable.otp = resetToken;
-//             checkIsAvailable.save();
-
-//             const email = checkIsAvailable?.email;
-//             const message = `
-//     <html>
-//     <body><div>
-//     <h2>Hello ${checkIsAvailable?.name}</h2>
-//         <p><b>RESET PASSWORD </b></p>  
-//         <p>YOUR OTP CODE : ${resetToken}</p>
+    try {
+        // Check if the employee exists
+        const check_id = await employee.findOne({ _id: id });
         
-//         <p>Regards...</p>
-//         <p>HEART2HEART TEAM</p>
-//         </div></body>
-//         </html>   
-//       `;
-//             const subject = "HEART2HEART PASSWORD RESET DETAIL";
-//             const send_to = email;
+        if (!check_id) {
+            return res.status(404).json({
+                status: "Fail",
+                message: "Details Not Match",
+            });
+        }
 
-//             sendEmail({
-//                 email: send_to,
-//                 subject: subject,
-//                 message: message,
-//             });
+        // Generate a hashed password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newpassword, salt);
 
-//             res.status(200).json({
-//                 status: "success",
-//                 message: " User Found/Please Check Email and SMS For OTP Code",
-//                 data: { adminid: checkIsAvailable._id },
-//             });
-//         }
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({
-//             status: "False",
-//             message: "OTP not send"
-//         });
+        // Update the admin's password and clear the OTP
+        const findandupdate = await employee.findOneAndUpdate(
+            { _id: id },
+            { password: hashedPassword, otp: "" },
+            { new: true }
+        );
+
+        // Send confirmation email
+        const email = check_id.email;
+        const message = `
+            <html>
+            <body>
+                <div>
+                    <h2>Hello ${check_id.name}</h2>
+                    <p><b>Password Updated Successfully...</b></p>
+                    <p>Regards...</p>
+                    <p>HEART2HEART Team</p>
+                </div>
+            </body>
+            </html>
+        `;
+        const subject = "Workholic Password Update Successfully";
+
+        await sendEmail({
+            email: email,
+            subject: subject,
+            message: message,
+        });
+
+        return res.status(200).json({
+            status: "success",
+            message: "Password Update Successfully",
+        });
+    } catch (error) {
+        console.error("Update Password Error:", error);
+        return res.status(500).json({
+            status: "Fail",
+            message: "Internal Server Error",
+        });
+    }
+};
+
+
+//   exports.updatepassword = async (req, res) => {
+//     const { id, newpassword } = req.body;
+//     const check_id = await employee.findOne({
+//       _id: id,
+//     });
+//     if (!check_id) {
+//       res.status(404).json({
+//         status: "Fail",
+//         message: "Details Not Match",
+//       });
+//       return;
 //     }
-// };
+  
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(newpassword, salt);
+//     const findandupdate = await Admin.findOneAndUpdate(
+//       { _id: id },
+//       { password: hashedPassword, otp: "" },
+//       { new: true }
+//     );
+//     // Finally Update details
+//     const email = check_id?.email;
+//     const message = `
+//   <html>
+//   <body><div>
+//   <h2>Hello ${check_id?.name}</h2>
+//       <p><b> Password Updated Successfully ... </b></p>  
+     
+//       <p>Regards...</p>
+//       <p>HEART2HEART Team</p>
+//       </div></body>
+//       </html>   
+//     `;
+//     const subject = "Workholic Password Update Successfully";
+//     const send_to = email;
+  
+//     sendEmail({
+//       email: send_to,
+//       subject: subject,
+//       message: message,
+//     });
+  
+//     res.status(200).json({
+//       status: "success",
+//       message: "Password Update Successfully",
+//     });
+//   };
+
+

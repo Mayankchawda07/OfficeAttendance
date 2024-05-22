@@ -24,23 +24,51 @@ exports.addleaves = async (req, res) => {
     }
 };
 
+// exports.getAllLeaves = async (req, res) => {
+//     try {
+//         const getAllLeaves = await leaves.find({
+
+//         }).populate('employeeID').sort({ createdAt: -1 });
+//         res.status(200).json({
+//             status: 'True',
+//             message: 'Success',
+//             data: getAllLeaves
+//         })
+//     } catch (error) {
+//         res.status(500).json({
+//             status: 'False',
+//             message: 'Failed'
+//         })
+//     }
+// }
+
+
 exports.getAllLeaves = async (req, res) => {
     try {
-        const getAllLeaves = await leaves.find({
+        // Get all leaves
+        const getAllLeaves = await leaves.find({}).populate('employeeID').sort({ createdAt: -1 });
 
-        }).populate('employeeID').sort({ createdAt: -1 });
+        // Filter the pending leaves
+        const pendingLeaves = getAllLeaves.filter(leave => leave.status === 'pending');
+
+        // Get the count of pending leaves
+        const pendingLeaveCount = pendingLeaves.length;
+
         res.status(200).json({
             status: 'True',
             message: 'Success',
-            data: getAllLeaves
-        })
+            data: getAllLeaves,
+            pendingLeaves: pendingLeaveCount
+        });
     } catch (error) {
+        console.error("Error fetching leaves:", error);
         res.status(500).json({
             status: 'False',
             message: 'Failed'
-        })
+        });
     }
-}
+};
+
 
 // exports.getLeaveByEmpID = async (req, res) => {
 //     try {
@@ -61,6 +89,61 @@ exports.getAllLeaves = async (req, res) => {
 //         })
 //     }
 // }
+
+// exports.getLeaveByEmpID = async (req, res) => {
+//     try {
+//         const employeeID = req.params.employeeID; // Get the employee ID from the URL parameter
+
+//         const today = new Date(); // Get today's date
+//         const currentYear = today.getFullYear();
+//         const currentMonth = today.getMonth();
+
+//         // Calculate the first day of the current month
+//         const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+
+//         // Calculate the last day of the current month
+//         const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+
+//         // If you want the last day to be one day less for "29/05/2024"
+//         lastDayOfMonth.setDate(lastDayOfMonth.getDate() - 2);
+
+//         // Query leaves within the current month date range and specific employee ID
+//         const getLeaveByEmpID = await leaves.find({
+//             employeeID: employeeID, // Filter by employee ID
+//             createdAt: {
+//                 $gte: firstDayOfMonth,
+//                 $lte: lastDayOfMonth
+//             }
+//         }).populate('employeeID').sort({ createdAt: -1 });
+//         res.status(200).json({
+//             status: 'True',
+//             message: 'Success',
+//             getLeaveByEmpID
+//         });
+//         // Filter the approved leaves
+//         const approvedLeaves = getLeaveByEmpID.filter(leave => leave.status === 'approved');
+
+//         // Get the count of approved leaves
+//         const approvedLeaveCount = approvedLeaves.length;
+
+//         // res.status(200).json({
+//         //     status: 'True',
+//         //     message: 'Success',
+//         //     data: getLeaveByEmpID,
+//         //     totalLeaves: getLeaveByEmpID.length,
+//         //     approvedLeaves: approvedLeaveCount.length
+//         // });
+//     } catch (error) {
+//         console.error("Error fetching leaves:", error);
+//         res.status(500).json({
+//             status: 'False',
+//             message: 'Failed'
+//         });
+//     }
+// };
+
+
+
 
 exports.getLeaveByEmpID = async (req, res) => {
     try {
@@ -88,12 +171,13 @@ exports.getLeaveByEmpID = async (req, res) => {
                 $lte: lastDayOfMonth
             }
         }).populate('employeeID').sort({ createdAt: -1 });
-
+        const approvedLeaves = getLeaveByEmpID.filter(leave => leave.status === 'approved');
         res.status(200).json({
             status: 'True',
             message: 'Success',
             data: getLeaveByEmpID,
-            length: getLeaveByEmpID.length
+            leaveRequest: getLeaveByEmpID.length,
+            approvedLeaves: approvedLeaves.length
         });
     } catch (error) {
         res.status(500).json({

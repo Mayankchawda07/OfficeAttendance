@@ -61,6 +61,7 @@ const OtpVerify = () => {
             if (response.data === '' || response.data.re === 'false') {
                 window.alert('Please Enter Correct OTP')
             } else {
+                alert('OTP matched')
                 navigate('/confirm_password');
             }
 

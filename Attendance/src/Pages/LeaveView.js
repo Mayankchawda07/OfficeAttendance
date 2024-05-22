@@ -74,6 +74,9 @@ const LeaveView = () => {
                                                         <h4 class="card-title mb-0">Employee Name</h4>
                                                         <p class="card-description">{data?.employeeID?.name}</p>
 
+                                                        <h4 class="card-title mb-0">Leave request date</h4>
+                                                        <p class="card-description">{dateFormat(`${data?.createdAt}`, "dd/mm/yyyy ")}</p>
+
                                                         <h4 class="card-title mb-0">Leaves on date</h4>
                                                         <p class="card-description">{dateFormat(`${data?.fromDate}`, "dd/mm/yyyy ")} - {dateFormat(`${data?.tooDate}`, "dd/mm/yyyy ")}</p>
 
@@ -82,6 +85,10 @@ const LeaveView = () => {
 
                                                         <h4 class="card-title mb-0">Description</h4>
                                                         <p class="card-description">{data?.description}</p>
+
+                                                        <h4 class="card-title mb-0">Remark</h4>
+                                                        <p class="card-description">{data?.remark}</p>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -103,7 +110,7 @@ const LeaveView = () => {
                                                 </div> */}
                                                 <div className="card-body">
                                                     <label htmlFor="exampleInputUsername1">Grant Leave</label>
-                                                    <select name="status" id="" className='form-control' value={status} onChange={handelChanges}>
+                                                    <select name="status" id="" className='form-control' value={status} onChange={handelChanges} >
                                                         <option>{data?.status}</option>
                                                         <option value="Approved">Approved</option>
                                                         <option value="Rejected">Rejected</option>

@@ -4,6 +4,7 @@ import Sidenav from '../Template/Sidenav'
 import Login from './Login'
 import { Link } from 'react-router-dom'
 import dateFormat from "dateformat";
+import axios from "axios";
 
 const Dashboard = () => {
     const tokenstring = sessionStorage.getItem('token')
@@ -13,7 +14,13 @@ const Dashboard = () => {
     const x = permission
 
     const [todayAttendance, settodayAttendance] = useState('')
-    const [num, setnum] = useState('')
+    const [value, setValue] = useState({
+        allEmployee: "",
+        presentEmployees: "",
+        absentEmployeesCount: "",
+    });
+    const [showloader, setShowLoader] = useState("none");
+    const [leave, setleave] = useState({pendingLeaves:''})
 
     const TodayAttendance = () => {
         fetch(`http://206.189.130.102:3210/api/v1/attendance/getTodayAttendance`)
@@ -25,21 +32,31 @@ const Dashboard = () => {
             });
     };
 
-    const numEmployee = () => {
-        fetch(`http://206.189.130.102:3210/api/v1/attendance/CroneAttendance`)
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setnum(data);
-            });
+    const numEmployee = async () => {
+        setShowLoader("block");
+        const PendingData = await axios.get(`http://206.189.130.102:3210/api/v1/attendance/CroneAttendance`);
+
+        const PendingData1 = await PendingData;
+        setValue(PendingData1?.data);
+        setShowLoader("none");
     };
 
-    console.log(num)
+    const numPendingleaves = async () => {
+       
+        const PendingData = await axios.get(`http://206.189.130.102:3210/api/v1/leaves/getAllLeaves`);
+
+        const PendingData1 = await PendingData;
+        setleave(PendingData1?.data);
+       
+    };
+
+
+
 
     useEffect(() => {
         TodayAttendance();
         numEmployee();
+        numPendingleaves();
     }, [])
 
 
@@ -59,50 +76,50 @@ const Dashboard = () => {
                                     <h1>Hello {name}</h1>
 
                                     {x.includes('7') ? (
-                                    
-                                    <div className="row">
-                                        <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                            <div class="card card-tale">
-                                                <div class="card-body">
-                                                    <h4 class="card-title mb-0 dashhead">Total No. of employee</h4>
-                                                    <br />
-                                                    <p class="card-description dashpara">11</p>
+
+                                        <div className="row">
+                                            <Link to='/employee' class="col-md-3 mb-4 stretch-card transparent">
+                                                <div class="card card-tale">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-0 dashhead">Total No. of employee</h4>
+                                                        <br />
+                                                        <p class="card-description dashpara">{value?.allEmployee}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                        <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                            <div class="card card-tale">
-                                                <div class="card-body">
-                                                    <h4 class="card-title mb-0 dashhead">Present Employee</h4>
-                                                    <br />
-                                                    <p class="card-description dashpara">11</p>
+                                            </Link>
+                                            <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                <div class="card card-tale">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-0 dashhead">Present Employee</h4>
+                                                        <br />
+                                                        <p class="card-description dashpara">{value?.presentEmployees}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                        <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                            <div class="card card-tale">
-                                                <div class="card-body">
-                                                    <h4 class="card-title mb-0 dashhead">Absent Employee</h4>
-                                                    <br />
-                                                    <p class="card-description dashpara">11</p>
+                                            </Link>
+                                            <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                <div class="card card-tale">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-0 dashhead">Absent Employee</h4>
+                                                        <br />
+                                                        <p class="card-description dashpara">{value?.absentEmployeesCount}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                        <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                            <div class="card card-tale">
-                                                <div class="card-body">
-                                                    <h4 class="card-title mb-0 dashhead">Pending leaves</h4>
-                                                    <br />
-                                                    <p class="card-description dashpara">11</p>
+                                            </Link>
+                                            <Link to='/leave' class="col-md-3 mb-4 stretch-card transparent">
+                                                <div class="card card-tale">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-0 dashhead">Pending leaves</h4>
+                                                        <br />
+                                                        <p class="card-description dashpara">{leave?.pendingLeaves}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                    </div>
+                                            </Link>
+                                        </div>
 
 
                                     )
-                                    :
-                                    ('')
+                                        :
+                                        ('')
                                     }
 
 
