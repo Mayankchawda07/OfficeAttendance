@@ -1,57 +1,91 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios";
 
 const OtpVerify = () => {
 
     const navigate = useNavigate()
-    const id = sessionStorage.getItem('adminid')
+    const employeeid = localStorage.getItem('employeeid');
 
-    
-    const [otpnumber, setOtpnumber] = useState({
-        one: "",
-        two: "",
-        three: "",
-        four: "",
-    });
+    const [otp1, setOtp1] = useState("");
+    const [otp2, setOtp2] = useState("");
+    const [otp3, setOtp3] = useState("");
+    const [otp4, setOtp4] = useState("");
 
-    const handleChangeOtp = (e) => {
-        const { name, value } = e.target;
+    const otpInputs = [useRef(), useRef(), useRef(), useRef()];
 
-        // Ensure the input value is a single digit number
-        if (/^\d*$/.test(value) && value.length <= 1) {
-            setOtpnumber({
-                ...otpnumber,
-                [name]: value,
-            });
-
-            // Automatically move focus to the next input field
-            if (value && e.target.nextElementSibling) {
-                e.target.nextElementSibling.focus();
-            }
+    const handleOtpChange = (index, value) => {
+        if (value && index < otpInputs.length - 1) {
+            otpInputs[index + 1].current.focus();
         }
     };
 
-    const onSubmit_Verify_otp = async (e) => {
+    // const onSubmit_Verify_otp = async (e) => {
+    //     e.preventDefault();
+
+    //     try {
+    //         const otp1 = `${otpnumber.one}${otpnumber.two}${otpnumber.three}${otpnumber.four}`;
+
+    //         const userData5 = {
+    //             adminid: id,
+    //             otp: otp1,
+    //         };
+    //         const add = await axios.post(`http://206.189.130.102:3210/api/v1/verifyotp`, userData5);
+    //         if (add.status === 200) {
+    //             alert('OTP Verify')
+    //             navigate("/confirm_password")
+    //         }
+    //     } catch (error) {
+    //         console.error("Verify error:", error);
+    //         alert("An error occurred during verification: " + error.message);
+    //     }
+    // };
+
+    const handleSubmitAddEvent = (e) => {
         e.preventDefault();
+        const otp = otp1 + otp2 + otp3 + otp4;
+        const myurl = "http://206.189.130.102:3210/api/v1/verifyotp";
+        var bodyFormData = new URLSearchParams();
 
-        try {
-            const otp1 = `${otpnumber.one}${otpnumber.two}${otpnumber.three}${otpnumber.four}`;
+        bodyFormData.append('otp', otp);
+        bodyFormData.append('employeeid', employeeid);
 
-            const userData5 = {
-                adminid: id,
-                otp: otp1,
-            };
-            const add = await axios.post(`http://206.189.130.102:3210/api/v1/verifyotp`, userData5);
-            if (add.status === 200) {
-                alert('OTP Verify')
-                navigate("/confirm_password")
+
+        axios({
+            method: "post",
+            url: myurl,
+            data: bodyFormData,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        }).then((response) => {
+            sessionStorage.setItem('userid', response?.userid);
+            if (response.data === '' || response.data.re === 'false') {
+                window.alert('Please Enter Correct OTP')
+            } else {
+                navigate('/confirm_password');
             }
-        } catch (error) {
-            console.error("Verify error:", error);
-            alert("An error occurred during verification: " + error.message);
+
+            console.log(response)
+        }).catch((error) => {
+            console.log("Errors", error);
+
+        })
+
+    }
+
+
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pasteData = e.clipboardData.getData('text');
+        if (pasteData.length === 4 && /^\d+$/.test(pasteData)) {
+            setOtp1(pasteData[0]);
+            setOtp2(pasteData[1]);
+            setOtp3(pasteData[2]);
+            setOtp4(pasteData[3]);
+            otpInputs[0].current.focus();
         }
     };
+
+
 
 
 
@@ -69,7 +103,7 @@ const OtpVerify = () => {
                                     </div>
 
 
-                                    <form className="pt-3" onSubmit={onSubmit_Verify_otp}>
+                                    <form className="pt-3" onSubmit={handleSubmitAddEvent} onPaste={handlePaste}>
                                         <div className="form-group">
                                             {/* otp */}
                                             <div className="otp-input-field">
@@ -77,29 +111,49 @@ const OtpVerify = () => {
                                                     type="number"
                                                     name="one"
                                                     maxLength={1}
-                                                    value={otpnumber.one}
-                                                    onChange={handleChangeOtp}
+                                                    value={otp1}
+                                                    onChange={(e) => {
+                                                        setOtp1(e.target.value);
+                                                        handleOtpChange(0, e.target.value);
+                                                    }}
+                                                    ref={otpInputs[0]}
+                                                    required
                                                 />
                                                 <input
                                                     type="number"
                                                     name="two"
                                                     maxLength={1}
-                                                    value={otpnumber.two}
-                                                    onChange={handleChangeOtp}
+                                                    value={otp2}
+                                                    onChange={(e) => {
+                                                        setOtp2(e.target.value);
+                                                        handleOtpChange(1, e.target.value);
+                                                    }}
+                                                    ref={otpInputs[1]}
+                                                    required
                                                 />
                                                 <input
                                                     type="number"
                                                     name="three"
                                                     maxLength={1}
-                                                    value={otpnumber.three}
-                                                    onChange={handleChangeOtp}
+                                                    value={otp3}
+                                                    onChange={(e) => {
+                                                        setOtp3(e.target.value);
+                                                        handleOtpChange(2, e.target.value);
+                                                    }}
+                                                    ref={otpInputs[2]}
+                                                    required
                                                 />
                                                 <input
                                                     type="number"
                                                     name="four"
                                                     maxLength={1}
-                                                    value={otpnumber.four}
-                                                    onChange={handleChangeOtp}
+                                                    value={otp4}
+                                                    onChange={(e) => {
+                                                        setOtp4(e.target.value);
+                                                        handleOtpChange(3, e.target.value);
+                                                    }}
+                                                    ref={otpInputs[3]}
+                                                    required
                                                 />
                                             </div>
                                         </div>

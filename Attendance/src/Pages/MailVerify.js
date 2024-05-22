@@ -73,7 +73,7 @@ const MailVerify = () => {
 
             if (response.ok) {
                 // Store adminid in session storage
-                sessionStorage.setItem('adminid', res.data.adminid);
+                localStorage.setItem('employeeid', res.data.adminid);
 
                 alert('OTP sent successfully');
                 navigate("/Otp_verify");
