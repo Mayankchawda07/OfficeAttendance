@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../Template/Header'
 import Sidenav from '../Template/Sidenav'
 import { useLocation, useNavigate } from 'react-router-dom'
 import dateFormat from "dateformat";
+import axios from "axios";
 
 const LeaveView = () => {
-
+    const id = sessionStorage.getItem('id')
     const location = useLocation();
     const { data } = location.state
     const navigate = useNavigate();
 
     const [remark, setremark] = useState('')
     const [status, setstatus] = useState('')
+    const [leave, setleave] = useState({ approvedLeaves: "" })
 
     const [showloader, setShowLoader] = useState("none");
 
@@ -54,6 +56,20 @@ const LeaveView = () => {
         }
     };
 
+    const getemployeebyID = async () => {
+
+        const PendingData = await axios.get(`http://localhost:3210/api/v1/leaves/getLeaveByEmpID/${id}`);
+
+        const PendingData1 = await PendingData;
+        setleave(PendingData1?.data);
+
+    };
+
+    useEffect(() => {
+        getemployeebyID();
+    }, [])
+
+
 
 
     return (
@@ -79,6 +95,9 @@ const LeaveView = () => {
 
                                                         <h4 class="card-title mb-0">Leaves on date</h4>
                                                         <p class="card-description">{dateFormat(`${data?.fromDate}`, "dd/mm/yyyy ")} - {dateFormat(`${data?.tooDate}`, "dd/mm/yyyy ")}</p>
+                                                       
+                                                        <h4 class="card-title mb-0">Leaves taken in this month</h4>
+                                                        <p class="card-description">{leave?.approvedLeaves}</p>
 
                                                         <h4 class="card-title mb-0">Title</h4>
                                                         <p class="card-description">{data?.title}</p>
@@ -88,7 +107,6 @@ const LeaveView = () => {
 
                                                         <h4 class="card-title mb-0">Remark</h4>
                                                         <p class="card-description">{data?.remark}</p>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,8 +127,8 @@ const LeaveView = () => {
 
                                                 </div> */}
                                                 <div className="card-body">
-                                                    <label htmlFor="exampleInputUsername1">Grant Leave</label>
-                                                    <select name="status" id="" className='form-control' value={status} onChange={handelChanges} >
+                                                <h4 class="card-title mb-0">Grant Leave</h4>
+                                                    <select name="status" id="" className='form-control mt-3' value={status} onChange={handelChanges} >
                                                         <option>{data?.status}</option>
                                                         <option value="Approved">Approved</option>
                                                         <option value="Rejected">Rejected</option>
