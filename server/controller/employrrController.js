@@ -259,7 +259,7 @@ exports.verifyotp = async (req, res) => {
                     <h2>Hello ${check_id.name}</h2>
                     <p><b>Password Updated Successfully...</b></p>
                     <p>Regards...</p>
-                    <p>HEART2HEART Team</p>
+                    <p>Workholic's Managment</p>
                 </div>
             </body>
             </html>
