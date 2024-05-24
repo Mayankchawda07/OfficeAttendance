@@ -3,6 +3,16 @@
 	padding: 0;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
 .sapce {
 	display: flex;
 	justify-content: space-between;
@@ -49,7 +59,8 @@
 
 /* App.css */
 body {
-	font-family: Arial, sans-serif;
+	/* font-family: Arial, sans-serif; */
+	font-family: "Nunito", sans-serif;
 	background-color: #f5f7fa;
 	margin: 0;
 	padding: 0;
@@ -101,7 +112,16 @@ h1 {
 .otp-input-field input {
 	width: 50px;
 	height: 50px;
-	border-radius: 3px;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	font-size: 1.125rem;
+	outline: none;
+	text-align: center;
+}
+
+.sidebar .nav:not(.sub-menu)>.nav-item.active {
+	background: #4B49AC;
+	color: #fff;
 }
 
 @media screen and (max-width: 767px) {
@@ -120,15 +140,17 @@ h1 {
 	}
 
 	.navbar .navbar-menu-wrapper {
-        width: auto;
-        padding-left: 15px;
-        padding-right: 11px;
-    }
+		width: auto;
+		padding-left: 15px;
+		padding-right: 11px;
+	}
+
 	.navbar .navbar-brand-wrapper .navbar-brand.brand-logo-mini {
-        display: inline-block;
-        width: 82%;
-    }
-	.navbar{
+		display: inline-block;
+		width: 82%;
+	}
+
+	.navbar {
 		background-color: white;
 	}
 
@@ -138,9 +160,9 @@ h1 {
 		margin-right: 0;
 		margin-bottom: 2rem;
 	}
-}h
+}
 
-.react-calendar {
+h .react-calendar {
 	width: 100%;
 	max-width: 500px;
 	background: rgba(255, 255, 255, 0.9);

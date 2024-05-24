@@ -1,8 +1,20 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Sidenav from '../Template/Sidenav'
 
 const Header = () => {
+
+    const permissionget = localStorage.getItem("permission");
+    const loginstring = sessionStorage.getItem('loginType')
+
+    const x = permissionget;
+    const y = loginstring
+    const navigate = useNavigate()
+
+    const logout = () => {
+        sessionStorage.clear();
+        navigate('/')
+    }
 
     const [isOpen, setIsopen] = useState(false);
 
@@ -22,24 +34,80 @@ const Header = () => {
                     </Link>
                 </div>
                 <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-                    <ul className="navbar-nav mr-lg-2">
-                        <li className="nav-item nav-search d-none d-lg-block">
-                         
-                        </li>
-                    </ul>
-                    <ul className="navbar-nav navbar-nav-right">
-                       
-                    </ul>
+                    <ul className="navbar-nav navbar-nav-right"></ul>
                     <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-                        <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas" onClick={ToggleSidebar} >
-                            <span className="icon-menu"></span>
-                        </button>
-                    </div>
-                    <div className='sidebar_hide'>
-                        <Sidenav isOpen={isOpen} ToggleSidebar={ToggleSidebar} />
+                        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center shadow-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span className="icon-menu"></span></button>
                     </div>
                 </div>
             </nav>
+
+            <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <nav className="sidebar w-100" id="sidebar">
+                        <ul className="nav m-0">
+                            {x.includes('1') ? (
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/dashboard">
+                                        <i className="icon-grid menu-icon"></i>
+                                        <span className="menu-title">Dashboard</span>
+                                    </Link>
+                                </li>
+                            ) : ('')}
+                            {x.includes('2') ? (
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/employee">
+                                        <i className="icon-cog menu-icon"></i>
+                                        <span className="menu-title">Employee</span>
+                                    </Link>
+                                </li>
+                            ) : ('')}
+                            {x.includes('3') ? (
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/attendance">
+                                        <i className="icon-image menu-icon"></i>
+                                        <span className="menu-title">Attendance</span>
+                                    </Link>
+                                </li>
+                            ) : ('')}
+                            {x.includes('4') ? (
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/leave">
+                                        <i className="icon-paper menu-icon"></i>
+                                        <span className="menu-title">Leaves</span>
+                                    </Link>
+                                </li>
+                            ) : ('')}
+                            {x.includes('5') ? (
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/master">
+                                        <i className="icon-paper menu-icon"></i>
+                                        <span className="menu-title">Master</span>
+                                    </Link>
+                                </li>
+                            ) : ('')}
+                            {
+                                y === 'admin' ?
+                                    ('') :
+                                    (<li className="nav-item">
+                                        <Link className="nav-link" to="/employee_leave">
+                                            <i className="icon-paper menu-icon"></i>
+                                            <span className="menu-title">Leave</span>
+                                        </Link>
+                                    </li>)
+                            }
+                            <li className="nav-item">
+                                <button onClick={logout} className="nav-link logout_btn">
+                                    <i className="icon-paper menu-icon "></i>
+                                    <span className="menu-title">logout</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </>
     )
 }

@@ -19,7 +19,7 @@ const Sidenav = () => {
                 <ul className="nav">
                     {x.includes('1') ? (
                         <li className="nav-item">
-                            <Link className="nav-link" to="/dashboard">
+                            <Link className="nav-link active" to="/dashboard">
                                 <i className="icon-grid menu-icon"></i>
                                 <span className="menu-title">Dashboard</span>
                             </Link>

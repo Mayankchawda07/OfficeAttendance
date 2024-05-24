@@ -20,7 +20,7 @@ const Dashboard = () => {
         absentEmployeesCount: "",
     });
     const [showloader, setShowLoader] = useState("none");
-    const [leave, setleave] = useState({pendingLeaves:''})
+    const [leave, setleave] = useState({ pendingLeaves: '' })
 
     const TodayAttendance = () => {
         fetch(`http://206.189.130.102:3210/api/v1/attendance/getTodayAttendance`)
@@ -42,12 +42,12 @@ const Dashboard = () => {
     };
 
     const numPendingleaves = async () => {
-       
+
         const PendingData = await axios.get(`http://206.189.130.102:3210/api/v1/leaves/getAllLeaves`);
 
         const PendingData1 = await PendingData;
         setleave(PendingData1?.data);
-       
+
     };
 
 
@@ -73,13 +73,14 @@ const Dashboard = () => {
                         <div class="content-wrapper">
                             <div class="row">
                                 <div class="col-md-12 grid-margin">
-                                    <h1>Hello {name}</h1>
+                                    <h2 className='text-dark mb-0'>Welcome {name}</h2>
+                                    <h4 class="font-weight-normal mb-4 pl-2">Good to see you!</h4>
 
                                     {x.includes('7') ? (
 
                                         <div className="row">
                                             <Link to='/employee' class="col-md-3 mb-4 stretch-card transparent">
-                                                <div class="card card-tale">
+                                                <div class="card card-dark-blue">
                                                     <div class="card-body">
                                                         <h4 class="card-title mb-0 dashhead">Total No. of employee</h4>
                                                         <br />
@@ -88,7 +89,7 @@ const Dashboard = () => {
                                                 </div>
                                             </Link>
                                             <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                                <div class="card card-tale">
+                                                <div class="card card-light-blue">
                                                     <div class="card-body">
                                                         <h4 class="card-title mb-0 dashhead">Present Employee</h4>
                                                         <br />
@@ -97,7 +98,7 @@ const Dashboard = () => {
                                                 </div>
                                             </Link>
                                             <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                                <div class="card card-tale">
+                                                <div class="card card-light-danger">
                                                     <div class="card-body">
                                                         <h4 class="card-title mb-0 dashhead">Absent Employee</h4>
                                                         <br />
