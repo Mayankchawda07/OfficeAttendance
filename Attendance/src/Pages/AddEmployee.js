@@ -10,7 +10,7 @@ const AddEmployee = () => {
 
     const navigate = useNavigate();
 
-    const [data, setData] = useState({ name: '', phone: '', email: '', password: '', salary: '', designation: '', gender: '', DOB: '', role: '', loginType: '' });
+    const [data, setData] = useState({ name: '', phone: '', email: '', password: '', salary: '', designation: '', gender: '', DOB: '', role: ''});
     const [role, setrole] = useState('')
 
 
@@ -41,15 +41,15 @@ const AddEmployee = () => {
 
     const Submit = async (e) => {
         e.preventDefault();
-        const { name, phone, email, password, salary, designation, gender, DOB, role, loginType } = data;
-        if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role || !loginType) {
+        const { name, phone, email, password, salary, designation, gender, DOB, role} = data;
+        if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role ) {
             return alert('Please fill all the field prperly')
         }
         const fetchdata = fetch(`${URL}/AddEmployee`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name: name, phone: phone, email: email, password: password, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role, loginType: loginType }),
+                body: JSON.stringify({ name: name, phone: phone, email: email, password: password, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role }),
             });
         const response = await fetchdata;
         const responseData = await response.json();
@@ -147,10 +147,10 @@ const AddEmployee = () => {
                                                 </div>
                                             </div>
                                             <div className="row">
-                                                <div class="form-group col-md-4">
+                                                {/* <div class="form-group col-md-4">
                                                     <label for="exampleInputUsername1">Log-in Type</label>
                                                     <input type="email" class="form-control" min="0" name='loginType' placeholder='Enter Log-in Type' value={data.loginType} onChange={handelChange} />
-                                                </div>
+                                                </div> */}
 
                                                 {/* <div class="form-group col-md-4">
                                                     <label for="exampleInputPassword1">Phone</label>

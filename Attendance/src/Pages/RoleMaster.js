@@ -20,6 +20,8 @@ const RoleMaster = () => {
     const [isChecked5, setIsChecked5] = useState(false);
     const [isChecked6, setIsChecked6] = useState(false);
     const [isChecked7, setIsChecked7] = useState(false);
+    const [isChecked8, setIsChecked8] = useState(false);
+
 
 
 
@@ -39,6 +41,8 @@ const RoleMaster = () => {
         setIsChecked5(val.permission.includes('5'));
         setIsChecked5(val.permission.includes('6'));
         setIsChecked5(val.permission.includes('7'));
+        setIsChecked5(val.permission.includes('8'));
+
     };
 
     const handleChange = (e) => {
@@ -134,6 +138,9 @@ const RoleMaster = () => {
             if (value === '7') {
                 setIsChecked7(false)
             }
+            if (value === '8') {
+                setIsChecked8(false)
+            }
 
             let index = data.indexOf(value);
             data.splice(index, 1);
@@ -161,6 +168,9 @@ const RoleMaster = () => {
             }
             if (value === '7') {
                 setIsChecked7(true)
+            }
+            if (value === '8') {
+                setIsChecked8(true)
             }
             data.push(value);
             setPermission(data);
@@ -293,6 +303,18 @@ const RoleMaster = () => {
                                                                 onChange={(e) => handleCheckboxChange(e)}
                                                             />
                                                             Employee baar
+                                                        </label>
+                                                        <br />
+                                                        <label class="form-check-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                class="form-check-input checkbox"
+                                                                value="8"
+                                                                name="permission"
+                                                                checked={isChecked8}
+                                                                onChange={(e) => handleCheckboxChange(e)}
+                                                            />
+                                                            Employee leave request
                                                         </label>
 
                                                     </div>
