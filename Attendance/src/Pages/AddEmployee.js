@@ -146,22 +146,6 @@ const AddEmployee = () => {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="row">
-                                                {/* <div class="form-group col-md-4">
-                                                    <label for="exampleInputUsername1">Log-in Type</label>
-                                                    <input type="email" class="form-control" min="0" name='loginType' placeholder='Enter Log-in Type' value={data.loginType} onChange={handelChange} />
-                                                </div> */}
-
-                                                {/* <div class="form-group col-md-4">
-                                                    <label for="exampleInputPassword1">Phone</label>
-                                                    <input type="number" class="form-control" min="0" name='phone' placeholder='Enter phone No.' value={data.phone} onChange={handelChange} />
-                                                </div>
-
-                                                <div class="form-group col-md-4">
-                                                    <label for="exampleInputPassword1">Email</label>
-                                                    <input type="email" class="form-control" min="0" name='email' placeholder='Enter email' value={data.email} onChange={handelChange} />
-                                                </div> */}
-                                            </div>
                                             <button type="submit" class="btn btn-primary me-2" onClick={Submit} >Submit</button>
 
                                         </div>

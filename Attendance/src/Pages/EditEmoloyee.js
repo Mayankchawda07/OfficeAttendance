@@ -13,7 +13,7 @@ const EditEmoloyee = () => {
     const { data } = location.state
     const navigate = useNavigate();
 
-    const [user, setuser] = useState({ name: data.name, phone: data.phone, email: data.email, salary: data.salary, designation: data.designation, gender: data.gender, DOB: data.DOB, role: data.role, loginType: data.loginType, password: data.password })
+    const [user, setuser] = useState({ name: data.name, phone: data.phone, email: data.email, salary: data.salary, designation: data.designation, gender: data.gender, DOB: data.DOB, role: data.role, password: data.password })
     const [role, setrole] = useState('')
 
 
@@ -25,8 +25,8 @@ const EditEmoloyee = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, phone, email, salary, designation, gender, DOB, role, loginType, password } = user
-        if (!name || !phone || !email || !salary || !designation || !gender || !DOB || !role || !loginType || !password) {
+        const { name, phone, email, salary, designation, gender, DOB, role, password } = user
+        if (!name || !phone || !email || !salary || !designation || !gender || !DOB || !role || !password) {
             return alert('Please fill all the field prperly')
         }
         const fetchdata = fetch(`${URL}/updateEmployeeByid/${data._id}`, {
@@ -35,7 +35,7 @@ const EditEmoloyee = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name: name, phone: phone, email: email, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role, loginType: loginType, password: password })
+            body: JSON.stringify({ name: name, phone: phone, email: email, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role, password: password })
         })
         const response = await fetchdata;
         if (response.status === 200) {
@@ -143,12 +143,6 @@ const EditEmoloyee = () => {
                                                         ))}
 
                                                     </select>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div class="form-group col-md-4">
-                                                    <label for="exampleInputUsername1">Log-in Type</label>
-                                                    <input type="email" class="form-control" min="0" name='loginType' placeholder='Enter Log-in Type' value={user.loginType} onChange={handelChange} />
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary mr-3" onClick={handleSubmit} >Submit</button>

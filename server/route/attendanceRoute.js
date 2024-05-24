@@ -1,5 +1,5 @@
 const express = require('express');
-const { addAttendance, getAllAttendance, getAttendanceByEmpID,updateAttendance,getAllAttendanceCurrentDate,CroneAttendance,getTodayAttendance } = require('../controller/attendanceContrller')
+const { addAttendance, getAllAttendance, getAttendanceByEmpID,updateAttendance,getAllAttendanceCurrentDate,CroneAttendance,getTodayAttendance,getAttendanceDaysByEmpID } = require('../controller/attendanceContrller')
 const attendanceRoute = express.Router()
 
 
@@ -10,6 +10,7 @@ attendanceRoute.get('/getAttendanceByEmpID/:id', getAttendanceByEmpID);
 attendanceRoute.put('/updateAttendance/:id', updateAttendance);
 attendanceRoute.get('/CroneAttendance', CroneAttendance);
 attendanceRoute.get('/getTodayAttendance', getTodayAttendance);
+attendanceRoute.get('/getAttendanceDaysByEmpID/:id', getAttendanceDaysByEmpID);
 
 
 

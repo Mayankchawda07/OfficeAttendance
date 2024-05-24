@@ -212,6 +212,77 @@ exports.CroneAttendance = async (req, res) => {
 };
 
 
+const isWorkingDay = (date) => {
+    const day = date.getDay();
+    return day !== 0 && day !== 6; // 0 is Sunday and 6 is Saturday
+};
+
+// Mock function to get all working days between two dates (inclusive)
+const getWorkingDaysInRange = (startDate, endDate) => {
+    let workingDays = [];
+    let currentDate = new Date(startDate);
+    while (currentDate <= endDate) {
+        if (isWorkingDay(currentDate)) {
+            workingDays.push(new Date(currentDate));
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return workingDays;
+};
+
+
+exports.getAttendanceDaysByEmpID = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const employee = await Employee.findById(id);
+        if (!employee) {
+            return res.status(404).json({
+                status: 'False',
+                message: 'Employee not found'
+            });
+        }
+
+        const getAttendanceByID = await attendance.find({
+            employeeID: id
+        }).populate('employeeID').sort({ createdAt: -1 });
+
+        // Define the start and end date for the range you are interested in
+        // For this example, let's assume you want the current month's attendance
+        const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        const endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+
+        const workingDays = getWorkingDaysInRange(startDate, endDate);
+        const presentDays = getAttendanceByID.filter(record => record.login && record.logout);
+        const presentDates = presentDays.map(record => record.login.toDateString());
+        
+        const absentDays = workingDays.filter(day => !presentDates.includes(day.toDateString()));
+        
+        // Assuming leaves are marked differently, e.g., with a specific status
+        const leaves = getAttendanceByID.filter(record => record.status === 'leave');
+
+        res.status(200).json({
+            status: 'True',
+            message: 'Success',
+            data: {
+                totalWorkingDays: workingDays.length,
+                presentDays: presentDays.length,
+                absentDays: absentDays.length,
+                leaves: leaves.length
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: 'False',
+            message: 'Failed',
+            error: error.message
+        });
+    }
+};
+
+
+
 // exports.markAbsentEmployees = async (req,res )=> {
 //     try {
 //         const presentEmployees = await attendance.find({
