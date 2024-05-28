@@ -149,6 +149,63 @@ exports.getTodayAttendance = async (req, res) => {
     }
 };
 
+exports.croneServer = async (req, res) => {
+    try {
+        const currentDate = new Date();
+        const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
+
+        // Retrieve all employees
+        const allEmployees = await Employee.find({});
+        const allEmployeesIds = allEmployees.map(employee => employee._id.toString());
+
+        // Find attendance records for today
+        const todayAttendance = await attendance.find({
+            createdAt: { $gte: startOfDay, $lte: endOfDay }
+        }).populate('employeeID');
+
+        // Collect IDs of present employees
+        const presentEmployeesIds = todayAttendance.map(record => record.employeeID._id.toString());
+
+        // Determine absent employees
+        const absentEmployeeIds = allEmployeesIds.filter(id => !presentEmployeesIds.includes(id));
+
+        // Create attendance records for absent employees
+        const absentEmployeesRecords = await Promise.all(
+            absentEmployeeIds.map(async (id) => {
+                let absentRecord = await attendance.findOne({ employeeID: id, createdAt: { $gte: startOfDay, $lte: endOfDay } });
+                if (!absentRecord) {
+                    absentRecord = new attendance({
+                        employeeID: id,
+                        attend: 0,
+                        createdAt: currentDate
+                    });
+                    await absentRecord.save();
+                }
+                return absentRecord.populate('employeeID');
+            })
+        );
+
+        // Combine present and absent attendance records
+        const completeAttendanceRecords = [...todayAttendance, ...absentEmployeesRecords];
+
+        res.status(200).json({
+            status: 'True',
+            message: 'Success',
+            totalEmployees: allEmployees.length,
+            presentEmployees: todayAttendance.length,
+            absentEmployees: absentEmployeeIds.length,
+            data: completeAttendanceRecords
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'False',
+            message: 'Failed to fetch today\'s attendance',
+            error: error.message
+        });
+    }
+};
+
 
 
 
@@ -234,7 +291,7 @@ const getWorkingDaysInRange = (startDate, endDate) => {
 exports.getAttendanceDaysByEmpID = async (req, res) => {
     try {
         const { id } = req.params;
-        
+
         const employee = await Employee.findById(id);
         if (!employee) {
             return res.status(404).json({
@@ -255,9 +312,9 @@ exports.getAttendanceDaysByEmpID = async (req, res) => {
         const workingDays = getWorkingDaysInRange(startDate, endDate);
         const presentDays = getAttendanceByID.filter(record => record.login && record.logout);
         const presentDates = presentDays.map(record => record.login.toDateString());
-        
+
         const absentDays = workingDays.filter(day => !presentDates.includes(day.toDateString()));
-        
+
         // Assuming leaves are marked differently, e.g., with a specific status
         const leaves = getAttendanceByID.filter(record => record.status === 'leave');
 
@@ -282,68 +339,78 @@ exports.getAttendanceDaysByEmpID = async (req, res) => {
 };
 
 
+exports.calculateMonthlySalaries = async (req, res) => {
+    const { employeeID, month, year } = req.body;
 
-// exports.markAbsentEmployees = async (req,res )=> {
-//     try {
-//         const presentEmployees = await attendance.find({
-//             login: { $gte: new Date().setHours(0, 0, 0, 0), $lt: new Date().setHours(17, 0, 0, 0) }
-//         }).distinct('employeeID');
+    if (!employeeID || (!month && !year)) {
+        return res.status(400).send('EmployeeID, month or year are required');
+    }
 
-//         const allEmployees = await getAllEmployees();
-//         const presentEmployeeIds = presentEmployees.map(emp => emp.toString());
+    try {
+        const employee = await Employee.findById(employeeID);
+        if (!employee) {
+            return res.status(404).send('Employee not found');
+        }
 
-//         const absentEmployees = allEmployees.filter(emp => !presentEmployeeIds.includes(emp._id.toString()));
-
-//         const currentTime = new Date();
-//         const ISTcurrentTime = new Date(currentTime.toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
-
-//         const endOfDayIST = new Date(ISTcurrentTime.getFullYear(), ISTcurrentTime.getMonth(), ISTcurrentTime.getDate(), 17, 0, 0, 0);
-
-//         const attendancePromises = absentEmployees.map(async (employee) => {
-//             const addAttendance = await attendance.create({
-//                 employeeID: employee._id,
-//                 attend: 0,
-//                 login: endOfDayIST
-//             });
-//             // return addAttendance;
-//         });
-//         console.log(attendancePromises)
-//         await Promise.all(attendancePromises);
-//     } catch (error) {
-//         throw new Error('Error marking absent employees: ' + error.message);
-//     }
-//     // Call markAbsentEmployees function to mark absent employees after 17:00 IST
-// // markAbsentEmployees().then(() => {
-// //     console.log('Absent employees marked successfully.');
-// // }).catch(err => {
-// //     console.error('Error marking absent employees:', err.message);
-// // });
-// }
-
-
-
-// exports.CroneAddAttendance = async (req, res) => {
-   
-   
-   
-//     const employeeID = ''
-//     const attend = 0;
-//     const mDate = new Date();
-//     const currentDate = new Date();
-//     const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-//     const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
-
-   
+        // Create date range for the query
+        let startDate, endDate;
+        const currentDate = new Date();
         
-      
-//             // Add new attendance
-//             const addAttendance = await attendance.create({
-//                 employeeID, attend, login: mDate
-//             });
-//             res.status(200).json({
-//                 status: 'True',
-//                 message: 'Attendance marked'
-//             });
-       
-  
-// };
+        if (month) {
+            startDate = new Date(year, month - 1, 1);
+            endDate = new Date(year, month, 0);
+        } else {
+            startDate = new Date(year, 0, 1);
+            endDate = new Date(year, 11, 31);
+        }
+
+        // Ensure we do not calculate future dates
+        if (endDate > currentDate) {
+            endDate = currentDate;
+        }
+
+        const attendances = await attendance.find({
+            employeeID: employeeID,
+            attend: 1, // Assuming 1 indicates present
+            login: {
+                $gte: startDate,
+                $lte: endDate
+            }
+        });
+
+        // Extract all present days from attendance records
+        const presentDaysSet = new Set(attendances.map(att => att.login.toISOString().split('T')[0]));
+
+        // Calculate the number of past Saturdays and Sundays in the date range
+        let weekendsCount = 0;
+        let dateIterator = new Date(startDate);
+        let absentDays = [];
+        while (dateIterator <= endDate) {
+            const dateString = dateIterator.toISOString().split('T')[0];
+            if (!presentDaysSet.has(dateString)) {
+                absentDays.push(dateString);
+            }
+
+            if (dateIterator.getDay() === 0 || dateIterator.getDay() === 6) { // 0 is Sunday, 6 is Saturday
+                weekendsCount++;
+            }
+            dateIterator.setDate(dateIterator.getDate() + 1);
+        }
+
+        // Calculate total present days including past weekends
+        const totalPresentDays = presentDaysSet.size + weekendsCount;
+
+        const dailyWage = employee.salary / 30; // Assuming salary is monthly and based on 30 days
+        const calculatedSalary = dailyWage * totalPresentDays;
+
+        res.json({
+            employeeID: employeeID,
+            presentDays: totalPresentDays,
+            calculatedSalary: calculatedSalary,
+            absentDays: absentDays
+        });
+    } catch (error) {
+        res.status(500).send('Internal Server Error');
+    }
+};
+

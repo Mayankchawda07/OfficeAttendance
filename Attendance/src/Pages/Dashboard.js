@@ -129,7 +129,7 @@ const Dashboard = () => {
                                             //For Employee 
                                             <div className="row">
                                                 <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                                    <div class="card card-tale">
+                                                    <div class="card card-dark-blue">
                                                         <div class="card-body">
                                                             <h4 class="card-title mb-0 dashhead">Prsent days</h4>
                                                             <br />
@@ -138,7 +138,7 @@ const Dashboard = () => {
                                                     </div>
                                                 </Link>
                                                 <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                                    <div class="card card-tale">
+                                                    <div class="card card-light-blue">
                                                         <div class="card-body">
                                                             <h4 class="card-title mb-0 dashhead">Absent days</h4>
                                                             <br />
@@ -147,7 +147,7 @@ const Dashboard = () => {
                                                     </div>
                                                 </Link>
                                                 <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
-                                                    <div class="card card-tale">
+                                                    <div class="card card-light-danger">
                                                         <div class="card-body">
                                                             <h4 class="card-title mb-0 dashhead">Leaves</h4>
                                                             <br />
