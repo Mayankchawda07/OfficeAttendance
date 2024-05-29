@@ -10,6 +10,8 @@ const Dashboard = () => {
     const tokenstring = sessionStorage.getItem('token')
     const permission = localStorage.getItem('permission')
     const name = sessionStorage.getItem('name')
+    const id = sessionStorage.getItem('id')
+
 
     const x = permission
 
@@ -21,6 +23,13 @@ const Dashboard = () => {
     });
     const [showloader, setShowLoader] = useState("none");
     const [leave, setleave] = useState({ pendingLeaves: '' })
+    const [absent, setabsent] = useState('')
+    const [employeeCount, setemployeeCount] = useState({
+        presentDaysCount: '',
+        absentDaysCount: '',
+        totalDaysCount: ''
+    })
+
 
     const TodayAttendance = () => {
         fetch(`http://206.189.130.102:3210/api/v1/attendance/getTodayAttendance`)
@@ -50,6 +59,25 @@ const Dashboard = () => {
 
     };
 
+    const numDaysofEmployee = () => {
+        fetch(`http://206.189.130.102:3210/api/v1/attendance/getAttendanceByEmpIdDashboard/${id}`)
+            .then((res) => {
+                return res.json();
+            }).then((data) => {
+                setemployeeCount(data.data)
+            })
+    }
+
+    const getAbsentEmployee = () => {
+        fetch(`http://206.189.130.102:3210/api/v1/attendance/croneServer`)
+            .then((res) => {
+                return res.json();
+            }).then((data) => {
+                setabsent(data)
+            })
+        alert('Attendance for absent employee marked successfully')
+        TodayAttendance();
+    }
 
 
 
@@ -57,6 +85,7 @@ const Dashboard = () => {
         TodayAttendance();
         numEmployee();
         numPendingleaves();
+        numDaysofEmployee();
     }, [])
 
 
@@ -73,8 +102,20 @@ const Dashboard = () => {
                         <div class="content-wrapper">
                             <div class="row">
                                 <div class="col-md-12 grid-margin">
-                                    <h2 className='text-dark mb-0'>Welcome {name}</h2>
-                                    <h4 class="font-weight-normal mb-4 pl-2">Good to see you!</h4>
+                                    <div className="row">
+                                        <div className="col-md-6">
+
+                                            <h2 className='text-dark mb-0'>Welcome {name}</h2>
+                                            <h4 class="font-weight-normal mb-4 pl-2">Good to see you!</h4>
+                                        </div>
+                                        <div className="col-md-6 d-flex justify-content-end mb-3">
+                                            <span>
+                                                {x.includes('7') ? (
+                                                    <button type="button" class="btn btn-outline-danger" onClick={getAbsentEmployee} >Marked Absent for all emoloyee</button>
+                                                ) : ('')}
+                                            </span>
+                                        </div>
+                                    </div>
 
                                     {x.includes('7') ? (
 
@@ -131,31 +172,31 @@ const Dashboard = () => {
                                                 <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
                                                     <div class="card card-dark-blue">
                                                         <div class="card-body">
-                                                            <h4 class="card-title mb-0 dashhead">Prsent days</h4>
+                                                            <h4 class="card-title mb-0 dashhead">Total days of month</h4>
                                                             <br />
-                                                            <p class="card-description dashpara">11</p>
+                                                            <p class="card-description dashpara">{employeeCount.totalDaysCount}</p>
                                                         </div>
                                                     </div>
                                                 </Link>
                                                 <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
                                                     <div class="card card-light-blue">
                                                         <div class="card-body">
-                                                            <h4 class="card-title mb-0 dashhead">Absent days</h4>
+                                                            <h4 class="card-title mb-0 dashhead">Present days</h4>
                                                             <br />
-                                                            <p class="card-description dashpara">11</p>
+                                                            <p class="card-description dashpara">{employeeCount.presentDaysCount}</p>
                                                         </div>
                                                     </div>
                                                 </Link>
                                                 <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
                                                     <div class="card card-light-danger">
                                                         <div class="card-body">
-                                                            <h4 class="card-title mb-0 dashhead">Leaves</h4>
+                                                            <h4 class="card-title mb-0 dashhead">Absent days</h4>
                                                             <br />
-                                                            <p class="card-description dashpara">11</p>
+                                                            <p class="card-description dashpara">{employeeCount.absentDaysCount}</p>
                                                         </div>
                                                     </div>
                                                 </Link>
-                                                <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
+                                                {/* <Link to='/dashboard' class="col-md-3 mb-4 stretch-card transparent">
                                                     <div class="card card-tale">
                                                         <div class="card-body">
                                                             <h4 class="card-title mb-0 dashhead">lorem ipsum</h4>
@@ -163,7 +204,7 @@ const Dashboard = () => {
                                                             <p class="card-description dashpara">11</p>
                                                         </div>
                                                     </div>
-                                                </Link>
+                                                </Link> */}
                                             </div>
                                         )
                                         :

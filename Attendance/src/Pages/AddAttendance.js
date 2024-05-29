@@ -8,12 +8,19 @@ import { useLocation } from 'react-router-dom';
 
 const AddAttendance = () => {
     const tokenstring = sessionStorage.getItem('token')
+
+
     const URL = process.env.REACT_APP_URL;
 
     const location = useLocation();
     const { data } = location.state
 
     const [allAttendance, setallAttendance] = useState('')
+    const [salary, setsalary] = useState({ employeeID: data._id, month: '', year: '' })
+
+    const [calculateSalary, setcalculateSalary] = useState('')
+    const [presentdays, setpresentdays] = useState('')
+    const [absentdays, setabsentdays] = useState('')
 
 
 
@@ -27,23 +34,54 @@ const AddAttendance = () => {
             });
     };
 
-    // const getAllAttendance = () => {
-    //     const currentDate = new Date();
-    //     const formattedDate = dateFormat(currentDate, "yyyy-mm-dd");
+    const SalaryCalculate = async (e) => {
+        e.preventDefault();
+        const { employeeID, month, year } = salary;
 
-    //     fetch(`${URL}/attendance/getAllAttendance?date=${formattedDate}`)
-    //         .then((response) => {
-    //             return response.json();
-    //         }).then((data) => {
-    //             setallAttendance(data);
-    //         })
-    // }
+        if (!employeeID) {
+            return alert('Please fill all the fields properly');
+        }
+
+        // Get current month and year if not provided
+        const currentMonth = new Date().getMonth() + 1; // Months are 0-indexed in JavaScript
+        const currentYear = new Date().getFullYear();
+
+        const monthToUse = month || currentMonth;
+        const yearToUse = year || currentYear;
+
+        try {
+            const fetchdata = await fetch(`http://206.189.130.102:3210/api/v1/attendance/calculateMonthlySalaries`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ employeeID, month: monthToUse, year: yearToUse }),
+            });
+
+            const response = await fetchdata;
+            const responseData = await response.json();
+
+            if (response.status === 200) {
+                // Access the data from the nested structure correctly
+                const { data } = responseData;
+                setcalculateSalary(data.calculatedSalary)
+                setpresentdays(data.presentDays)
+                setabsentdays(data.absentDaysCount)
+            } else {
+                console.error("Error:", responseData);
+                alert(`Error: ${responseData.message}`);
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+            alert("An error occurred while calculating the salary.");
+        }
+    };
+
 
 
 
 
     useEffect(() => {
         getAttendance();
+
     }, [])
 
 
@@ -59,6 +97,32 @@ const AddAttendance = () => {
                     <div class="main-panel">
                         <div class="content-wrapper">
                             <div class="row">
+                                <div class="col-md-12 grid-margin">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div className="row">
+                                                <div className="col-md-3">
+                                                    <h4 class="card-title mb-0">Current Month salary</h4>
+                                                    <br />
+                                                    <p class="card-description">{calculateSalary}</p>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <h4 class="card-title mb-0">Present days</h4>
+                                                    <br />
+                                                    <p class="card-description">{presentdays}</p>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <h4 class="card-title mb-0">Absent days</h4>
+                                                    <br />
+                                                    <p class="card-description">{absentdays}</p>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <button  class="btn btn-primary" onClick={SalaryCalculate} > Hit me for salary</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-12 grid-margin">
                                     <div class="card">
                                         <div class="card-body">

@@ -125,6 +125,127 @@ exports.getAttendanceByEmpID = async (req, res) => {
     }
 }
 
+
+
+// exports.getAttendanceByEmpIdDashboard = async (req, res) => {
+//     try {
+//         const employeeID = req.params.id;
+
+//         // Set the time range for the current month
+//         const now = new Date();
+//         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+//         const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+//         // Find attendance records for the current month
+//         const attendanceRecords = await attendance.find({
+//             employeeID: req.params.id,
+//             createdAt: { $gte: startOfMonth, $lt: endOfMonth }
+//         }).populate('employeeID').sort({ createdAt: -1 });
+
+//         // Calculate the present and absent days count
+//         let presentDaysCount = 0;
+//         const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+//         const attendanceDates = attendanceRecords.map(record => record.createdAt.toISOString().split('T')[0]);
+//         const uniqueAttendanceDates = [...new Set(attendanceDates)];
+//         presentDaysCount = uniqueAttendanceDates.length;
+//         const absentDaysCount = daysInMonth - presentDaysCount;
+
+//         // Modify the response structure to include counts in the data array
+//         const responseData = {
+//             status: 'True',
+//             message: 'Success',
+//             data: {
+//                 attendanceRecords,
+//                 presentDaysCount,
+//                 absentDaysCount,
+//                 totalDaysCount: daysInMonth
+//             }
+//         };
+
+//         res.status(200).json(responseData);
+//     } catch (error) {
+//         res.status(500).json({
+//             status: 'False',
+//             message: 'Failed',
+//             error: error.message
+//         });
+//     }
+// };
+
+
+exports.getAttendanceByEmpIdDashboard = async (req, res) => {
+    try {
+        const employeeID = req.params.id;
+
+        // Set the time range for the current month
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+        // Find attendance records for the current month
+        const attendanceRecords = await attendance.find({
+            employeeID: req.params.id,
+            createdAt: { $gte: startOfMonth, $lt: endOfMonth }
+        }).populate('employeeID').sort({ createdAt: -1 });
+
+        // Calculate the present and absent days count
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+
+        // Initialize presentDaysCount with the total number of days in the month
+        let presentDaysCount = daysInMonth;
+
+        // Iterate over each day of the month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const currentDate = new Date(now.getFullYear(), now.getMonth(), day);
+            const dayOfWeek = currentDate.getDay();
+
+            // Check if the current day is Saturday (6) or Sunday (0)
+            if (dayOfWeek === 6 || dayOfWeek === 0) {
+                // If it's a weekend, continue to the next iteration without checking attendance
+                continue;
+            }
+
+            // Format the current date to match the format in the attendance records
+            const formattedDate = currentDate.toISOString().split('T')[0];
+
+            // Check if there's an attendance record for the current date
+            const isPresent = attendanceRecords.some(record => record.createdAt.toISOString().split('T')[0] === formattedDate);
+
+            // If there's no attendance record for the current date, decrement presentDaysCount
+            if (!isPresent) {
+                presentDaysCount--;
+            }
+        }
+
+        // Calculate absentDaysCount by subtracting presentDaysCount from the total days in the month
+        const absentDaysCount = daysInMonth - presentDaysCount;
+
+        // Modify the response structure to include counts in the data array
+        const responseData = {
+            status: 'True',
+            message: 'Success',
+            data: {
+                attendanceRecords,
+                presentDaysCount,
+                absentDaysCount,
+                totalDaysCount: daysInMonth
+            }
+        };
+
+        res.status(200).json(responseData);
+    } catch (error) {
+        res.status(500).json({
+            status: 'False',
+            message: 'Failed',
+            error: error.message
+        });
+    }
+};
+
+
+
+
+
 exports.getTodayAttendance = async (req, res) => {
     try {
         const currentDate = new Date();
@@ -338,12 +459,11 @@ exports.getAttendanceDaysByEmpID = async (req, res) => {
     }
 };
 
-
 exports.calculateMonthlySalaries = async (req, res) => {
     const { employeeID, month, year } = req.body;
 
-    if (!employeeID || (!month && !year)) {
-        return res.status(400).send('EmployeeID, month or year are required');
+    if (!employeeID || !month || !year) {
+        return res.status(400).send('EmployeeID, month, and year are required');
     }
 
     try {
@@ -353,20 +473,13 @@ exports.calculateMonthlySalaries = async (req, res) => {
         }
 
         // Create date range for the query
-        let startDate, endDate;
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0); // Last day of the month
         const currentDate = new Date();
-        
-        if (month) {
-            startDate = new Date(year, month - 1, 1);
-            endDate = new Date(year, month, 0);
-        } else {
-            startDate = new Date(year, 0, 1);
-            endDate = new Date(year, 11, 31);
-        }
 
         // Ensure we do not calculate future dates
         if (endDate > currentDate) {
-            endDate = currentDate;
+            endDate.setDate(currentDate.getDate());
         }
 
         const attendances = await attendance.find({
@@ -382,32 +495,37 @@ exports.calculateMonthlySalaries = async (req, res) => {
         const presentDaysSet = new Set(attendances.map(att => att.login.toISOString().split('T')[0]));
 
         // Calculate the number of past Saturdays and Sundays in the date range
-        let weekendsCount = 0;
         let dateIterator = new Date(startDate);
         let absentDays = [];
         while (dateIterator <= endDate) {
             const dateString = dateIterator.toISOString().split('T')[0];
-            if (!presentDaysSet.has(dateString)) {
+
+            if (dateIterator.getDay() === 0 || dateIterator.getDay() === 6) { // 0 is Sunday, 6 is Saturday
+                presentDaysSet.add(dateString); // Count weekends as present days
+            } else if (!presentDaysSet.has(dateString)) {
                 absentDays.push(dateString);
             }
 
-            if (dateIterator.getDay() === 0 || dateIterator.getDay() === 6) { // 0 is Sunday, 6 is Saturday
-                weekendsCount++;
-            }
             dateIterator.setDate(dateIterator.getDate() + 1);
         }
 
-        // Calculate total present days including past weekends
-        const totalPresentDays = presentDaysSet.size + weekendsCount;
+        // Calculate total present days
+        const totalPresentDays = presentDaysSet.size;
+        const totalAbsentDays = absentDays.length;
 
         const dailyWage = employee.salary / 30; // Assuming salary is monthly and based on 30 days
         const calculatedSalary = dailyWage * totalPresentDays;
 
-        res.json({
-            employeeID: employeeID,
-            presentDays: totalPresentDays,
-            calculatedSalary: calculatedSalary,
-            absentDays: absentDays
+        res.status(200).json({
+            status: 'True',
+            message: 'Success',
+            data: {
+                employeeID: employeeID,
+                presentDays: totalPresentDays,
+                absentDaysCount: totalAbsentDays,
+                absentDays: absentDays,
+                calculatedSalary: calculatedSalary
+            }
         });
     } catch (error) {
         res.status(500).send('Internal Server Error');
