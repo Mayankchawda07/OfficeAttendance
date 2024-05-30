@@ -114,7 +114,7 @@ const RoleMaster = () => {
         const value = e.target.value;
         const checkdata = data.includes(value);
         // alert(value);
-        console.log(permission);
+        
         if (checkdata) {
             // alert(value);
             if (value === '1') {

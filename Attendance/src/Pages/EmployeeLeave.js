@@ -59,7 +59,7 @@ const EmployeeLeave = () => {
 
             });
     };
-    console.log(getleves)
+    
     useEffect(() => {
         getleaves();
     }, [])

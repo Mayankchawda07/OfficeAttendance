@@ -20,26 +20,6 @@ const OtpVerify = () => {
         }
     };
 
-    // const onSubmit_Verify_otp = async (e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         const otp1 = `${otpnumber.one}${otpnumber.two}${otpnumber.three}${otpnumber.four}`;
-
-    //         const userData5 = {
-    //             adminid: id,
-    //             otp: otp1,
-    //         };
-    //         const add = await axios.post(`http://206.189.130.102:3210/api/v1/verifyotp`, userData5);
-    //         if (add.status === 200) {
-    //             alert('OTP Verify')
-    //             navigate("/confirm_password")
-    //         }
-    //     } catch (error) {
-    //         console.error("Verify error:", error);
-    //         alert("An error occurred during verification: " + error.message);
-    //     }
-    // };
 
     const handleSubmitAddEvent = (e) => {
         e.preventDefault();

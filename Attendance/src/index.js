@@ -20,6 +20,7 @@ import EmployeeLeaveView from './Pages/EmployeeLeaveView';
 import MailVerify from './Pages/MailVerify';
 import OtpVerify from './Pages/OtpVerify';
 import ConfirmPassword from './Pages/ConfirmPassword';
+import SalaryHistory from './Pages/SalaryHistory';
 
 
 
@@ -46,6 +47,8 @@ root.render(
           <Route path='/mail_verify' element={<MailVerify/>} />
           <Route path='/Otp_verify' element={<OtpVerify/>} />
           <Route path='/confirm_password' element={<ConfirmPassword/>} />
+          <Route path='/salary_history/:id' element={<SalaryHistory/>} />
+
 
 
           

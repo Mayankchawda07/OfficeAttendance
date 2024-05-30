@@ -3,7 +3,7 @@ import Sidenav from '../Template/Sidenav'
 import Header from '../Template/Header'
 import dateFormat from "dateformat";
 import Login from './Login'
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 
 const AddAttendance = () => {
@@ -17,6 +17,7 @@ const AddAttendance = () => {
 
     const [allAttendance, setallAttendance] = useState('')
     const [salary, setsalary] = useState({ employeeID: data._id, month: '', year: '' })
+    const [salarypay, setsalarypay] = useState({ employeeID: data._id, salary: '' })
 
     const [calculateSalary, setcalculateSalary] = useState('')
     const [presentdays, setpresentdays] = useState('')
@@ -75,6 +76,38 @@ const AddAttendance = () => {
         }
     };
 
+    const AddSalary = async (e) => {
+        e.preventDefault();
+        const { employeeID, salary } = salarypay;
+
+        if (!employeeID) {
+            return alert('Please fill all the fields properly');
+        }
+        try {
+            const fetchdata = await fetch(`http://206.189.130.102:3210/api/v1/salary/addsalary`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ employeeID, salary: calculateSalary }),
+            });
+
+            const response = await fetchdata;
+            const responseData = await response.json();
+
+            if (response.status === 200) {
+                alert('data stored')
+            } else {
+                console.error("Error:", responseData);
+                alert(`Error: ${responseData.message}`);
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+            alert("An error occurred while storing the salary data.");
+        }
+    };
+
+ 
+
+
 
 
 
@@ -111,13 +144,15 @@ const AddAttendance = () => {
                                                     <br />
                                                     <p class="card-description">{presentdays}</p>
                                                 </div>
-                                                <div className="col-md-3">
+                                                <div className="col-md-2">
                                                     <h4 class="card-title mb-0">Absent days</h4>
                                                     <br />
                                                     <p class="card-description">{absentdays}</p>
                                                 </div>
-                                                <div className="col-md-3">
-                                                    <button  class="btn btn-primary" onClick={SalaryCalculate} > Hit me for salary</button>
+                                                <div className="col-md-4">
+                                                    <button class="btn btn-primary mr-2" onClick={SalaryCalculate} > Hit for salary</button>
+                                                    <button class="btn btn-primary mr-2" onClick={AddSalary} > Paid</button>
+                                                    <Link to={`/salary_history/${data?._id}`} state={{ data: data }} class="btn btn-primary"> History</Link>
                                                 </div>
                                             </div>
                                         </div>

@@ -17,54 +17,6 @@ const Login = () => {
 
 
 
-    // const Submit = async (e) => {
-    //     e.preventDefault();
-    //     const { email, password } = data;
-
-    //     if (!email || !password) {
-    //         alert('Please enter all the fields');
-    //         return;
-    //     }
-
-    //     try {
-    //         const response = await fetch(`${URL}/LoginEmployee`, {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ email, password }),
-    //         });
-    //         const res = await response.json();
-
-    //         // Use the response data as needed
-    //         console.log(res.admindata._id);
-
-    //         console.log(res.data);
-    //         sessionStorage.setItem("token", res.adminFound.token);
-    //         sessionStorage.setItem("name", res.admindata.name);
-    //         sessionStorage.setItem("id", res.admindata._id);
-
-    //         sessionStorage.setItem("loginType", res.admindata.loginType);
-
-    //         localStorage.setItem('permission', res.admindata.role.permission);
-
-    //         navigate("/dashboard");
-    //         // Send POST request using Axios
-
-    //         // if (response.ok) {
-
-    //         //     if (res.token && res.admindata._id && res.admindata.loginType) {
-
-    //         //     } else {
-    //         //         throw new Error("Invalid response data format");
-    //         //     }
-    //         // } else {
-    //         //     throw new Error("Invalid response status: " + response.status);
-    //         // }
-    //     } catch (error) {
-    //         console.error("Login error:", error);
-    //         alert(error.message);
-    //     }
-    // };
-
     const Submit = async (e) => {
         e.preventDefault();
         const { email, password } = data;
