@@ -77,6 +77,7 @@ const RoleMaster = () => {
             getRole();
             setdata({ name: '' })
             setPermission('')
+            resetCheckboxes();
         } else {
             console.error("Error:", responseData);
             alert("Error:", responseData);
@@ -105,6 +106,7 @@ const RoleMaster = () => {
             getRole();
             Setbtnstate(false);
             setdata({ name: "" });
+            resetCheckboxes();
         }
     }
 
@@ -114,7 +116,7 @@ const RoleMaster = () => {
         const value = e.target.value;
         const checkdata = data.includes(value);
         // alert(value);
-        
+
         if (checkdata) {
             // alert(value);
             if (value === '1') {
@@ -175,6 +177,17 @@ const RoleMaster = () => {
             data.push(value);
             setPermission(data);
         }
+    };
+
+    const resetCheckboxes = () => {
+        setIsChecked1(false);
+        setIsChecked2(false);
+        setIsChecked3(false);
+        setIsChecked4(false);
+        setIsChecked5(false);
+        setIsChecked6(false);
+        setIsChecked7(false);
+        setIsChecked8(false);
     };
 
     const getRole = () => {
