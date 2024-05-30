@@ -70,123 +70,25 @@ exports.getAllLeaves = async (req, res) => {
 };
 
 
-// exports.getLeaveByEmpID = async (req, res) => {
-//     try {
-//         const getLeaveByEmpID = await leaves.find({
-//             employeeID: req.params.id
-//         }).populate('employeeID').sort({ createdAt: -1 });
-//         res.status(200).json({
-//             status: 'True',
-//             message: 'Success',
-//             data: getLeaveByEmpID,
-//             length: getLeaveByEmpID.length
-
-//         })
-//     } catch (error) {
-//         res.status(500).json({
-//             status: 'False',
-//             message: 'Failed'
-//         })
-//     }
-// }
-
-// exports.getLeaveByEmpID = async (req, res) => {
-//     try {
-//         const employeeID = req.params.employeeID; // Get the employee ID from the URL parameter
-
-//         const today = new Date(); // Get today's date
-//         const currentYear = today.getFullYear();
-//         const currentMonth = today.getMonth();
-
-//         // Calculate the first day of the current month
-//         const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-
-//         // Calculate the last day of the current month
-//         const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
-
-//         // If you want the last day to be one day less for "29/05/2024"
-//         lastDayOfMonth.setDate(lastDayOfMonth.getDate() - 2);
-
-//         // Query leaves within the current month date range and specific employee ID
-//         const getLeaveByEmpID = await leaves.find({
-//             employeeID: employeeID, // Filter by employee ID
-//             createdAt: {
-//                 $gte: firstDayOfMonth,
-//                 $lte: lastDayOfMonth
-//             }
-//         }).populate('employeeID').sort({ createdAt: -1 });
-//         res.status(200).json({
-//             status: 'True',
-//             message: 'Success',
-//             getLeaveByEmpID
-//         });
-//         // Filter the approved leaves
-//         const approvedLeaves = getLeaveByEmpID.filter(leave => leave.status === 'approved');
-
-//         // Get the count of approved leaves
-//         const approvedLeaveCount = approvedLeaves.length;
-
-//         // res.status(200).json({
-//         //     status: 'True',
-//         //     message: 'Success',
-//         //     data: getLeaveByEmpID,
-//         //     totalLeaves: getLeaveByEmpID.length,
-//         //     approvedLeaves: approvedLeaveCount.length
-//         // });
-//     } catch (error) {
-//         console.error("Error fetching leaves:", error);
-//         res.status(500).json({
-//             status: 'False',
-//             message: 'Failed'
-//         });
-//     }
-// };
-
-
-
-
 exports.getLeaveByEmpID = async (req, res) => {
     try {
-        const employeeID = req.params.employeeID; // Get the employee ID from the URL parameter
-
-        const today = new Date(); // Get today's date
-        const currentYear = today.getFullYear();
-        const currentMonth = today.getMonth();
-
-        // Calculate the first day of the current month
-        const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-
-        // Calculate the last day of the current month
-        // To get the last day of the current month, go to the first day of the next month and subtract one day
-        const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
-
-        // If you want the last day to be one day less for "29/05/2024"
-        lastDayOfMonth.setDate(lastDayOfMonth.getDate() - 2);
-
-        // Query events within the current month date range and specific employee ID
         const getLeaveByEmpID = await leaves.find({
-            employeeID: req.params.id, // Filter by employee ID
-            createdAt: {
-                $gte: firstDayOfMonth,
-                $lte: lastDayOfMonth
-            }
+            employeeID: req.params.id
         }).populate('employeeID').sort({ createdAt: -1 });
-        const approvedLeaves = getLeaveByEmpID.filter(leave => leave.status === 'approved');
         res.status(200).json({
             status: 'True',
             message: 'Success',
             data: getLeaveByEmpID,
-            leaveRequest: getLeaveByEmpID.length,
-            approvedLeaves: approvedLeaves.length
-        });
+            length: getLeaveByEmpID.length
+
+        })
     } catch (error) {
         res.status(500).json({
             status: 'False',
             message: 'Failed'
-        });
+        })
     }
-};
-
+}
 
 
 

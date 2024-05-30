@@ -18,6 +18,8 @@ const Attendance = require('./route/attendanceRoute');
 const adminRoute = require('./route/adminRoute')
 const roleRoute = require('./route/roleRoute')
 const leavesRoute = require('./route/leaveRoute')
+const salaryRoutes = require('./route/salaryRoute')
+
 
 
 
@@ -43,6 +45,8 @@ app.use('/api/v1/attendance', Attendance)
 app.use('/api/v1/admin', adminRoute)
 app.use('/api/v1/role', roleRoute)
 app.use('/api/v1/leaves', leavesRoute)
+app.use('/api/v1/salary', salaryRoutes)
+
 
 
 
