@@ -10,7 +10,7 @@ const AddEmployee = () => {
 
     const navigate = useNavigate();
 
-    const [data, setData] = useState({ name: '', phone: '', email: '', password: '', salary: '', designation: '', gender: '', DOB: '', role: ''});
+    const [data, setData] = useState({ name: '', phone: '', email: '', password: '', salary: '', designation: '', gender: '', DOB: '', role: '' });
     const [role, setrole] = useState('')
 
 
@@ -25,7 +25,7 @@ const AddEmployee = () => {
         if (name === 'salary' && value.length > 10) {
             return;
         }
-      
+
         setData({ ...data, [name]: value });
     };
 
@@ -39,28 +39,73 @@ const AddEmployee = () => {
             });
     };
 
+    // const Submit = async (e) => {
+    //     e.preventDefault();
+    //     const { name, phone, email, password, salary, designation, gender, DOB, role } = data;
+    //     if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role) {
+    //         return alert('Please fill all the field prperly')
+    //     }
+    //     if (salary === "0") {
+    //         return alert('0 is not a figure. Please type a proper figure.');
+    //     }
+    //     const fetchdata = fetch(`${URL}/AddEmployee`,
+    //         {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ name: name, phone: phone, email: email, password: password, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role }),
+    //         });
+    //     const response = await fetchdata;
+    //     const responseData = await response.json();
+    //     if (response.status === 200) {
+    //         alert('Registered successfully')
+    //         navigate("/employee");
+    //     } else {
+    //         console.error("Error:", responseData);
+    //         alert("Error:", responseData);
+    //     }
+    // };
+
+
     const Submit = async (e) => {
         e.preventDefault();
-        const { name, phone, email, password, salary, designation, gender, DOB, role} = data;
-        if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role ) {
-            return alert('Please fill all the field prperly')
+        const { name, phone, email, password, salary, designation, gender, DOB, role } = data;
+        
+        if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role) {
+            return alert('Please fill in all the fields properly');
         }
-        const fetchdata = fetch(`${URL}/AddEmployee`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name: name, phone: phone, email: email, password: password, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role }),
-            });
-        const response = await fetchdata;
-        const responseData = await response.json();
-        if (response.status === 200) {
-            alert('Registered successfully')
-            navigate("/employee");
-        } else {
-            console.error("Error:", responseData);
-            alert("Error:", responseData);
+        
+        if (salary === "0") {
+            return alert('0 is not a valid figure. Please enter a proper salary.');
+        }
+    
+        const fetchdata = fetch(`${URL}/AddEmployee`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, phone, email, password, salary, designation, gender, DOB, role }),
+        });
+    
+        try {
+            const response = await fetchdata;
+            const responseData = await response.json();
+    
+            if (response.status === 200) {
+                alert('Registered successfully');
+                navigate("/employee");
+            } else {
+                if (responseData && responseData.error) {
+                    alert(responseData.message); // Display backend error message
+                } else {
+                    alert(responseData.message);
+                }
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert('An error occurred while processing your request. Please try again later.');
         }
     };
+    
+
+
 
     useEffect(() => {
         getRole();
@@ -98,7 +143,7 @@ const AddEmployee = () => {
 
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputPassword1">Email</label>
-                                                    <input type="email" class="form-control"  name='email' placeholder='Enter email' value={data.email} onChange={handelChange} maxLength="30" />
+                                                    <input type="email" class="form-control" name='email' placeholder='Enter email' value={data.email} onChange={handelChange} maxLength="30" />
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -130,7 +175,7 @@ const AddEmployee = () => {
 
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputPassword1">Date of birth</label>
-                                                    <input type="date" class="form-control" min="0" name='DOB' value={data.DOB} onChange={handelChange} onKeyDown={(e) => e.preventDefault()}/>
+                                                    <input type="date" class="form-control" min="0" name='DOB' value={data.DOB} onChange={handelChange} onKeyDown={(e) => e.preventDefault()} max={new Date().toISOString().split("T")[0]} />
                                                 </div>
 
                                                 <div class="form-group col-md-4">

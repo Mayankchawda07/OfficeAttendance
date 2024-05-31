@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 
 const Sidenav = () => {
     const permissionget = localStorage.getItem("permission");
-    const loginstring = sessionStorage.getItem('loginType')
+   
 
     const x = permissionget;
-    const y = loginstring
+    
     const navigate = useNavigate()
 
     const logout = () => {
@@ -69,7 +69,7 @@ const Sidenav = () => {
                     <li className="nav-item">
                         <button onClick={logout} className="nav-link logout_btn">
                             <i className="icon-paper menu-icon "></i>
-                            <span className="menu-title">logout</span>
+                            <span className="menu-title">Logout</span>
                         </button>
                     </li>
                 </ul>

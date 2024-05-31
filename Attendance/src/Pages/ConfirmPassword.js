@@ -87,20 +87,36 @@ const ConfirmPassword = () => {
                                                     onChange={handleChange2}
                                                 />
 
-                                                <i className={`fa-solid ${showPassword1 ? 'fa-eye-slash' : 'fa-eye'} menu-icon input-eyeicon`} onClick={togglePasswordVisibility1}></i>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-link position-absolute"
+                                                    style={{ right: "0", top: "0", padding: "17px 10px", color: "#939afd" }}
+                                                    onClick={togglePasswordVisibility1}
+                                                >
+                                                    {showPassword1 ? <i class="fa-solid fa-eye"></i> : <i class="fa-solid fa-eye-slash"></i>}
+                                                </button>
                                             </span>
                                         </div>
                                         <div className="form-group">
-                                            <input
-                                                type={showPassword2 ? 'text' : 'password'}
-                                                className="form-control form-control-lg"
-                                                id="exampleInputPassword5"
-                                                placeholder="Reenter Password"
-                                                name="reenternewpassword"
-                                                value={values2.reenternewpassword}
-                                                onChange={handleChange2}
-                                            />
-                                            <i className={`fa-solid ${showPassword2 ? 'fa-eye-slash' : 'fa-eye'} menu-icon input-eyeicon`} onClick={togglePasswordVisibility2}></i>
+                                            <span className="position-relative">
+                                                <input
+                                                    type={showPassword2 ? 'text' : 'password'}
+                                                    className="form-control form-control-lg"
+                                                    id="exampleInputPassword5"
+                                                    placeholder="Reenter Password"
+                                                    name="reenternewpassword"
+                                                    value={values2.reenternewpassword}
+                                                    onChange={handleChange2}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-link position-absolute"
+                                                    style={{ right: "0", top: "0", padding: "17px 10px", color: "#939afd" }}
+                                                    onClick={togglePasswordVisibility2}
+                                                >
+                                                    {showPassword2 ? <i class="fa-solid fa-eye"></i> : <i class="fa-solid fa-eye-slash"></i>}
+                                                </button>
+                                            </span>
                                         </div>
 
                                         <div className="mt-3">

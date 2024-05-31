@@ -148,12 +148,12 @@ const EmployeeLeave = () => {
                             <div className="row">
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputUsername1">From date</label>
-                                    <input type="date" class="form-control" name='fromDate' placeholder='Enter Employee Name' value={leave.fromDate} onChange={handelChange} onKeyDown={(e) => e.preventDefault()} />
+                                    <input type="date" class="form-control" name='fromDate' placeholder='Enter Employee Name' value={leave.fromDate} onChange={handelChange} onKeyDown={(e) => e.preventDefault()} min={new Date().toISOString().split("T")[0]} />
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    <label for="exampleInputPassword1">Too date</label>
-                                    <input type="date" class="form-control" min="0" name='tooDate' placeholder='Enter phone No.' value={leave.tooDate} onChange={handelChange} onKeyDown={(e) => e.preventDefault()} />
+                                    <label for="exampleInputPassword1">Too date</label> 
+                                    <input type="date" class="form-control" min="0" name='tooDate' placeholder='Enter phone No.' value={leave.tooDate} onChange={handelChange} onKeyDown={(e) => e.preventDefault()} min={new Date().toISOString().split("T")[0]} />
                                 </div>
                             </div>
                             <div className="row">

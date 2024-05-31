@@ -47,6 +47,38 @@ const Attendance = () => {
         }
     };
 
+    // const AttendanceOut = async () => {
+    //     try {
+    //         const res = await fetch(
+    //             `${URL}/attendance/updateAttendance/${ID}`,
+    //             {
+    //                 method: "PUT",
+    //                 headers: {
+    //                     Accept: "application/json",
+    //                     "Content-Type": "application/json",
+    //                 },
+    //                 body: JSON.stringify({}),
+    //             }
+    //         );
+    //         const response = await res.json();
+
+    //         if (res.status === 200) {
+    //             alert("Attendance Time Out");
+    //             getAttendance(); // Assuming getAttendance() fetches updated attendance
+    //         }
+    //         else if (res.status === 400) {
+    //             alert(response.message);
+    //         }
+    //         else {
+    //             alert("Something went wrong");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error:", error);
+    //         alert("Something went wrong");
+    //     }
+    // };
+
+
     const AttendanceOut = async () => {
         try {
             const res = await fetch(
@@ -65,11 +97,9 @@ const Attendance = () => {
             if (res.status === 200) {
                 alert("Attendance Time Out");
                 getAttendance(); // Assuming getAttendance() fetches updated attendance
-            }
-            else if (res.status === 400) {
+            } else if (res.status === 400) {
                 alert(response.message);
-            }
-            else {
+            } else {
                 alert("Something went wrong");
             }
         } catch (error) {
@@ -77,6 +107,8 @@ const Attendance = () => {
             alert("Something went wrong");
         }
     };
+
+
 
     const getAttendance = () => {
         fetch(`${URL}/attendance/getAttendanceByEmpID/${ID}`)

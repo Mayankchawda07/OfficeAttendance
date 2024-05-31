@@ -65,6 +65,12 @@ const Login = () => {
         }
     };
 
+    const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
 
     return (
         <>
@@ -83,8 +89,23 @@ const Login = () => {
                                         <div className="form-group">
                                             <input type="email" className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter e-mail ID" name='email' onChange={handleChange} />
                                         </div>
-                                        <div className="form-group">
-                                            <input type="password" className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" name='password' onChange={handleChange} />
+                                        <div className="form-group position-relative">
+                                            <input
+                                                type={passwordVisible ? "text" : "password"}
+                                                className="form-control form-control-lg"
+                                                id="exampleInputPassword1"
+                                                placeholder="Password"
+                                                name='password'
+                                                onChange={handleChange}
+                                            />
+                                            <button
+                                                type="button"
+                                                className="btn btn-link position-absolute"
+                                                style={{ right: "0", top: "0", padding: "17px 10px", color: "#939afd" }}
+                                                onClick={togglePasswordVisibility}
+                                            >
+                                                {passwordVisible ? <i class="fa-solid fa-eye"></i> : <i class="fa-solid fa-eye-slash"></i>}
+                                            </button>
                                         </div>
                                         <Link to='/mail_verify'>Forget Password</Link>
                                         <div className="mt-3">

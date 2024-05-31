@@ -13,7 +13,7 @@ const EditEmoloyee = () => {
     const { data } = location.state
     const navigate = useNavigate();
 
-    const [user, setuser] = useState({ name: data.name, phone: data.phone, email: data.email, salary: data.salary, designation: data.designation, gender: data.gender, DOB: data.DOB, role: data.role, password: data.password })
+    const [user, setuser] = useState({ name: data.name, phone: data.phone, email: data.email, salary: data.salary, designation: data.designation, gender: data.gender, DOB: data.DOB, role: data.role })
     const [role, setrole] = useState('')
 
 
@@ -25,9 +25,12 @@ const EditEmoloyee = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, phone, email, salary, designation, gender, DOB, role, password } = user
-        if (!name || !phone || !email || !salary || !designation || !gender || !DOB || !role || !password) {
+        const { name, phone, email, salary, designation, gender, DOB, role } = user
+        if (!name || !phone || !email || !salary || !designation || !gender || !DOB || !role) {
             return alert('Please fill all the field prperly')
+        }
+        if (salary === "0") {
+            return alert('0 is not a valid figure. Please enter a proper salary.');
         }
         const fetchdata = fetch(`${URL}/updateEmployeeByid/${data._id}`, {
             method: 'PUT',
@@ -35,7 +38,7 @@ const EditEmoloyee = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name: name, phone: phone, email: email, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role, password: password })
+            body: JSON.stringify({ name: name, phone: phone, email: email, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role })
         })
         const response = await fetchdata;
         if (response.status === 200) {
@@ -101,10 +104,10 @@ const EditEmoloyee = () => {
                                                 </div>
                                             </div>
                                             <div className="row">
-                                                <div class="form-group col-md-4">
+                                                {/* <div class="form-group col-md-4">
                                                     <label for="exampleInputUsername1">Password</label>
                                                     <input type="email" class="form-control" min="0" name='password' placeholder='Enter Log-in Type' value={user.password} onChange={handelChange} />
-                                                </div>
+                                                </div> */}
 
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputPassword1">Salary</label>
@@ -115,8 +118,6 @@ const EditEmoloyee = () => {
                                                     <label for="exampleInputPassword1">Designation</label>
                                                     <input type="email" class="form-control" min="0" name='designation' placeholder='Enter designation' value={user.designation} onChange={handelChange} />
                                                 </div>
-                                            </div>
-                                            <div className="row">
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputUsername1">Gender</label>
                                                     <select name="gender" id="" className='form-control' value={user.gender} onChange={handelChange}>
@@ -126,6 +127,9 @@ const EditEmoloyee = () => {
 
                                                     </select>
                                                 </div>
+                                            </div>
+                                            <div className="row">
+
 
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputPassword1">Date of birth</label>

@@ -63,7 +63,7 @@ const Leave = () => {
                                                             <th>Employee Name</th>
                                                             <th>Apply date</th>
                                                             <th>Title</th>
-                                                            <th>From to TOO date</th>
+                                                            <th>From to To date</th>
                                                             <th>Status</th>
                                                             <th>Action</th>
                                                         </tr>
