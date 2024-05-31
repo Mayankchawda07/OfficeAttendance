@@ -43,7 +43,7 @@ const SalaryHistory = () => {
                                                         <tr>
                                                             <th>S.No.</th>
                                                             <th>Employee Name</th>
-                                                            <th>Date of Salaty paid</th>
+                                                            <th>Date of Salary paid</th>
                                                             <th>Salary</th>
                                                             <th>Month of salary</th>
                                                         </tr>
