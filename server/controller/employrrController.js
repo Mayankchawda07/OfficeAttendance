@@ -6,8 +6,47 @@ const nodemailer = require("nodemailer");
 
 
 
+// exports.addEmployee = async (req, res) => {
+//     const { name, email, phone, password, salary, loginType, designation, isBlocked, gender, profile, DOB, role,joiningDate } = req.body;
+
+//     if (!name || !email || !phone || !password) {
+//         return res.status(422).json({ error: 'Please fill all fields properly' });
+//     }
+
+//     try {
+//         // Check if the user with the provided email already exists
+//         const existingEmployee = await employee.findOne({ email });
+
+//         if (existingEmployee) {
+//             return res.status(400).json({
+//                 status: "False",
+//                 message: "Employee with this email already exists"
+//             });
+//         }
+
+//         // Hash the password
+//         const salt = await bcrypt.genSalt(10);
+//         const hashedPassword = await bcrypt.hash(password, salt);                                    
+
+//         // Create a new employee
+//         const newEmployee = await employee.create({ name, email, phone, password: hashedPassword, salary, loginType, designation, isBlocked, gender, profile, DOB, role,joiningDate });
+
+//         res.status(200).json({
+//             status: "True",
+//             message: "Employee Registered Successfully",
+//             email: newEmployee.email // Return the registered email if needed
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({
+//             status: "False",
+//             message: "Employee Registration Failed"
+//         });
+//     }
+// };
+
 exports.addEmployee = async (req, res) => {
-    const { name, email, phone, password, salary, loginType, designation, isBlocked, gender, profile, DOB, role } = req.body;
+    const { name, email, phone, password, salary, loginType, designation, isBlocked, gender, profile, DOB, role, joiningDate } = req.body;
 
     if (!name || !email || !phone || !password) {
         return res.status(422).json({ error: 'Please fill all fields properly' });
@@ -29,11 +68,25 @@ exports.addEmployee = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create a new employee
-        const newEmployee = await employee.create({ name, email, phone, password: hashedPassword, salary, loginType, designation, isBlocked, gender, profile, DOB, role });
+        const newEmployee = await employee.create({
+            name,
+            email,
+            phone,
+            password: hashedPassword,
+            salary,
+            loginType,
+            designation,
+            isBlocked,
+            gender,
+            profile,
+            DOB,
+            role,
+            joiningDate // Ensure this field is included
+        });
 
         res.status(200).json({
             status: "True",
-            message: "Employee Registered Successfully",
+            message: "Employee Registered Successfully",joiningDate,
             email: newEmployee.email // Return the registered email if needed
         });
     } catch (error) {
@@ -47,12 +100,12 @@ exports.addEmployee = async (req, res) => {
 
 
 exports.updateEmployee = async (req, res) => {
-    const { name, email, phone, password, salary, loginType, designation, isBlocked, gender, profile, DOB, role } = req.body;
+    const { name, email, phone, password, salary, loginType, designation, isBlocked, gender, profile, DOB, role,joiningDate } = req.body;
     const getusername = await employee.findById(req.params.id);
     const na = getusername.name;
     const data = await employee.findByIdAndUpdate(
         req.params.id,
-        { name, email, phone, password, salary, loginType, designation, isBlocked, gender, profile, DOB, role },
+        { name, email, phone, password, salary, loginType, designation, isBlocked, gender, profile, DOB, role,joiningDate },
         { new: true }
     );
     res.status(200).json({

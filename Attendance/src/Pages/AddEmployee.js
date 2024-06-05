@@ -10,7 +10,7 @@ const AddEmployee = () => {
 
     const navigate = useNavigate();
 
-    const [data, setData] = useState({ name: '', phone: '', email: '', password: '', salary: '', designation: '', gender: '', DOB: '', role: '' });
+    const [data, setData] = useState({ name: '', phone: '', email: '', password: '', salary: '', designation: '', gender: '', DOB: '', role: '', joiningDate: '' });
     const [role, setrole] = useState('')
 
 
@@ -25,7 +25,6 @@ const AddEmployee = () => {
         if (name === 'salary' && value.length > 10) {
             return;
         }
-
         setData({ ...data, [name]: value });
     };
 
@@ -39,55 +38,30 @@ const AddEmployee = () => {
             });
     };
 
-    // const Submit = async (e) => {
-    //     e.preventDefault();
-    //     const { name, phone, email, password, salary, designation, gender, DOB, role } = data;
-    //     if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role) {
-    //         return alert('Please fill all the field prperly')
-    //     }
-    //     if (salary === "0") {
-    //         return alert('0 is not a figure. Please type a proper figure.');
-    //     }
-    //     const fetchdata = fetch(`${URL}/AddEmployee`,
-    //         {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ name: name, phone: phone, email: email, password: password, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role }),
-    //         });
-    //     const response = await fetchdata;
-    //     const responseData = await response.json();
-    //     if (response.status === 200) {
-    //         alert('Registered successfully')
-    //         navigate("/employee");
-    //     } else {
-    //         console.error("Error:", responseData);
-    //         alert("Error:", responseData);
-    //     }
-    // };
+
 
 
     const Submit = async (e) => {
         e.preventDefault();
-        const { name, phone, email, password, salary, designation, gender, DOB, role } = data;
-        
-        if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role) {
+        const { name, phone, email, password, salary, designation, gender, DOB, role, joiningDate } = data;
+
+        if (!name || !phone || !email || !password || !salary || !designation || !gender || !DOB || !role || !joiningDate) {
             return alert('Please fill in all the fields properly');
         }
-        
+
         if (salary === "0") {
             return alert('0 is not a valid figure. Please enter a proper salary.');
         }
-    
         const fetchdata = fetch(`${URL}/AddEmployee`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, phone, email, password, salary, designation, gender, DOB, role }),
+            body: JSON.stringify({ name, phone, email, password, salary, designation, gender, DOB, role, joiningDate: joiningDate }),
         });
-    
+
         try {
             const response = await fetchdata;
             const responseData = await response.json();
-    
+
             if (response.status === 200) {
                 alert('Registered successfully');
                 navigate("/employee");
@@ -103,7 +77,7 @@ const AddEmployee = () => {
             alert('An error occurred while processing your request. Please try again later.');
         }
     };
-    
+
 
 
 
@@ -190,6 +164,17 @@ const AddEmployee = () => {
 
                                                     </select>
                                                 </div>
+                                            </div>
+
+                                            <div className="row">
+
+
+                                                <div class="form-group col-md-4">
+                                                    <label for="exampleInputPassword1">Joining date</label>
+                                                    <input type="date" class="form-control" name='joiningDate' value={data.joiningDate} onChange={handelChange} />
+                                                </div>
+
+
                                             </div>
                                             <button type="submit" class="btn btn-primary me-2" onClick={Submit} >Submit</button>
 

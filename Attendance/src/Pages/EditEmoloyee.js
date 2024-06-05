@@ -13,7 +13,7 @@ const EditEmoloyee = () => {
     const { data } = location.state
     const navigate = useNavigate();
 
-    const [user, setuser] = useState({ name: data.name, phone: data.phone, email: data.email, salary: data.salary, designation: data.designation, gender: data.gender, DOB: data.DOB, role: data.role })
+    const [user, setuser] = useState({ name: data.name, phone: data.phone, email: data.email, salary: data.salary, designation: data.designation, gender: data.gender, DOB: data.DOB, role: data.role, joiningDate: data.joiningDate })
     const [role, setrole] = useState('')
 
 
@@ -25,8 +25,8 @@ const EditEmoloyee = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, phone, email, salary, designation, gender, DOB, role } = user
-        if (!name || !phone || !email || !salary || !designation || !gender || !DOB || !role) {
+        const { name, phone, email, salary, designation, gender, DOB, role, joiningDate } = user
+        if (!name || !phone || !email || !salary || !designation || !gender || !DOB || !role || !joiningDate) {
             return alert('Please fill all the field prperly')
         }
         if (salary === "0") {
@@ -38,7 +38,7 @@ const EditEmoloyee = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name: name, phone: phone, email: email, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role })
+            body: JSON.stringify({ name: name, phone: phone, email: email, salary: salary, designation: designation, gender: gender, DOB: DOB, role: role, joiningDate: joiningDate })
         })
         const response = await fetchdata;
         if (response.status === 200) {
@@ -65,6 +65,8 @@ const EditEmoloyee = () => {
 
     const isoDate = new Date(user.DOB);
     const formattedDate = isoDate.toISOString().split('T')[0];
+
+    const formattedJoiningDate = user.joiningDate ? new Date(user.joiningDate).toISOString().split('T')[0] : '';
 
 
     if (!tokenstring) {
@@ -147,6 +149,11 @@ const EditEmoloyee = () => {
                                                         ))}
 
                                                     </select>
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                    <label for="exampleInputPassword1">Joining date</label>
+                                                    <input type="date" class="form-control" min="0" name='joiningDate' value={formattedJoiningDate} onChange={handelChange} />
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary mr-3" onClick={handleSubmit} >Submit</button>
