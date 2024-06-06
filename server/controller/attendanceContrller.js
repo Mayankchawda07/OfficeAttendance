@@ -39,54 +39,6 @@ exports.addAttendance = async (req, res) => {
     }
 };
 
-// exports.updateAttendance = async (req, res) => {
-//     try {
-//         const employeeID = req.params.id;
-//         const currentDate = new Date();
-//         const logout = currentDate;
-
-//         // Calculate start and end of the current day
-//         const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-//         const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
-
-//         // Check if attendance exists for today
-//         const existingAttendance = await attendance.findOne({
-//             $and: [
-//                 { employeeID: employeeID },
-//                 { createdAt: { $gte: startOfDay, $lt: endOfDay } }
-//             ]
-//         });
-
-//         if (!existingAttendance) {
-//             res.status(400).json({
-//                 status: 'False',
-//                 message: 'No attendance found to update for today'
-//             });
-//         } else {
-//             // Update attendance
-//             const todayAttendance = await attendance.findOneAndUpdate(
-//                 {
-//                     $and: [
-//                         { employeeID: employeeID },
-//                         { createdAt: { $gte: startOfDay, $lt: endOfDay } }
-//                     ]
-//                 },
-//                 { logout },
-//                 { new: true, upsert: true }
-//             );
-
-//             res.status(200).json({
-//                 status: 'True',
-//                 message: 'Attendance updated'
-//             });
-//         }
-//     } catch (error) {
-//         res.status(500).json({
-//             status: 'False',
-//             message: 'Failed to update attendance'
-//         });
-//     }
-// };
 
 
 exports.updateAttendance = async (req, res) => {
@@ -138,55 +90,6 @@ exports.updateAttendance = async (req, res) => {
 };
 
 
-
-
-// exports.updateAttendance = async (req, res) => {
-//     try {
-//         const employeeID = req.params.id;
-//         const currentDate = new Date();
-//         const logout = currentDate;
-
-//         // Calculate start and end of the current day
-//         const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-//         const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
-
-//         // Check if attendance exists for today
-//         const existingAttendance = await attendance.findOne({
-//             employeeID: employeeID,
-//             createdAt: { $gte: startOfDay, $lt: endOfDay }
-//         });
-
-//         if (!existingAttendance) {
-//             return res.status(400).json({
-//                 status: 'False',
-//                 message: 'No attendance found to update for today'
-//             });
-//         }
-
-//         if (existingAttendance.logout) {
-//             // If logout time is already set, it means attendance has already been updated for today
-//             return res.status(400).json({
-//                 status: 'False',
-//                 message: 'Attendance has already been updated for today'
-//             });
-//         }
-
-//         // Update attendance
-//         existingAttendance.logout = logout;
-//         await existingAttendance.save();
-
-//         res.status(200).json({
-//             status: 'True',
-//             message: 'Attendance updated successfully'
-//         });
-//     } catch (error) {
-//         console.error('Error updating attendance:', error);
-//         res.status(500).json({
-//             status: 'False',
-//             message: 'Failed to update attendance'
-//         });
-//     }
-// };
 
 
 
