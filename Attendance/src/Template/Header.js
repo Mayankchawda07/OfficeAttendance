@@ -59,7 +59,7 @@ const Header = () => {
                             {x.includes('2') ? (
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/employee">
-                                        <i className="icon-cog menu-icon"></i>
+                                        <i class="fa-regular fa-user menu-icon"></i>
                                         <span className="menu-title">Employee</span>
                                     </Link>
                                 </li>
@@ -67,7 +67,7 @@ const Header = () => {
                             {x.includes('3') ? (
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/attendance">
-                                        <i className="icon-image menu-icon"></i>
+                                        <i class="fa-regular fa-clipboard menu-icon"></i>
                                         <span className="menu-title">Attendance</span>
                                     </Link>
                                 </li>
@@ -75,7 +75,7 @@ const Header = () => {
                             {x.includes('4') ? (
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/leave">
-                                        <i className="icon-paper menu-icon"></i>
+                                        <i class="fa-regular fa-address-book menu-icon"></i>
                                         <span className="menu-title">Leaves</span>
                                     </Link>
                                 </li>
@@ -83,7 +83,7 @@ const Header = () => {
                             {x.includes('5') ? (
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/master">
-                                        <i className="icon-paper menu-icon"></i>
+                                        <i class="fa-brands fa-watchman-monitoring menu-icon"></i>
                                         <span className="menu-title">Master</span>
                                     </Link>
                                 </li>
@@ -94,13 +94,13 @@ const Header = () => {
                                     (<li className="nav-item">
                                         <Link className="nav-link" to="/employee_leave">
                                             <i className="icon-paper menu-icon"></i>
-                                            <span className="menu-title">Leave</span>
+                                            <i class="fa-regular fa-address-book menu-icon"></i>
                                         </Link>
                                     </li>)
                             }
                             <li className="nav-item">
                                 <button onClick={logout} className="nav-link logout_btn">
-                                    <i className="icon-paper menu-icon "></i>
+                                    <i class="fa-solid fa-arrow-right-from-bracket menu-icon"></i>
                                     <span className="menu-title">logout</span>
                                 </button>
                             </li>
