@@ -146,6 +146,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .mdi-eye-off::before {
     content: "\F0209";
 }
+.valid_name{
+	color: red;
+}
 @media screen and (max-width: 767px) {
 	.container {
 		flex-direction: column;
